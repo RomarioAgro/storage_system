@@ -60,6 +60,8 @@ def test_admin_panel_renders_crud_forms(client, sample_data):
     assert 'href="/admin/logs"' in response.text
     assert "Открыть остатки" in response.text
     assert 'href="/admin/stock"' in response.text
+    assert "Открыть оборудование" in response.text
+    assert 'href="/admin/hardware"' in response.text
 
 
 def test_admin_logs_page_renders_operational_sections(client, sample_data):
@@ -83,6 +85,17 @@ def test_admin_stock_page_renders_stock_form_and_rows(client, sample_data):
     assert "Остатки" in response.text
     assert "Добавить строку остатка" in response.text
     assert "Special Battery" in response.text
+
+
+def test_admin_hardware_page_renders_controllers(client, sample_data):
+    sample_data()
+
+    response = client.get("/admin/hardware")
+
+    assert response.status_code == 200
+    assert "Оборудование" in response.text
+    assert "Mock" in response.text
+    assert "mock" in response.text
 
 
 def test_admin_users_page_renders_user_forms(client, sample_data):

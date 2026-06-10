@@ -55,6 +55,11 @@ def _cell_admin_context(db: Session) -> dict[str, object]:
     }
 
 
+def _hardware_admin_context(db: Session) -> dict[str, object]:
+    controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
+    return {"controllers": controllers}
+
+
 def _stock_admin_context(db: Session) -> dict[str, object]:
     products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
     cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
@@ -85,13 +90,11 @@ def _logs_admin_context(db: Session) -> dict[str, object]:
 @router.get("", response_class=HTMLResponse)
 def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     """Show minimal admin panel with operational tables."""
-    controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
     active_session = SessionService.get_active_session(db)
     return templates.TemplateResponse(
         request,
         "admin/index.html",
         {
-            "controllers": controllers,
             "active_session": active_session,
             "cell_statuses": list(CellStatus),
             "controller_types": list(ControllerType),
@@ -126,6 +129,16 @@ def admin_cells(request: Request, db: Session = Depends(get_db)) -> HTMLResponse
         request,
         "admin/cells.html",
         _cell_admin_context(db),
+    )
+
+
+@router.get("/hardware", response_class=HTMLResponse)
+def admin_hardware(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show hardware controllers in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/hardware.html",
+        _hardware_admin_context(db),
     )
 
 
