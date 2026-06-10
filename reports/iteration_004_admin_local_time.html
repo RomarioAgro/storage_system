@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Итерация 004: локальное время админских журналов</title>
+</head>
+<body>
+  <h1>Итерация 004: локальное время админских журналов</h1>
+
+  <h2>Цель пакета</h2>
+  <p>Расширить локальное отображение времени на историю движений и список сессий открытия в админ-панели.</p>
+
+  <h2>Измененные файлы</h2>
+  <ul>
+    <li><code>app/templates/admin/index.html</code></li>
+    <li><code>tests/test_admin_ui.py</code></li>
+    <li><code>spec/07_admin_panel_spec.md</code></li>
+    <li><code>spec/09_testing_acceptance.md</code></li>
+    <li><code>spec/10_development_backlog.md</code></li>
+  </ul>
+
+  <h2>Изменения</h2>
+  <ul>
+    <li>История движений теперь форматирует <code>created_at</code> через <code>local_datetime</code>.</li>
+    <li>Сессии открытия теперь форматируют <code>created_at</code> через <code>local_datetime</code>.</li>
+    <li>Добавлены подписи текущего локального часового пояса в обе секции.</li>
+    <li>ТЗ и приемка расширены на историю движений и сессии открытия.</li>
+  </ul>
+
+  <h2>Оставшиеся риски</h2>
+  <ul>
+    <li>Фильтры по периоду и экспорт пока не реализованы.</li>
+    <li>Lifecycle timestamps сессии кроме <code>created_at</code> пока не выводятся в таблице админки.</li>
+  </ul>
+</body>
+</html>

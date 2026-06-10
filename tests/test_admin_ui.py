@@ -1,9 +1,18 @@
 from datetime import UTC, datetime
 
-from app.core.enums import CellStatus, RoleCode
-from app.core.enums import AccessEventType, EventResult
+from app.core.enums import (
+    AccessEventType,
+    EventResult,
+    MovementType,
+    SessionOperationType,
+    SessionStatus,
+    CellStatus,
+    RoleCode,
+)
 from app.models.access_event import AccessEvent
+from app.models.cell_session import CellSession
 from app.models.product_category import ProductCategory
+from app.models.stock_movement import StockMovement
 
 
 def test_admin_can_update_and_block_user(client, db, sample_data):
@@ -61,6 +70,37 @@ def test_admin_access_log_displays_local_time(client, db, sample_data):
     assert response.status_code == 200
     assert "Europe/Moscow" in response.text
     assert "2026-06-10 13:00:00 +03:00" in response.text
+
+
+def test_admin_movements_and_sessions_display_local_time(client, db, sample_data):
+    data = sample_data()
+    db.add(
+        CellSession(
+            user_id=data["users"]["user"].id,
+            cell_id=data["cell1"].id,
+            operation_type=SessionOperationType.OPEN_ONLY,
+            status=SessionStatus.COMPLETED,
+            created_at=datetime(2026, 6, 10, 10, 0, 0, tzinfo=UTC),
+        )
+    )
+    db.add(
+        StockMovement(
+            created_at=datetime(2026, 6, 10, 10, 0, 0, tzinfo=UTC),
+            user_id=data["users"]["user"].id,
+            product_id=data["product"].id,
+            cell_id=data["cell1"].id,
+            movement_type=MovementType.FILL,
+            quantity="1.000",
+            quantity_before="0.000",
+            quantity_after="1.000",
+        )
+    )
+    db.commit()
+
+    response = client.get("/admin")
+
+    assert response.status_code == 200
+    assert response.text.count("2026-06-10 13:00:00 +03:00") >= 2
 
 
 def test_admin_can_create_and_disable_product_category(client, db, sample_data):
