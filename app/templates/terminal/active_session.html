@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel danger">
+  <h1>Есть незавершенная операция</h1>
+  <p><strong>Ячейка:</strong> {{ active_session.cell.number if active_session.cell else active_session.cell_id }}</p>
+  <p><strong>Пользователь:</strong> {{ active_session.user.name if active_session.user else active_session.user_id }}</p>
+  <p><strong>Операция:</strong> {{ active_session.operation_type }}</p>
+  <p><strong>Статус:</strong> {{ active_session.status }}</p>
+  <p><strong>Открыта:</strong> {{ active_session.opened_at or active_session.created_at }}</p>
+  <p>Новая ячейка не может быть открыта, пока эта операция не завершена.</p>
+  <div class="actions">
+    {% if active_session.status == "waiting_close" %}
+    <form method="post" action="/terminal/sessions/{{ active_session.id }}/confirm-close">
+      <input type="hidden" name="next_action" value="{{ active_session.operation_type }}">
+      <button type="submit">Ячейка закрыта</button>
+    </form>
+    {% endif %}
+    <form method="post" action="/terminal/sessions/{{ active_session.id }}/cancel">
+      <input type="hidden" name="reason" value="Cancelled from blocking screen">
+      <button class="danger" type="submit">Отменить операцию</button>
+    </form>
+    <a class="button secondary" href="/admin#sessions">Вызвать администратора</a>
+  </div>
+</section>
+{% endblock %}

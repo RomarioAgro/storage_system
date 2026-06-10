@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Приложите RFID</h1>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="post" action="/terminal/rfid">
+    <label>
+      <span>RFID UID</span>
+      <input name="rfid_uid" autofocus autocomplete="off" placeholder="admin-card">
+    </label>
+    <button type="submit">Войти</button>
+  </form>
+</section>
+{% endblock %}

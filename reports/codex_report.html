@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Codex implementation report</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.5; margin: 32px; color: #1b1f23; }
+    h1, h2 { color: #1f2933; }
+    code { background: #eef2f6; padding: 2px 4px; border-radius: 4px; }
+    li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Отчет Codex: RFID storage MVP</h1>
+
+  <h2>Что реализовано</h2>
+  <ul>
+    <li>Усилен hardware contract: строгий <code>LockController.open_cell(int, int, float)</code>, docstrings, проверяемый <code>MockLockController</code> с историей вызовов и fail-mode.</li>
+    <li>Операции открытия фиксируют сессию в статусе <code>opening</code> до вызова lock controller.</li>
+    <li>Добавлена проверка hardware mapping ячейки до открытия.</li>
+    <li>Конфликт активной сессии на DB flush маппится в <code>ActiveSessionExistsError</code>.</li>
+    <li>Исправлен порядок поиска товаров: barcode, затем SKU, затем name.</li>
+    <li><code>/api/sessions/active</code> возвращает данные, достаточные для блокирующего экрана.</li>
+    <li>Добавлен Jinja2 terminal UI: RFID, меню, поиск, карточка товара, fill/take/open_only, confirm-close, confirm/cancel, active-session blocker.</li>
+    <li>Добавлена минимальная admin panel: пользователи, товары, ячейки, остатки, движения, журнал доступа, сессии, оборудование, аварийная отмена.</li>
+    <li>Terminal UI переведен на локальную signed-cookie session после RFID login; <code>user_id</code> больше не передается через формы terminal UI.</li>
+    <li>Менеджеры и администраторы получили кнопку <code>Создать товар</code> в terminal UI; доступ защищен правом <code>manage_products</code>.</li>
+    <li>Добавлена иерархическая группировка товаров: <code>product_categories</code> с <code>parent_id</code> и <code>products.category_id</code>.</li>
+    <li>Категории доступны в API, admin UI, terminal product creation и seed-данных.</li>
+    <li>Inventory переведен в полноценный lifecycle: start, open lock, confirm close, confirm inventory, stock movement, complete.</li>
+    <li>Admin panel расширена inline-редактированием и блокировкой пользователей/ячеек.</li>
+    <li>Добавлены concurrency test для второго открытия и PostgreSQL integration check, который запускается при <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
+    <li>Seed приведен к ТЗ: роли, RFID-пользователи, mock controller, 8 ячеек, товары и стартовые остатки; runtime output переведен на logging.</li>
+    <li>Добавлены приемочные pytest-сценарии для RFID, поиска, DB constraints, операций, access events и UI-блокировки.</li>
+  </ul>
+
+  <h2>Измененные файлы</h2>
+  <ul>
+    <li><code>pyproject.toml</code>, <code>README.md</code></li>
+    <li><code>app/main.py</code>, <code>app/seed.py</code></li>
+    <li><code>app/hardware/*</code></li>
+    <li><code>app/services/session_service.py</code>, <code>app/services/operation_service.py</code></li>
+    <li><code>app/api/routes/products.py</code>, <code>app/api/routes/sessions.py</code>, <code>app/schemas/session.py</code></li>
+    <li><code>app/api/routes/operations.py</code>, <code>app/schemas/operation.py</code></li>
+    <li><code>app/models/product_category.py</code>, <code>migrations/versions/0002_product_categories.py</code></li>
+    <li><code>app/ui/*</code>, <code>app/templates/*</code>, <code>app/static/styles.css</code></li>
+    <li><code>tests/conftest.py</code>, <code>tests/test_auth_and_products_api.py</code>, <code>tests/test_db_constraints.py</code>, <code>tests/test_operations_lifecycle.py</code>, <code>tests/test_inventory_lifecycle.py</code>, <code>tests/test_concurrency_and_postgres.py</code>, <code>tests/test_admin_ui.py</code>, <code>tests/test_ui_terminal.py</code></li>
+  </ul>
+
+  <h2>Как запустить проект</h2>
+  <ol>
+    <li>Установить Python 3.12+.</li>
+    <li><code>python -m venv .venv</code></li>
+    <li><code>.venv\Scripts\python.exe -m pip install -e .[dev]</code></li>
+    <li><code>.venv\Scripts\python.exe -m app.seed</code></li>
+    <li><code>.venv\Scripts\python.exe -m uvicorn app.main:app --reload</code></li>
+    <li>Открыть <code>http://127.0.0.1:8000/terminal</code> или <code>http://127.0.0.1:8000/admin</code>.</li>
+  </ol>
+
+  <h2>Как запустить тесты</h2>
+  <p><code>.venv\Scripts\python.exe -m pytest</code></p>
+
+  <h2>Проверки</h2>
+  <ul>
+    <li><code>python -m py_compile ...</code>: успешно для измененных Python-файлов.</li>
+    <li><code>.venv\Scripts\python.exe -m pytest -p no:cacheprovider</code>: 29 passed, 1 skipped на Python 3.12.10. Skipped: PostgreSQL integration без <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
+    <li><code>.venv\Scripts\python.exe -m ruff check .</code>: All checks passed.</li>
+    <li><code>.venv\Scripts\python.exe -m alembic upgrade head</code>: успешно на SQLite.</li>
+    <li>Smoke-запуск <code>uvicorn app.main:app</code> на временной SQLite БД: <code>GET /terminal</code> вернул HTTP 200, процесс остановлен.</li>
+    <li>Python 3.12.10 установлен локально в проект в <code>.python312</code>, <code>.venv</code> пересоздан на этом интерпретаторе.</li>
+  </ul>
+
+  <h2>Субагенты</h2>
+  <ul>
+    <li><strong>storage_architect</strong>: подтвердил базовую архитектуру, выделил риски durable session before hardware, UI gap, inventory bypass.</li>
+    <li><strong>db_specialist</strong>: подтвердил partial unique index и <code>UNIQUE(cell_id, product_id)</code>, запросил DB-level tests и обработку IntegrityError.</li>
+    <li><strong>backend_specialist</strong>: нашел доверие к <code>user_id</code>, неверный порядок поиска, inventory bypass, нехватку permission checks на confirm/cancel.</li>
+    <li><strong>hardware_specialist</strong>: подтвердил слой LockController, потребовал строгую сигнатуру, mapping validation и testable mock.</li>
+    <li><strong>ui_specialist</strong>: подтвердил отсутствие UI/admin и необходимость active-session blocker.</li>
+    <li><strong>qa_specialist</strong>: перечислил обязательные тесты для RFID, операций, остатков, access events и UI blocking.</li>
+  </ul>
+
+  <h2>Решения оркестратора</h2>
+  <ul>
+    <li>Критический путь выбран как backend invariant, terminal blocker, operation tests, затем отчет.</li>
+    <li>UI реализован server-rendered Jinja2 без React/Vue/Angular.</li>
+    <li>Inventory переведен в общий lifecycle; прямой endpoint <code>/inventory/set</code> теперь отказывает с 409.</li>
+    <li>PostgreSQL migration не менялась, так как требуемый partial unique index уже есть.</li>
+  </ul>
+
+  <h2>Ограничения и риски</h2>
+  <ul>
+    <li>Python 3.12 установлен локально в проекте, а не через системный package manager.</li>
+    <li>UI session использует development default secret; для production его нужно задавать через окружение.</li>
+    <li>PostgreSQL integration-тест добавлен, но в текущем окружении пропускается без <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
+    <li>Конкурентные production-сценарии требуют row locks/advisory locks и более строгих транзакционных границ.</li>
+  </ul>
+
+  <h2>Следующий этап</h2>
+  <ol>
+    <li>Перевести timestamps на timezone-aware UTC вместо <code>datetime.utcnow()</code>.</li>
+    <li>Добавить PostgreSQL сервис в CI и включить <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
+    <li>Расширить admin CRUD редактированием товаров, контроллеров и остатков через безопасные операции.</li>
+    <li>Добавить production-grade транзакционные блокировки для PostgreSQL.</li>
+  </ol>
+</body>
+</html>

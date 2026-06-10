@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Ячейка {{ session.cell.number if session.cell else session.cell_id }} открыта</h1>
+  <p><strong>Операция:</strong> {{ session.operation_type }}</p>
+  <p><strong>Товар:</strong> {{ session.product.name if session.product else "" }}</p>
+  <p><strong>Количество:</strong> {{ session.planned_quantity or "" }}</p>
+  <p>Выполните операцию, закройте ячейку и нажмите кнопку.</p>
+  <form method="post" action="/terminal/sessions/{{ session.id }}/confirm-close">
+    <input type="hidden" name="next_action" value="{{ next_action }}">
+    <button type="submit">Ячейка закрыта</button>
+  </form>
+</section>
+{% endblock %}

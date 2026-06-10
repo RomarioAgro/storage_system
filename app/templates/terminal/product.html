@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>{{ product.name }}</h1>
+  <p><strong>SKU:</strong> {{ product.sku or "" }} <strong>Barcode:</strong> {{ product.barcode or "" }}</p>
+  <p><strong>Остаток всего:</strong> {{ total }} {{ product.unit }}</p>
+  <table>
+    <thead><tr><th>Ячейка</th><th>Количество</th></tr></thead>
+    <tbody>
+      {% for row in stock_rows %}
+      <tr><td>{{ row.cell.number }}</td><td>{{ row.quantity }}</td></tr>
+      {% else %}
+      <tr><td colspan="2">Остатков нет</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+<section class="grid">
+  <form class="panel" method="post" action="/terminal/fill/start">
+    <h2>Положить товар</h2>
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
+    <label><span>Количество</span><input name="quantity" value="1.000"></label>
+    <button type="submit">Открыть ячейку</button>
+  </form>
+  <form class="panel" method="post" action="/terminal/take/start">
+    <h2>Забрать товар</h2>
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <label><span>Ячейка</span><select name="cell_id">{% for row in stock_rows %}<option value="{{ row.cell_id }}">{{ row.cell.number }}</option>{% endfor %}</select></label>
+    <label><span>Количество</span><input name="quantity" value="1.000"></label>
+    <button type="submit">Открыть ячейку</button>
+  </form>
+  <form class="panel" method="post" action="/terminal/inventory/start">
+    <h2>Инвентаризация</h2>
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
+    <label><span>Фактическое количество</span><input name="actual_quantity" value="{{ total }}"></label>
+    <button type="submit">Открыть для пересчета</button>
+  </form>
+</section>
+<p><a href="/terminal/search">Назад к поиску</a></p>
+{% endblock %}

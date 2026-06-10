@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Подтвердите операцию</h1>
+  <p><strong>Операция:</strong> {{ session.operation_type }}</p>
+  <p><strong>Ячейка:</strong> {{ session.cell_id }}</p>
+  <p><strong>Количество:</strong> {{ session.planned_quantity or "" }}</p>
+  {% if next_action == "fill" %}
+  <form method="post" action="/terminal/fill/{{ session.id }}/confirm">
+    <button type="submit">Подтвердить пополнение</button>
+  </form>
+  {% elif next_action == "take" %}
+  <form method="post" action="/terminal/take/{{ session.id }}/confirm">
+    <button type="submit">Подтвердить выдачу</button>
+  </form>
+  {% elif next_action == "open_only" %}
+  <form method="post" action="/terminal/open-only/{{ session.id }}/complete">
+    <button type="submit">Завершить открытие</button>
+  </form>
+  {% elif next_action == "inventory" %}
+  <form method="post" action="/terminal/inventory/{{ session.id }}/confirm">
+    <button type="submit">Подтвердить инвентаризацию</button>
+  </form>
+  {% else %}
+  <p class="muted">Для этой операции нет финального действия.</p>
+  {% endif %}
+  <form method="post" action="/terminal/sessions/{{ session.id }}/cancel">
+    <input type="hidden" name="reason" value="Cancelled before final confirmation">
+    <button class="danger" type="submit">Отменить операцию</button>
+  </form>
+</section>
+{% endblock %}

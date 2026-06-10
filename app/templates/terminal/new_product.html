@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Создать товар</h1>
+  <form method="post" action="/terminal/products">
+    <label><span>Название</span><input name="name" required autofocus></label>
+    <label><span>SKU</span><input name="sku"></label>
+    <label><span>Barcode</span><input name="barcode"></label>
+    <label><span>Ед. измерения</span><input name="unit" value="pcs"></label>
+    <label>
+      <span>Группа</span>
+      <select name="category_id">
+        <option value="">Без группы</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}">{% if category.parent %}{{ category.parent.name }} / {% endif %}{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label><span>External ID</span><input name="external_id"></label>
+    <button type="submit">Создать товар</button>
+  </form>
+</section>
+<p><a href="/terminal/menu">Назад в меню</a></p>
+{% endblock %}

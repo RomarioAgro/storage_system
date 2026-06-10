@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Здравствуйте, {{ user.name }}</h1>
+  <div class="grid">
+    <a class="button" href="/terminal/search">Найти товар</a>
+    <a class="button" href="/terminal/search">Положить товар</a>
+    <a class="button" href="/terminal/search">Забрать товар</a>
+    <a class="button" href="/terminal/cell-contents">Что в ячейке?</a>
+    <a class="button secondary" href="/terminal/search">Инвентаризация</a>
+    <a class="button" href="/terminal/open-only">Открыть ячейку</a>
+    {% if can_manage_products %}
+    <a class="button secondary" href="/terminal/products/new">Создать товар</a>
+    {% endif %}
+  </div>
+  <p><a href="/terminal/logout">Выйти</a></p>
+</section>
+{% endblock %}

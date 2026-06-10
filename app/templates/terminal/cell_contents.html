@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Что в ячейке?</h1>
+  <form method="get" action="/terminal/cell-contents">
+    <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
+    <button type="submit">Показать</button>
+  </form>
+</section>
+{% if selected_cell %}
+<section class="panel">
+  <h2>Ячейка {{ selected_cell.number }}</h2>
+  <table>
+    <thead><tr><th>Товар</th><th>SKU</th><th>Количество</th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr><td>{{ row.product.name }}</td><td>{{ row.product.sku or "" }}</td><td>{{ row.quantity }}</td></tr>
+      {% else %}
+      <tr><td colspan="3">Ячейка пустая</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+<p><a href="/terminal/menu">Назад в меню</a></p>
+{% endblock %}

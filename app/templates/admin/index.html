@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Админ-панель MVP</h1>
+  {% if active_session %}
+  <p class="error">Активная сессия: #{{ active_session.id }}, ячейка {{ active_session.cell_id }}, статус {{ active_session.status }}</p>
+  {% else %}
+  <p class="muted">Активной сессии нет.</p>
+  {% endif %}
+</section>
+
+<section class="panel" id="users">
+  <h2>Пользователи</h2>
+  <form method="post" action="/admin/users" class="grid">
+    <label><span>Имя</span><input name="name" required></label>
+    <label><span>RFID</span><input name="rfid_uid" required></label>
+    <label><span>Роль</span><select name="role_id">{% for role in roles %}<option value="{{ role.id }}">{{ role.code }}</option>{% endfor %}</select></label>
+    <label><span>Активен</span><input type="checkbox" name="is_active" checked></label>
+    <button type="submit">Создать пользователя</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Редактирование</th><th>Действие</th></tr></thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>
+          <form method="post" action="/admin/users/{{ user.id }}" class="grid">
+            <label><span>Имя</span><input name="name" value="{{ user.name }}" required></label>
+            <label><span>RFID</span><input name="rfid_uid" value="{{ user.rfid_uid }}" required></label>
+            <label><span>Роль</span><select name="role_id">{% for role in roles %}<option value="{{ role.id }}" {% if role.id == user.role_id %}selected{% endif %}>{{ role.code }}</option>{% endfor %}</select></label>
+            <label><span>Активен</span><input type="checkbox" name="is_active" {% if user.is_active %}checked{% endif %}></label>
+            <button type="submit">Сохранить</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="/admin/users/{{ user.id }}/toggle-active">
+            <button class="{% if user.is_active %}danger{% else %}secondary{% endif %}" type="submit">{% if user.is_active %}Блокировать{% else %}Разблокировать{% endif %}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel" id="products">
+  <h2>Товары</h2>
+  <form method="post" action="/admin/products" class="grid">
+    <label><span>Название</span><input name="name" required></label>
+    <label><span>SKU</span><input name="sku"></label>
+    <label><span>Barcode</span><input name="barcode"></label>
+    <label><span>Ед.</span><input name="unit" value="pcs"></label>
+    <label><span>Группа</span><select name="category_id"><option value="">Без группы</option>{% for category in categories %}<option value="{{ category.id }}">{% if category.parent %}{{ category.parent.name }} / {% endif %}{{ category.name }}</option>{% endfor %}</select></label>
+    <label><span>External ID</span><input name="external_id"></label>
+    <button type="submit">Создать товар</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Название</th><th>Группа</th><th>SKU</th><th>Barcode</th><th>Активен</th></tr></thead>
+    <tbody>{% for product in products %}<tr><td>{{ product.id }}</td><td>{{ product.name }}</td><td>{{ product.category.name if product.category else "" }}</td><td>{{ product.sku or "" }}</td><td>{{ product.barcode or "" }}</td><td>{{ product.is_active }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section class="panel" id="categories">
+  <h2>Группы товаров</h2>
+  <form method="post" action="/admin/categories" class="grid">
+    <label><span>Название</span><input name="name" required></label>
+    <label><span>Родитель</span><select name="parent_id"><option value="">Нет</option>{% for category in categories %}<option value="{{ category.id }}">{{ category.name }}</option>{% endfor %}</select></label>
+    <label><span>Порядок</span><input name="sort_order" value="0"></label>
+    <label><span>Активна</span><input type="checkbox" name="is_active" checked></label>
+    <button type="submit">Создать группу</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Редактирование</th><th>Действие</th></tr></thead>
+    <tbody>
+      {% for category in categories %}
+      <tr>
+        <td>{{ category.id }}</td>
+        <td>
+          <form method="post" action="/admin/categories/{{ category.id }}" class="grid">
+            <label><span>Название</span><input name="name" value="{{ category.name }}" required></label>
+            <label><span>Родитель</span><select name="parent_id"><option value="">Нет</option>{% for candidate in categories %}{% if candidate.id != category.id %}<option value="{{ candidate.id }}" {% if candidate.id == category.parent_id %}selected{% endif %}>{{ candidate.name }}</option>{% endif %}{% endfor %}</select></label>
+            <label><span>Порядок</span><input name="sort_order" value="{{ category.sort_order }}"></label>
+            <label><span>Активна</span><input type="checkbox" name="is_active" {% if category.is_active %}checked{% endif %}></label>
+            <button type="submit">Сохранить</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="/admin/categories/{{ category.id }}/toggle-active">
+            <button class="{% if category.is_active %}danger{% else %}secondary{% endif %}" type="submit">{% if category.is_active %}Отключить{% else %}Включить{% endif %}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel" id="cells">
+  <h2>Ячейки</h2>
+  <form method="post" action="/admin/cells" class="grid">
+    <label><span>Номер</span><input name="number" required></label>
+    <label><span>Статус</span><select name="status">{% for status in cell_statuses %}<option value="{{ status }}">{{ status }}</option>{% endfor %}</select></label>
+    <label><span>Контроллер</span><select name="controller_id"><option value="">Нет</option>{% for controller in controllers %}<option value="{{ controller.id }}">{{ controller.name }}</option>{% endfor %}</select></label>
+    <label><span>Адрес</span><input name="controller_address"></label>
+    <label><span>Канал</span><input name="relay_channel"></label>
+    <label><span>Датчик закрытия</span><input type="checkbox" name="has_close_sensor"></label>
+    <label><span>Комментарий</span><input name="comment"></label>
+    <button type="submit">Создать ячейку</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Редактирование</th><th>Действие</th></tr></thead>
+    <tbody>
+      {% for cell in cells %}
+      <tr>
+        <td>{{ cell.id }}</td>
+        <td>
+          <form method="post" action="/admin/cells/{{ cell.id }}" class="grid">
+            <label><span>Номер</span><input name="number" value="{{ cell.number }}" required></label>
+            <label><span>Статус</span><select name="status">{% for status in cell_statuses %}<option value="{{ status }}" {% if status == cell.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></label>
+            <label><span>Контроллер</span><select name="controller_id"><option value="">Нет</option>{% for controller in controllers %}<option value="{{ controller.id }}" {% if controller.id == cell.controller_id %}selected{% endif %}>{{ controller.name }}</option>{% endfor %}</select></label>
+            <label><span>Адрес</span><input name="controller_address" value="{{ cell.controller_address or '' }}"></label>
+            <label><span>Канал</span><input name="relay_channel" value="{{ cell.relay_channel or '' }}"></label>
+            <label><span>Датчик закрытия</span><input type="checkbox" name="has_close_sensor" {% if cell.has_close_sensor %}checked{% endif %}></label>
+            <label><span>Комментарий</span><input name="comment" value="{{ cell.comment or '' }}"></label>
+            <button type="submit">Сохранить</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="/admin/cells/{{ cell.id }}/toggle-block">
+            <button class="{% if cell.status == "blocked" %}secondary{% else %}danger{% endif %}" type="submit">{% if cell.status == "blocked" %}Разблокировать{% else %}Блокировать{% endif %}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel" id="stock">
+  <h2>Остатки</h2>
+  <form method="post" action="/admin/stock" class="grid">
+    <label><span>Товар</span><select name="product_id">{% for product in products %}<option value="{{ product.id }}">{{ product.name }}</option>{% endfor %}</select></label>
+    <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
+    <label><span>Количество</span><input name="quantity" value="0.000"></label>
+    <button type="submit">Добавить строку остатка</button>
+  </form>
+  <table>
+    <thead><tr><th>Ячейка</th><th>Товар</th><th>Количество</th></tr></thead>
+    <tbody>{% for item in stock_items %}<tr><td>{{ item.cell.number }}</td><td>{{ item.product.name }}</td><td>{{ item.quantity }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section class="panel" id="movements">
+  <h2>История движений</h2>
+  <table>
+    <thead><tr><th>Время</th><th>Тип</th><th>Товар</th><th>Ячейка</th><th>До</th><th>После</th><th>Сессия</th></tr></thead>
+    <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section class="panel" id="events">
+  <h2>Журнал доступа</h2>
+  <table>
+    <thead><tr><th>Время</th><th>Событие</th><th>Результат</th><th>Пользователь</th><th>Ячейка</th><th>Детали</th></tr></thead>
+    <tbody>{% for event in events %}<tr><td>{{ event.created_at }}</td><td>{{ event.event_type }}</td><td>{{ event.result }}</td><td>{{ event.user_id or "" }}</td><td>{{ event.cell_id or "" }}</td><td>{{ event.details or "" }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section class="panel" id="sessions">
+  <h2>Сессии открытия</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Создана</th><th>Операция</th><th>Статус</th><th>Ячейка</th><th>Пользователь</th><th>Действие</th></tr></thead>
+    <tbody>
+      {% for session in sessions %}
+      <tr>
+        <td>{{ session.id }}</td>
+        <td>{{ session.created_at }}</td>
+        <td>{{ session.operation_type }}</td>
+        <td>{{ session.status }}</td>
+        <td>{{ session.cell_id }}</td>
+        <td>{{ session.user_id }}</td>
+        <td>
+          {% if session.status in ["created", "opening", "opened", "waiting_close", "close_confirmed"] %}
+          <form method="post" action="/admin/sessions/{{ session.id }}/emergency-cancel">
+            <input name="reason" value="Emergency admin cancellation">
+            <button class="danger" type="submit">Аварийно завершить</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel" id="hardware">
+  <h2>Оборудование</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Имя</th><th>Тип</th><th>Адрес</th><th>Порт</th><th>Активен</th></tr></thead>
+    <tbody>{% for controller in controllers %}<tr><td>{{ controller.id }}</td><td>{{ controller.name }}</td><td>{{ controller.controller_type }}</td><td>{{ controller.address or "" }}</td><td>{{ controller.port or "" }}</td><td>{{ controller.is_active }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+{% endblock %}

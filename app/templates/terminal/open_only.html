@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Открыть ячейку</h1>
+  <form method="post" action="/terminal/open-only/start">
+    <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
+    <label><span>Комментарий</span><input name="comment"></label>
+    <button type="submit">Открыть</button>
+  </form>
+</section>
+<p><a href="/terminal/menu">Назад в меню</a></p>
+{% endblock %}

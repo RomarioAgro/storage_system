@@ -1,0 +1,45 @@
+[project]
+name = "storage-system-mvp"
+version = "0.1.0"
+description = "Local RFID storage system MVP"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.111",
+    "itsdangerous>=2.2",
+    "uvicorn[standard]>=0.30",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "jinja2>=3.1",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "psycopg[binary]>=3.2",
+    "python-dotenv>=1.0",
+    "python-multipart>=0.0.20",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",
+    "ruff>=0.5",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [
+    ".git",
+    ".idea",
+    ".pytest_cache",
+    ".python312",
+    ".venv",
+    "__pycache__",
+    "storage_system_mvp.egg-info",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.setuptools.packages.find]
+include = ["app*"]

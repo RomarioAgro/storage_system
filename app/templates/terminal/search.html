@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Поиск товара</h1>
+  <form method="get" action="/terminal/search">
+    <label>
+      <span>Штрихкод, SKU или название</span>
+      <input name="query" value="{{ query }}" autofocus>
+    </label>
+    <button type="submit">Найти</button>
+  </form>
+</section>
+{% if products %}
+<section class="panel">
+  <table>
+    <thead><tr><th>Товар</th><th>SKU</th><th>Barcode</th><th></th></tr></thead>
+    <tbody>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.sku or "" }}</td>
+        <td>{{ product.barcode or "" }}</td>
+        <td><a href="/terminal/products/{{ product.id }}">Открыть</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+<p><a href="/terminal/menu">Назад в меню</a></p>
+{% endblock %}
