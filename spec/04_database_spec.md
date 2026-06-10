@@ -6,7 +6,10 @@
 - Для ранней разработки допустим SQLite.
 - ORM: SQLAlchemy 2.x.
 - Миграции: Alembic.
-- Все даты хранить в UTC или явно согласованной timezone-стратегии.
+- Все даты хранить как timezone-aware UTC timestamp. PostgreSQL должен использовать
+  `TIMESTAMP WITH TIME ZONE`; SQLite в dev/test режиме должен возвращать
+  timezone-aware UTC значения на уровне ORM даже при собственных ограничениях
+  SQLite по типам дат.
 - Количество хранить как `Numeric`, не `float`.
 - Все критичные изменения остатков выполнять в транзакции.
 

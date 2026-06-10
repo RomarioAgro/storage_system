@@ -1,15 +1,18 @@
 from datetime import datetime
 from typing import Annotated
 
-from sqlalchemy import DateTime
 from sqlalchemy.orm import DeclarativeBase, mapped_column
 
-created_at_col = Annotated[datetime, mapped_column(DateTime(timezone=False), default=datetime.utcnow)]
+from app.core.time import UTCDateTime, utc_now
+
+created_at_col = Annotated[datetime, mapped_column(UTCDateTime(), default=utc_now)]
 updated_at_col = Annotated[
     datetime,
-    mapped_column(DateTime(timezone=False), default=datetime.utcnow, onupdate=datetime.utcnow),
+    mapped_column(UTCDateTime(), default=utc_now, onupdate=utc_now),
 ]
 
 
 class Base(DeclarativeBase):
+    """Base class for all SQLAlchemy ORM models."""
+
     pass

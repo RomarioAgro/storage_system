@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Итерация 002: PostgreSQL CI</title>
+</head>
+<body>
+  <h1>Итерация 002: PostgreSQL CI</h1>
+
+  <h2>Цель пакета</h2>
+  <p>Добавить CI-проверку, которая поднимает PostgreSQL, применяет Alembic migrations и запускает тесты с <code>POSTGRES_TEST_DATABASE_URL</code>.</p>
+
+  <h2>Субагенты и инструменты анализа</h2>
+  <ul>
+    <li><strong>storage_architect</strong>: ранее подтвердил, что PostgreSQL CI должен идти отдельным пакетом после timezone-итерации.</li>
+    <li><strong>OntoIndex</strong>: использован в предыдущем pre-commit review; CI-пакет не меняет runtime symbols.</li>
+    <li><strong>Continuum</strong>: использован для контроля оставшихся timestamp-паттернов перед началом CI-пакета.</li>
+  </ul>
+
+  <h2>Измененные файлы</h2>
+  <ul>
+    <li><code>.github/workflows/ci.yml</code></li>
+    <li><code>README.md</code></li>
+    <li><code>spec/09_testing_acceptance.md</code></li>
+    <li><code>spec/10_development_backlog.md</code></li>
+    <li><code>reports/codex_report.html</code></li>
+    <li><code>reports/iteration_002_postgresql_ci.html</code></li>
+  </ul>
+
+  <h2>Изменения в ТЗ/specs</h2>
+  <ul>
+    <li>В приемку добавлены CI-критерии: Python 3.12, Ruff, PostgreSQL service, Alembic и pytest.</li>
+    <li>В backlog добавлен P0-пункт PostgreSQL CI.</li>
+    <li>README больше не указывает PostgreSQL CI как будущий шаг.</li>
+  </ul>
+
+  <h2>Проверки</h2>
+  <ul>
+    <li><code>.\.venv\Scripts\python.exe -m pytest</code>: 31 passed, 1 skipped.</li>
+    <li><code>.\.venv\Scripts\python.exe -m ruff check .</code>: passed.</li>
+    <li><code>$env:DATABASE_URL='sqlite:///./_tmp_alembic.db'; .\.venv\Scripts\python.exe -m alembic upgrade head</code>: passed.</li>
+  </ul>
+
+  <h2>Оставшиеся риски</h2>
+  <ul>
+    <li>GitHub Actions workflow не был выполнен удаленно в этой локальной сессии; он будет проверен после push.</li>
+    <li>Локальный PostgreSQL smoke не запускался без предоставленного <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
+  </ul>
+</body>
+</html>

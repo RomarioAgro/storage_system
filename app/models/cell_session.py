@@ -1,9 +1,10 @@
 from datetime import datetime
 from decimal import Decimal
 
-from sqlalchemy import DateTime, ForeignKey, Index, Integer, Numeric, Text, literal_column
+from sqlalchemy import ForeignKey, Index, Integer, Numeric, Text, literal_column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.time import UTCDateTime
 from app.core.enums import ACTIVE_SESSION_STATUSES, SessionOperationType, SessionStatus
 from app.models.base import Base, created_at_col, updated_at_col
 from app.models.types import enum_column
@@ -23,10 +24,10 @@ class CellSession(Base):
     )
     product_id: Mapped[int | None] = mapped_column(ForeignKey("products.id"), nullable=True, index=True)
     planned_quantity: Mapped[Decimal | None] = mapped_column(Numeric(12, 3), nullable=True)
-    opened_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False), nullable=True)
-    close_confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False), nullable=True)
-    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False), nullable=True)
-    cancelled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False), nullable=True)
+    opened_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
+    close_confirmed_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
+    cancelled_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
     cancel_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
     comment: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[created_at_col]

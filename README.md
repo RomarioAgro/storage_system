@@ -145,13 +145,13 @@ Prepared stubs:
 - Terminal UI uses a local signed cookie session after RFID login.
 - Inventory uses the same open, close-confirm, final-confirm lifecycle as other stock operations.
 - Direct `/api/operations/inventory/set` stock mutation is disabled; use `/inventory/start`, `/api/sessions/{id}/confirm-close`, and `/inventory/{id}/confirm`.
+- ORM timestamps are normalized to timezone-aware UTC values in SQLite dev/test mode and PostgreSQL-ready models.
 - Python 3.12+ is the declared target. The project workspace includes a local `.python312` install and `.venv` created from Python 3.12.10.
 
 ## Next development steps
 
 1. Replace the development `ui_session_secret` default with deployment configuration.
-2. Add PostgreSQL CI service and run `POSTGRES_TEST_DATABASE_URL` integration checks automatically.
-3. Implement selected relay protocol.
-4. Add close sensors in hardware layer.
-5. Add stronger transaction isolation and DB-level lock handling for production.
-6. Add export and external integration endpoints.
+2. Implement selected relay protocol.
+3. Add close sensors in hardware layer.
+4. Add stronger transaction isolation and DB-level lock handling for production.
+5. Add export and external integration endpoints.

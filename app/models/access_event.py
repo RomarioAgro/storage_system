@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
+from app.core.time import UTCDateTime, utc_now
 from app.core.enums import AccessEventType, EventResult
 from app.models.base import Base
 from app.models.types import enum_column
@@ -12,7 +13,7 @@ class AccessEvent(Base):
     __tablename__ = "access_events"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=False), default=datetime.utcnow, index=True)
+    created_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utc_now, index=True)
     user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
     rfid_uid: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     cell_id: Mapped[int | None] = mapped_column(ForeignKey("cells.id"), nullable=True, index=True)

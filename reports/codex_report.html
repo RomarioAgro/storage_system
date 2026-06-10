@@ -85,21 +85,22 @@
     <li>Критический путь выбран как backend invariant, terminal blocker, operation tests, затем отчет.</li>
     <li>UI реализован server-rendered Jinja2 без React/Vue/Angular.</li>
     <li>Inventory переведен в общий lifecycle; прямой endpoint <code>/inventory/set</code> теперь отказывает с 409.</li>
-    <li>PostgreSQL migration не менялась, так как требуемый partial unique index уже есть.</li>
+    <li>PostgreSQL migration для partial unique index не менялась, так как требуемый индекс уже есть.</li>
+    <li>Итерация 001 перевела timestamps на timezone-aware UTC и добавила Alembic migration <code>0003_timezone_aware_timestamps</code>.</li>
+    <li>Итерация 002 добавила GitHub Actions CI с PostgreSQL service, Alembic upgrade и pytest.</li>
   </ul>
 
   <h2>Ограничения и риски</h2>
   <ul>
     <li>Python 3.12 установлен локально в проекте, а не через системный package manager.</li>
     <li>UI session использует development default secret; для production его нужно задавать через окружение.</li>
-    <li>PostgreSQL integration-тест добавлен, но в текущем окружении пропускается без <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
+    <li>PostgreSQL integration-тест локально пропускается без <code>POSTGRES_TEST_DATABASE_URL</code>; в GitHub Actions переменная задается workflow.</li>
+    <li>SQLite migration <code>0003_timezone_aware_timestamps</code> является no-op; SQLite dev/test timestamps нормализуются ORM-типом.</li>
     <li>Конкурентные production-сценарии требуют row locks/advisory locks и более строгих транзакционных границ.</li>
   </ul>
 
   <h2>Следующий этап</h2>
   <ol>
-    <li>Перевести timestamps на timezone-aware UTC вместо <code>datetime.utcnow()</code>.</li>
-    <li>Добавить PostgreSQL сервис в CI и включить <code>POSTGRES_TEST_DATABASE_URL</code>.</li>
     <li>Расширить admin CRUD редактированием товаров, контроллеров и остатков через безопасные операции.</li>
     <li>Добавить production-grade транзакционные блокировки для PostgreSQL.</li>
   </ol>

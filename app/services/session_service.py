@@ -1,9 +1,8 @@
-from datetime import datetime
-
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.time import utc_now
 from app.core.enums import (
     ACTIVE_SESSION_STATUSES,
     AccessEventType,
@@ -84,7 +83,7 @@ class SessionService:
     @staticmethod
     def mark_opened(db: Session, session: CellSession) -> None:
         session.status = SessionStatus.WAITING_CLOSE
-        session.opened_at = datetime.utcnow()
+        session.opened_at = utc_now()
         db.flush()
 
     @staticmethod
@@ -100,9 +99,9 @@ class SessionService:
         if session.status != SessionStatus.WAITING_CLOSE:
             raise InvalidSessionStateError(
                 f"Cannot confirm close while session status is {session.status}"
-            )
+        )
         session.status = SessionStatus.CLOSE_CONFIRMED
-        session.close_confirmed_at = datetime.utcnow()
+        session.close_confirmed_at = utc_now()
         AccessLogService.log(
             db,
             event_type=AccessEventType.CLOSE_CONFIRMED,
@@ -118,7 +117,7 @@ class SessionService:
     @staticmethod
     def complete(db: Session, session: CellSession) -> CellSession:
         session.status = SessionStatus.COMPLETED
-        session.completed_at = datetime.utcnow()
+        session.completed_at = utc_now()
         AccessLogService.log(
             db,
             event_type=AccessEventType.SESSION_COMPLETED,
@@ -136,7 +135,7 @@ class SessionService:
         if session.status not in ACTIVE_SESSION_STATUSES:
             raise InvalidSessionStateError(f"Session is not active: {session.status}")
         session.status = SessionStatus.CANCELLED
-        session.cancelled_at = datetime.utcnow()
+        session.cancelled_at = utc_now()
         session.cancel_reason = reason
         AccessLogService.log(
             db,

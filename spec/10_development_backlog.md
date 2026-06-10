@@ -86,6 +86,20 @@ alembic/
 - `UNIQUE(number)` для ячеек;
 - partial unique index для активной сессии.
 
+### P0. Стандартизировать timestamps
+
+- использовать timezone-aware UTC во всех ORM timestamp-полях;
+- хранить PostgreSQL timestamps как `TIMESTAMP WITH TIME ZONE`;
+- нормализовать SQLite dev/test значения в aware UTC на уровне ORM;
+- покрыть timestamp lifecycle и API-сериализацию тестами.
+
+### P0. Добавить PostgreSQL CI
+
+- поднять PostgreSQL service container в GitHub Actions;
+- запускать `alembic upgrade head` на PostgreSQL;
+- запускать `pytest` с `POSTGRES_TEST_DATABASE_URL`;
+- запускать `ruff check .` перед тестами.
+
 ## Epic 3. Авторизация и права
 
 ### P0. RFID auth service

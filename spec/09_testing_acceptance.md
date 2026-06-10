@@ -35,6 +35,19 @@ RFID -> права -> сессия -> замок -> закрытие -> подт
 - отмена операции;
 - история товара;
 - журнал доступа.
+- timezone-aware UTC timestamps после записи, commit/refresh и чтения из новой
+  SQLite-сессии;
+- API-сериализацию timestamps с UTC offset.
+
+### CI-тесты
+
+GitHub Actions должен запускать:
+
+- установку Python 3.12;
+- `ruff check .`;
+- PostgreSQL service container;
+- `alembic upgrade head` на PostgreSQL;
+- `pytest` с `POSTGRES_TEST_DATABASE_URL`.
 
 ### Hardware-тесты
 
@@ -114,6 +127,13 @@ MVP считается готовым, если выполнены все пун
 - При попытке открыть вторую ячейку показывается блокирующий экран.
 - В БД есть защита от двух активных сессий.
 - Проверка работает даже при параллельных запросах.
+
+### Время и аудит
+
+- Все `created_at`, `updated_at` и lifecycle timestamps сессий возвращаются как
+  timezone-aware UTC.
+- API отдает timestamp-значения с явным UTC offset.
+- В коде не используется `datetime.utcnow()`.
 
 ### Перезапуск
 
