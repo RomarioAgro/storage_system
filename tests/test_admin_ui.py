@@ -2,11 +2,11 @@ from datetime import UTC, datetime
 
 from app.core.enums import (
     AccessEventType,
+    CellStatus,
     EventResult,
     MovementType,
     SessionOperationType,
     SessionStatus,
-    CellStatus,
     RoleCode,
 )
 from app.models.access_event import AccessEvent
@@ -55,6 +55,20 @@ def test_admin_panel_renders_crud_forms(client, sample_data):
     assert 'href="/admin/products"' in response.text
     assert "Открыть ячейки" in response.text
     assert 'href="/admin/cells"' in response.text
+    assert "Открыть журналы и сессии" in response.text
+    assert 'href="/admin/logs"' in response.text
+
+
+def test_admin_logs_page_renders_operational_sections(client, sample_data):
+    sample_data()
+
+    response = client.get("/admin/logs")
+
+    assert response.status_code == 200
+    assert "История движений" in response.text
+    assert "Журнал доступа" in response.text
+    assert "Сессии открытия" in response.text
+    assert "Europe/Moscow" in response.text
 
 
 def test_admin_users_page_renders_user_forms(client, sample_data):
@@ -102,7 +116,7 @@ def test_admin_access_log_displays_local_time(client, db, sample_data):
     )
     db.commit()
 
-    response = client.get("/admin")
+    response = client.get("/admin/logs")
 
     assert response.status_code == 200
     assert "Europe/Moscow" in response.text
@@ -134,10 +148,31 @@ def test_admin_movements_and_sessions_display_local_time(client, db, sample_data
     )
     db.commit()
 
-    response = client.get("/admin")
+    response = client.get("/admin/logs")
 
     assert response.status_code == 200
     assert response.text.count("2026-06-10 13:00:00 +03:00") >= 2
+
+
+def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
+    data = sample_data()
+    session = CellSession(
+        user_id=data["users"]["user"].id,
+        cell_id=data["cell1"].id,
+        operation_type=SessionOperationType.OPEN_ONLY,
+        status=SessionStatus.OPENED,
+    )
+    db.add(session)
+    db.commit()
+
+    response = client.post(
+        f"/admin/sessions/{session.id}/emergency-cancel",
+        data={"reason": "manual admin stop"},
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/admin/logs#sessions"
 
 
 def test_admin_can_create_and_disable_product_category(client, db, sample_data):

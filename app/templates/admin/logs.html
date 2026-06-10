@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Журналы и сессии</h1>
+  <p class="muted">Время показано в локальном часовом поясе: {{ local_timezone }}</p>
+  <a class="button" href="/admin">Вернуться в админ-панель</a>
+</section>
+
+<section class="panel" id="movements">
+  <h2>История движений</h2>
+  <table>
+    <thead><tr><th>Время</th><th>Тип</th><th>Товар</th><th>Ячейка</th><th>До</th><th>После</th><th>Сессия</th></tr></thead>
+    <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at | local_datetime }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section class="panel" id="events">
+  <h2>Журнал доступа</h2>
+  <table>
+    <thead><tr><th>Время</th><th>Событие</th><th>Результат</th><th>Пользователь</th><th>Ячейка</th><th>Детали</th></tr></thead>
+    <tbody>{% for event in events %}<tr><td>{{ event.created_at | local_datetime }}</td><td>{{ event.event_type }}</td><td>{{ event.result }}</td><td>{{ event.user_id or "" }}</td><td>{{ event.cell_id or "" }}</td><td>{{ event.details or "" }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section class="panel" id="sessions">
+  <h2>Сессии открытия</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Создана</th><th>Операция</th><th>Статус</th><th>Ячейка</th><th>Пользователь</th><th>Действие</th></tr></thead>
+    <tbody>
+      {% for session in sessions %}
+      <tr>
+        <td>{{ session.id }}</td>
+        <td>{{ session.created_at | local_datetime }}</td>
+        <td>{{ session.operation_type }}</td>
+        <td>{{ session.status }}</td>
+        <td>{{ session.cell_id }}</td>
+        <td>{{ session.user_id }}</td>
+        <td>
+          {% if session.status in ["created", "opening", "opened", "waiting_close", "close_confirmed"] %}
+          <form method="post" action="/admin/sessions/{{ session.id }}/emergency-cancel">
+            <input name="reason" value="Emergency admin cancellation">
+            <button class="danger" type="submit">Аварийно завершить</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

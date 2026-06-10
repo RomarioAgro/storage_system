@@ -55,6 +55,18 @@ def _cell_admin_context(db: Session) -> dict[str, object]:
     }
 
 
+def _logs_admin_context(db: Session) -> dict[str, object]:
+    movements = db.scalars(select(StockMovement).order_by(StockMovement.created_at.desc()).limit(50)).all()
+    events = db.scalars(select(AccessEvent).order_by(AccessEvent.created_at.desc()).limit(50)).all()
+    sessions = db.scalars(select(CellSession).order_by(CellSession.created_at.desc()).limit(50)).all()
+    return {
+        "movements": movements,
+        "events": events,
+        "sessions": sessions,
+        "local_timezone": settings.local_timezone,
+    }
+
+
 @router.get("", response_class=HTMLResponse)
 def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     """Show minimal admin panel with operational tables."""
@@ -66,9 +78,6 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
         .options(joinedload(StockItem.product), joinedload(StockItem.cell))
         .order_by(StockItem.cell_id.asc(), StockItem.product_id.asc())
     ).all()
-    movements = db.scalars(select(StockMovement).order_by(StockMovement.created_at.desc()).limit(50)).all()
-    events = db.scalars(select(AccessEvent).order_by(AccessEvent.created_at.desc()).limit(50)).all()
-    sessions = db.scalars(select(CellSession).order_by(CellSession.created_at.desc()).limit(50)).all()
     active_session = SessionService.get_active_session(db)
     return templates.TemplateResponse(
         request,
@@ -78,13 +87,9 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
             "controllers": controllers,
             "cells": cells,
             "stock_items": stock_items,
-            "movements": movements,
-            "events": events,
-            "sessions": sessions,
             "active_session": active_session,
             "cell_statuses": list(CellStatus),
             "controller_types": list(ControllerType),
-            "local_timezone": settings.local_timezone,
         },
     )
 
@@ -116,6 +121,16 @@ def admin_cells(request: Request, db: Session = Depends(get_db)) -> HTMLResponse
         request,
         "admin/cells.html",
         _cell_admin_context(db),
+    )
+
+
+@router.get("/logs", response_class=HTMLResponse)
+def admin_logs(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show movements, access events, and cell sessions in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/logs.html",
+        _logs_admin_context(db),
     )
 
 
@@ -294,4 +309,4 @@ async def emergency_cancel(request: Request, session_id: int, db: Session = Depe
     form = await request.form()
     reason = str(form.get("reason") or "Emergency admin cancellation")
     SessionService.cancel(db, session_id=session_id, reason=reason)
-    return RedirectResponse(url="/admin#sessions", status_code=303)
+    return RedirectResponse(url="/admin/logs#sessions", status_code=303)
