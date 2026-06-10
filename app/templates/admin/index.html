@@ -45,55 +45,9 @@
 </section>
 
 <section class="panel" id="products">
-  <h2>Товары</h2>
-  <form method="post" action="/admin/products" class="grid">
-    <label><span>Название</span><input name="name" required></label>
-    <label><span>SKU</span><input name="sku"></label>
-    <label><span>Barcode</span><input name="barcode"></label>
-    <label><span>Ед.</span><input name="unit" value="pcs"></label>
-    <label><span>Группа</span><select name="category_id"><option value="">Без группы</option>{% for category in categories %}<option value="{{ category.id }}">{% if category.parent %}{{ category.parent.name }} / {% endif %}{{ category.name }}</option>{% endfor %}</select></label>
-    <label><span>External ID</span><input name="external_id"></label>
-    <button type="submit">Создать товар</button>
-  </form>
-  <table>
-    <thead><tr><th>ID</th><th>Название</th><th>Группа</th><th>SKU</th><th>Barcode</th><th>Активен</th></tr></thead>
-    <tbody>{% for product in products %}<tr><td>{{ product.id }}</td><td>{{ product.name }}</td><td>{{ product.category.name if product.category else "" }}</td><td>{{ product.sku or "" }}</td><td>{{ product.barcode or "" }}</td><td>{{ product.is_active }}</td></tr>{% endfor %}</tbody>
-  </table>
-</section>
-
-<section class="panel" id="categories">
-  <h2>Группы товаров</h2>
-  <form method="post" action="/admin/categories" class="grid">
-    <label><span>Название</span><input name="name" required></label>
-    <label><span>Родитель</span><select name="parent_id"><option value="">Нет</option>{% for category in categories %}<option value="{{ category.id }}">{{ category.name }}</option>{% endfor %}</select></label>
-    <label><span>Порядок</span><input name="sort_order" value="0"></label>
-    <label><span>Активна</span><input type="checkbox" name="is_active" checked></label>
-    <button type="submit">Создать группу</button>
-  </form>
-  <table>
-    <thead><tr><th>ID</th><th>Редактирование</th><th>Действие</th></tr></thead>
-    <tbody>
-      {% for category in categories %}
-      <tr>
-        <td>{{ category.id }}</td>
-        <td>
-          <form method="post" action="/admin/categories/{{ category.id }}" class="grid">
-            <label><span>Название</span><input name="name" value="{{ category.name }}" required></label>
-            <label><span>Родитель</span><select name="parent_id"><option value="">Нет</option>{% for candidate in categories %}{% if candidate.id != category.id %}<option value="{{ candidate.id }}" {% if candidate.id == category.parent_id %}selected{% endif %}>{{ candidate.name }}</option>{% endif %}{% endfor %}</select></label>
-            <label><span>Порядок</span><input name="sort_order" value="{{ category.sort_order }}"></label>
-            <label><span>Активна</span><input type="checkbox" name="is_active" {% if category.is_active %}checked{% endif %}></label>
-            <button type="submit">Сохранить</button>
-          </form>
-        </td>
-        <td>
-          <form method="post" action="/admin/categories/{{ category.id }}/toggle-active">
-            <button class="{% if category.is_active %}danger{% else %}secondary{% endif %}" type="submit">{% if category.is_active %}Отключить{% else %}Включить{% endif %}</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h2>Товары и группы</h2>
+  <p class="muted">Создание товаров и групп вынесено в отдельную вкладку.</p>
+  <a class="button" href="/admin/products" target="_blank" rel="noopener">Открыть товары и группы</a>
 </section>
 
 <section class="panel" id="cells">

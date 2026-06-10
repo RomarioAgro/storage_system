@@ -27,11 +27,7 @@ from app.ui.templates import templates
 router = APIRouter(prefix="/admin", tags=["admin-ui"], include_in_schema=False)
 
 
-@router.get("", response_class=HTMLResponse)
-def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
-    """Show minimal admin panel with operational tables."""
-    users = db.scalars(select(User).options(joinedload(User.role)).order_by(User.id.asc())).all()
-    roles = db.scalars(select(Role).order_by(Role.id.asc())).all()
+def _product_admin_context(db: Session) -> dict[str, object]:
     categories = db.scalars(
         select(ProductCategory).order_by(
             ProductCategory.parent_id.asc().nullsfirst(),
@@ -39,6 +35,15 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
             ProductCategory.name.asc(),
         )
     ).all()
+    products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
+    return {"products": products, "categories": categories}
+
+
+@router.get("", response_class=HTMLResponse)
+def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show minimal admin panel with operational tables."""
+    users = db.scalars(select(User).options(joinedload(User.role)).order_by(User.id.asc())).all()
+    roles = db.scalars(select(Role).order_by(Role.id.asc())).all()
     products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
     controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
     cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
@@ -58,7 +63,6 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
             "users": users,
             "roles": roles,
             "products": products,
-            "categories": categories,
             "controllers": controllers,
             "cells": cells,
             "stock_items": stock_items,
@@ -70,6 +74,16 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
             "controller_types": list(ControllerType),
             "local_timezone": settings.local_timezone,
         },
+    )
+
+
+@router.get("/products", response_class=HTMLResponse)
+def admin_products(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show product and product category management in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/products.html",
+        _product_admin_context(db),
     )
 
 
@@ -130,7 +144,7 @@ async def create_product(request: Request, db: Session = Depends(get_db)) -> Red
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin#products", status_code=303)
+    return RedirectResponse(url="/admin/products#products", status_code=303)
 
 
 @router.post("/categories", response_class=HTMLResponse)
@@ -146,7 +160,7 @@ async def create_category(request: Request, db: Session = Depends(get_db)) -> Re
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin#categories", status_code=303)
+    return RedirectResponse(url="/admin/products#categories", status_code=303)
 
 
 @router.post("/categories/{category_id}", response_class=HTMLResponse)
@@ -165,7 +179,7 @@ async def update_category(
     category.sort_order = int(form.get("sort_order") or 0)
     category.is_active = str(form.get("is_active", "off")) == "on"
     db.commit()
-    return RedirectResponse(url="/admin#categories", status_code=303)
+    return RedirectResponse(url="/admin/products#categories", status_code=303)
 
 
 @router.post("/categories/{category_id}/toggle-active", response_class=HTMLResponse)
@@ -176,7 +190,7 @@ def toggle_category_active(category_id: int, db: Session = Depends(get_db)) -> R
         raise NotFoundError("Product category not found")
     category.is_active = not category.is_active
     db.commit()
-    return RedirectResponse(url="/admin#categories", status_code=303)
+    return RedirectResponse(url="/admin/products#categories", status_code=303)
 
 
 @router.post("/cells", response_class=HTMLResponse)

@@ -50,7 +50,19 @@ def test_admin_panel_renders_crud_forms(client, sample_data):
     assert response.status_code == 200
     assert "Создать пользователя" in response.text
     assert "Блокировать" in response.text
-    assert "Группы товаров" in response.text
+    assert "Открыть товары и группы" in response.text
+    assert 'href="/admin/products"' in response.text
+
+
+def test_admin_products_page_renders_product_and_category_forms(client, sample_data):
+    sample_data()
+
+    response = client.get("/admin/products")
+
+    assert response.status_code == 200
+    assert "Создать товар" in response.text
+    assert "Создать группу" in response.text
+    assert "Special Battery" in response.text
 
 
 def test_admin_access_log_displays_local_time(client, db, sample_data):
@@ -113,6 +125,7 @@ def test_admin_can_create_and_disable_product_category(client, db, sample_data):
     )
 
     assert created.status_code == 303
+    assert created.headers["location"] == "/admin/products#categories"
     category = db.query(ProductCategory).filter_by(name="Картриджи").one()
     assert category.is_active is True
 
