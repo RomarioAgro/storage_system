@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     lock_pulse_seconds: float = 1.0
     auto_create_tables: bool = True
     ui_session_secret: str = "local-dev-session-secret"
+    local_timezone: str = "Europe/Moscow"
 
 
 @lru_cache

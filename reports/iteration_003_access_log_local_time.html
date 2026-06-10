@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Итерация 003: локальное время журнала доступа</title>
+</head>
+<body>
+  <h1>Итерация 003: локальное время журнала доступа</h1>
+
+  <h2>Цель пакета</h2>
+  <p>Отображать журнал доступа в местном часовом поясе объекта, сохраняя UTC как источник истины в БД.</p>
+
+  <h2>Измененные файлы</h2>
+  <ul>
+    <li><code>.env.example</code></li>
+    <li><code>app/core/config.py</code></li>
+    <li><code>app/core/time.py</code></li>
+    <li><code>app/ui/templates.py</code></li>
+    <li><code>app/ui/admin.py</code></li>
+    <li><code>app/templates/admin/index.html</code></li>
+    <li><code>tests/test_admin_ui.py</code></li>
+  </ul>
+
+  <h2>Изменения</h2>
+  <ul>
+    <li>Добавлена настройка <code>LOCAL_TIMEZONE=Europe/Moscow</code>.</li>
+    <li>Добавлен форматтер локального времени с явным UTC offset.</li>
+    <li>Журнал доступа в админке показывает <code>created_at</code> как локальное время <code>+03:00</code>.</li>
+    <li>Добавлен тест отображения события <code>10:00 UTC</code> как <code>13:00 +03:00</code>.</li>
+  </ul>
+
+  <h2>Оставшиеся риски</h2>
+  <ul>
+    <li>Фильтры журнала доступа по периоду и экспорт еще не реализованы.</li>
+    <li>Пока локальное время применено только к журналу доступа, а история движений и сессии продолжают отображать ORM datetime напрямую.</li>
+  </ul>
+</body>
+</html>

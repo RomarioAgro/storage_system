@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.core.database import get_db
 from app.core.enums import CellStatus, ControllerType
+from app.core.config import settings
 from app.models import (
     AccessEvent,
     Cell,
@@ -67,6 +68,7 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
             "active_session": active_session,
             "cell_statuses": list(CellStatus),
             "controller_types": list(ControllerType),
+            "local_timezone": settings.local_timezone,
         },
     )
 

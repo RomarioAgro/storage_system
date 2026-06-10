@@ -1,4 +1,5 @@
 from datetime import UTC, datetime
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import DateTime
 from sqlalchemy.engine.interfaces import Dialect
@@ -12,6 +13,28 @@ def utc_now() -> datetime:
         Current wall-clock time with `UTC` timezone information attached.
     """
     return datetime.now(UTC)
+
+
+def format_local_datetime(value: datetime | None, timezone_name: str) -> str:
+    """Format a timestamp in the configured local timezone.
+
+    Args:
+        value: Datetime to display. Naive values are treated as UTC.
+        timezone_name: IANA timezone name, for example `Europe/Moscow`.
+
+    Returns:
+        Human-readable datetime with numeric UTC offset, or an empty string for
+        missing values.
+
+    Raises:
+        ZoneInfoNotFoundError: If `timezone_name` is not a valid IANA timezone.
+    """
+    if value is None:
+        return ""
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    local_value = value.astimezone(ZoneInfo(timezone_name))
+    return local_value.strftime("%Y-%m-%d %H:%M:%S %z")[:-2] + ":" + local_value.strftime("%z")[-2:]
 
 
 class UTCDateTime(TypeDecorator):

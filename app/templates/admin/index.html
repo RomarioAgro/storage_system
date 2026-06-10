@@ -161,9 +161,10 @@
 
 <section class="panel" id="events">
   <h2>Журнал доступа</h2>
+  <p class="muted">Время показано в локальном часовом поясе: {{ local_timezone }}</p>
   <table>
     <thead><tr><th>Время</th><th>Событие</th><th>Результат</th><th>Пользователь</th><th>Ячейка</th><th>Детали</th></tr></thead>
-    <tbody>{% for event in events %}<tr><td>{{ event.created_at }}</td><td>{{ event.event_type }}</td><td>{{ event.result }}</td><td>{{ event.user_id or "" }}</td><td>{{ event.cell_id or "" }}</td><td>{{ event.details or "" }}</td></tr>{% endfor %}</tbody>
+    <tbody>{% for event in events %}<tr><td>{{ event.created_at | local_datetime }}</td><td>{{ event.event_type }}</td><td>{{ event.result }}</td><td>{{ event.user_id or "" }}</td><td>{{ event.cell_id or "" }}</td><td>{{ event.details or "" }}</td></tr>{% endfor %}</tbody>
   </table>
 </section>
 

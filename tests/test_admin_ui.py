@@ -1,4 +1,8 @@
+from datetime import UTC, datetime
+
 from app.core.enums import CellStatus, RoleCode
+from app.core.enums import AccessEventType, EventResult
+from app.models.access_event import AccessEvent
 from app.models.product_category import ProductCategory
 
 
@@ -38,6 +42,25 @@ def test_admin_panel_renders_crud_forms(client, sample_data):
     assert "Создать пользователя" in response.text
     assert "Блокировать" in response.text
     assert "Группы товаров" in response.text
+
+
+def test_admin_access_log_displays_local_time(client, db, sample_data):
+    sample_data()
+    db.add(
+        AccessEvent(
+            created_at=datetime(2026, 6, 10, 10, 0, 0, tzinfo=UTC),
+            event_type=AccessEventType.LOGIN_SUCCESS,
+            result=EventResult.OK,
+            details="timezone check",
+        )
+    )
+    db.commit()
+
+    response = client.get("/admin")
+
+    assert response.status_code == 200
+    assert "Europe/Moscow" in response.text
+    assert "2026-06-10 13:00:00 +03:00" in response.text
 
 
 def test_admin_can_create_and_disable_product_category(client, db, sample_data):
