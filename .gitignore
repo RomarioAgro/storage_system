@@ -8,6 +8,7 @@ __pycache__/
 storage_system.db
 _tmp_smoke.db
 storage_system_mvp.egg-info/
+reports/
 .ontoindex/
 .continuum/
 .codex/
