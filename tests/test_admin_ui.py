@@ -12,6 +12,7 @@ from app.core.enums import (
 from app.models.access_event import AccessEvent
 from app.models.cell_session import CellSession
 from app.models.product_category import ProductCategory
+from app.models.stock_item import StockItem
 from app.models.stock_movement import StockMovement
 
 
@@ -57,6 +58,8 @@ def test_admin_panel_renders_crud_forms(client, sample_data):
     assert 'href="/admin/cells"' in response.text
     assert "Открыть журналы и сессии" in response.text
     assert 'href="/admin/logs"' in response.text
+    assert "Открыть остатки" in response.text
+    assert 'href="/admin/stock"' in response.text
 
 
 def test_admin_logs_page_renders_operational_sections(client, sample_data):
@@ -69,6 +72,17 @@ def test_admin_logs_page_renders_operational_sections(client, sample_data):
     assert "Журнал доступа" in response.text
     assert "Сессии открытия" in response.text
     assert "Europe/Moscow" in response.text
+
+
+def test_admin_stock_page_renders_stock_form_and_rows(client, sample_data):
+    sample_data()
+
+    response = client.get("/admin/stock")
+
+    assert response.status_code == 200
+    assert "Остатки" in response.text
+    assert "Добавить строку остатка" in response.text
+    assert "Special Battery" in response.text
 
 
 def test_admin_users_page_renders_user_forms(client, sample_data):
@@ -173,6 +187,25 @@ def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
 
     assert response.status_code == 303
     assert response.headers["location"] == "/admin/logs#sessions"
+
+
+def test_admin_can_create_stock_item_from_stock_page(client, db, sample_data):
+    data = sample_data()
+
+    response = client.post(
+        "/admin/stock",
+        data={
+            "product_id": str(data["product"].id),
+            "cell_id": str(data["cell2"].id),
+            "quantity": "7.000",
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/admin/stock#stock"
+    stock_item = db.query(StockItem).filter_by(product_id=data["product"].id, cell_id=data["cell2"].id).one()
+    assert str(stock_item.quantity) == "7.000"
 
 
 def test_admin_can_create_and_disable_product_category(client, db, sample_data):

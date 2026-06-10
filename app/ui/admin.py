@@ -55,6 +55,21 @@ def _cell_admin_context(db: Session) -> dict[str, object]:
     }
 
 
+def _stock_admin_context(db: Session) -> dict[str, object]:
+    products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
+    cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
+    stock_items = db.scalars(
+        select(StockItem)
+        .options(joinedload(StockItem.product), joinedload(StockItem.cell))
+        .order_by(StockItem.cell_id.asc(), StockItem.product_id.asc())
+    ).all()
+    return {
+        "products": products,
+        "cells": cells,
+        "stock_items": stock_items,
+    }
+
+
 def _logs_admin_context(db: Session) -> dict[str, object]:
     movements = db.scalars(select(StockMovement).order_by(StockMovement.created_at.desc()).limit(50)).all()
     events = db.scalars(select(AccessEvent).order_by(AccessEvent.created_at.desc()).limit(50)).all()
@@ -70,23 +85,13 @@ def _logs_admin_context(db: Session) -> dict[str, object]:
 @router.get("", response_class=HTMLResponse)
 def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     """Show minimal admin panel with operational tables."""
-    products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
     controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
-    cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
-    stock_items = db.scalars(
-        select(StockItem)
-        .options(joinedload(StockItem.product), joinedload(StockItem.cell))
-        .order_by(StockItem.cell_id.asc(), StockItem.product_id.asc())
-    ).all()
     active_session = SessionService.get_active_session(db)
     return templates.TemplateResponse(
         request,
         "admin/index.html",
         {
-            "products": products,
             "controllers": controllers,
-            "cells": cells,
-            "stock_items": stock_items,
             "active_session": active_session,
             "cell_statuses": list(CellStatus),
             "controller_types": list(ControllerType),
@@ -121,6 +126,16 @@ def admin_cells(request: Request, db: Session = Depends(get_db)) -> HTMLResponse
         request,
         "admin/cells.html",
         _cell_admin_context(db),
+    )
+
+
+@router.get("/stock", response_class=HTMLResponse)
+def admin_stock(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show stock rows in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/stock.html",
+        _stock_admin_context(db),
     )
 
 
@@ -300,7 +315,7 @@ async def create_stock_item(request: Request, db: Session = Depends(get_db)) -> 
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin#stock", status_code=303)
+    return RedirectResponse(url="/admin/stock#stock", status_code=303)
 
 
 @router.post("/sessions/{session_id}/emergency-cancel", response_class=HTMLResponse)
