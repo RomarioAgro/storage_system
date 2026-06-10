@@ -58,6 +58,7 @@
 ### Критичные требования
 
 - `UNIQUE(cell_id, product_id)`.
+- Partial unique index `UNIQUE(cell_id) WHERE quantity > 0`.
 - `quantity >= 0`.
 - `UNIQUE(rfid_uid)`.
 - Partial unique index `only_one_active_cell_session`.

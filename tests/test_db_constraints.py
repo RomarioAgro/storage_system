@@ -44,3 +44,31 @@ def test_stock_items_are_unique_per_cell_and_product(db, sample_data):
 
     with pytest.raises(IntegrityError):
         db.flush()
+
+
+def test_stock_items_reject_second_positive_product_in_cell(db, sample_data):
+    data = sample_data()
+    mixed_product = StockItem(
+        product_id=data["name_only_product"].id,
+        cell_id=data["cell1"].id,
+        quantity=Decimal("1.000"),
+    )
+
+    db.add(mixed_product)
+
+    with pytest.raises(IntegrityError):
+        db.flush()
+
+
+def test_stock_items_allow_zero_quantity_different_product_in_cell(db, sample_data):
+    data = sample_data()
+    zero_row = StockItem(
+        product_id=data["name_only_product"].id,
+        cell_id=data["cell1"].id,
+        quantity=Decimal("0.000"),
+    )
+
+    db.add(zero_row)
+    db.flush()
+
+    assert zero_row.id is not None

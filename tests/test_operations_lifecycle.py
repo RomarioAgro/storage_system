@@ -7,7 +7,7 @@ from app.hardware.mock_lock_controller import MockLockController
 from app.models.access_event import AccessEvent
 from app.models.stock_item import StockItem
 from app.models.stock_movement import StockMovement
-from app.services.errors import ActiveSessionExistsError, InsufficientStockError
+from app.services.errors import ActiveSessionExistsError, CellProductConflictError, InsufficientStockError
 from app.services.operation_service import OperationService
 from app.services.session_service import SessionService
 
@@ -78,6 +78,27 @@ def test_take_more_than_available_does_not_open_lock(db, mock_lock_controller, s
             product_id=data["product"].id,
             cell_id=data["cell1"].id,
             quantity=Decimal("99.000"),
+        )
+
+    assert mock_lock_controller.calls == []
+    assert _stock_quantity(db, data["product"].id, data["cell1"].id) == Decimal("5.000")
+
+
+def test_fill_different_product_in_occupied_cell_is_blocked_before_lock_opens(
+    db,
+    mock_lock_controller,
+    sample_data,
+):
+    data = sample_data()
+
+    with pytest.raises(CellProductConflictError):
+        OperationService.start_fill(
+            db,
+            mock_lock_controller,
+            user_id=data["users"]["user"].id,
+            product_id=data["name_only_product"].id,
+            cell_id=data["cell1"].id,
+            quantity=Decimal("1.000"),
         )
 
     assert mock_lock_controller.calls == []

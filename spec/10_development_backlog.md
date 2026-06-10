@@ -82,6 +82,8 @@ alembic/
 
 - `UNIQUE(rfid_uid)`;
 - `UNIQUE(cell_id, product_id)`;
+- partial unique index `UNIQUE(cell_id) WHERE quantity > 0` для запрета
+  разных товаров с положительным остатком в одной ячейке;
 - `quantity >= 0`;
 - `UNIQUE(number)` для ячеек;
 - partial unique index для активной сессии.

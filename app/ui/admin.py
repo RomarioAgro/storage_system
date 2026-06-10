@@ -22,6 +22,7 @@ from app.models import (
 )
 from app.services.errors import NotFoundError
 from app.services.session_service import SessionService
+from app.services.stock_service import StockService
 from app.ui.templates import templates
 
 router = APIRouter(prefix="/admin", tags=["admin-ui"], include_in_schema=False)
@@ -320,13 +321,17 @@ def toggle_cell_block(cell_id: int, db: Session = Depends(get_db)) -> RedirectRe
 async def create_stock_item(request: Request, db: Session = Depends(get_db)) -> RedirectResponse:
     """Create initial stock row from the admin MVP form."""
     form = await request.form()
-    db.add(
-        StockItem(
-            product_id=int(form["product_id"]),
-            cell_id=int(form["cell_id"]),
-            quantity=Decimal(str(form["quantity"])),
-        )
+    product_id = int(form["product_id"])
+    cell_id = int(form["cell_id"])
+    quantity = Decimal(str(form["quantity"]))
+    if quantity > 0:
+        StockService.ensure_cell_accepts_product(db, product_id=product_id, cell_id=cell_id)
+    stock_item = StockService.get_or_create_stock_item(
+        db,
+        product_id=product_id,
+        cell_id=cell_id,
     )
+    stock_item.quantity = quantity
     db.commit()
     return RedirectResponse(url="/admin/stock#stock", status_code=303)
 

@@ -388,6 +388,7 @@ Response:
 | `cell_not_active` | Ячейка недоступна |
 | `active_session_exists` | Уже есть активная сессия |
 | `not_enough_stock` | Недостаточно остатка |
+| `cell_product_conflict` | В ячейке уже есть положительный остаток другого товара |
 | `invalid_session_status` | Некорректный статус сессии |
 | `hardware_error` | Ошибка оборудования |
 | `validation_error` | Ошибка входных данных |

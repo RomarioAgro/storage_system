@@ -18,7 +18,7 @@ from app.models.cell_session import CellSession
 from app.models.product import Product
 from app.models.user import User
 from app.services.access_log_service import AccessLogService
-from app.services.errors import InvalidSessionStateError, NotFoundError
+from app.services.errors import InsufficientStockError, InvalidSessionStateError, NotFoundError
 from app.services.permission_service import PermissionService
 from app.services.session_service import SessionService
 from app.services.stock_service import StockService
@@ -99,6 +99,8 @@ class OperationService:
         PermissionService.require(user, "fill")
         product = cls._get_product(db, product_id)
         cell = cls._get_cell(db, cell_id)
+        if quantity > 0:
+            StockService.ensure_cell_accepts_product(db, product_id=product.id, cell_id=cell.id)
         session = SessionService.create_session(
             db,
             user=user,
@@ -157,10 +159,8 @@ class OperationService:
         PermissionService.require(user, "take")
         product = cls._get_product(db, product_id)
         cell = cls._get_cell(db, cell_id)
-        stock_item = StockService.get_or_create_stock_item(db, product.id, cell.id)
-        if stock_item.quantity < quantity:
-            from app.services.errors import InsufficientStockError
-
+        stock_item = StockService.get_stock_item(db, product.id, cell.id)
+        if stock_item is None or stock_item.quantity < quantity:
             raise InsufficientStockError("Not enough stock in selected cell")
         session = SessionService.create_session(
             db,
@@ -270,6 +270,8 @@ class OperationService:
         PermissionService.require(user, "inventory")
         product = cls._get_product(db, product_id)
         cell = cls._get_cell(db, cell_id)
+        if actual_quantity > 0:
+            StockService.ensure_cell_accepts_product(db, product_id=product.id, cell_id=cell.id)
         session = SessionService.create_session(
             db,
             user=user,

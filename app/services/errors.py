@@ -20,3 +20,7 @@ class InvalidSessionStateError(AppError):
 
 class InsufficientStockError(AppError):
     status_code = 409
+
+
+class CellProductConflictError(AppError):
+    status_code = 409
