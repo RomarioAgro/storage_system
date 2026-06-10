@@ -31,6 +31,7 @@ def test_admin_can_update_and_block_user(client, db, sample_data):
         follow_redirects=False,
     )
     assert response.status_code == 303
+    assert response.headers["location"] == "/admin/users#users"
     db.refresh(user)
     assert user.name == "Updated User"
     assert user.rfid_uid == "updated-card"
@@ -48,10 +49,23 @@ def test_admin_panel_renders_crud_forms(client, sample_data):
     response = client.get("/admin")
 
     assert response.status_code == 200
-    assert "Создать пользователя" in response.text
-    assert "Блокировать" in response.text
+    assert "Открыть пользователей" in response.text
+    assert 'href="/admin/users"' in response.text
     assert "Открыть товары и группы" in response.text
     assert 'href="/admin/products"' in response.text
+    assert "Открыть ячейки" in response.text
+    assert 'href="/admin/cells"' in response.text
+
+
+def test_admin_users_page_renders_user_forms(client, sample_data):
+    sample_data()
+
+    response = client.get("/admin/users")
+
+    assert response.status_code == 200
+    assert "Создать пользователя" in response.text
+    assert "Блокировать" in response.text
+    assert "user-card" in response.text
 
 
 def test_admin_products_page_renders_product_and_category_forms(client, sample_data):
@@ -63,6 +77,17 @@ def test_admin_products_page_renders_product_and_category_forms(client, sample_d
     assert "Создать товар" in response.text
     assert "Создать группу" in response.text
     assert "Special Battery" in response.text
+
+
+def test_admin_cells_page_renders_cell_forms(client, sample_data):
+    sample_data()
+
+    response = client.get("/admin/cells")
+
+    assert response.status_code == 200
+    assert "Создать ячейку" in response.text
+    assert "Блокировать" in response.text
+    assert "relay_channel" in response.text
 
 
 def test_admin_access_log_displays_local_time(client, db, sample_data):
@@ -152,6 +177,7 @@ def test_admin_can_update_and_block_cell(client, db, sample_data):
         follow_redirects=False,
     )
     assert response.status_code == 303
+    assert response.headers["location"] == "/admin/cells#cells"
     db.refresh(cell)
     assert cell.number == 101
     assert cell.controller_address == 7
@@ -160,5 +186,6 @@ def test_admin_can_update_and_block_cell(client, db, sample_data):
 
     response = client.post(f"/admin/cells/{cell.id}/toggle-block", follow_redirects=False)
     assert response.status_code == 303
+    assert response.headers["location"] == "/admin/cells#cells"
     db.refresh(cell)
     assert cell.status == CellStatus.BLOCKED

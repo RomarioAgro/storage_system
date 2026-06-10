@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Пользователи</h1>
+  <a class="button secondary" href="/admin">Назад в админку</a>
+</section>
+
+<section class="panel" id="users">
+  <h2>Создать пользователя</h2>
+  <form method="post" action="/admin/users" class="grid">
+    <label><span>Имя</span><input name="name" required></label>
+    <label><span>RFID</span><input name="rfid_uid" required></label>
+    <label><span>Роль</span><select name="role_id">{% for role in roles %}<option value="{{ role.id }}">{{ role.code }}</option>{% endfor %}</select></label>
+    <label><span>Активен</span><input type="checkbox" name="is_active" checked></label>
+    <button type="submit">Создать пользователя</button>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Редактирование</th><th>Действие</th></tr></thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>
+          <form method="post" action="/admin/users/{{ user.id }}" class="grid">
+            <label><span>Имя</span><input name="name" value="{{ user.name }}" required></label>
+            <label><span>RFID</span><input name="rfid_uid" value="{{ user.rfid_uid }}" required></label>
+            <label><span>Роль</span><select name="role_id">{% for role in roles %}<option value="{{ role.id }}" {% if role.id == user.role_id %}selected{% endif %}>{{ role.code }}</option>{% endfor %}</select></label>
+            <label><span>Активен</span><input type="checkbox" name="is_active" {% if user.is_active %}checked{% endif %}></label>
+            <button type="submit">Сохранить</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="/admin/users/{{ user.id }}/toggle-active">
+            <button class="{% if user.is_active %}danger{% else %}secondary{% endif %}" type="submit">{% if user.is_active %}Блокировать{% else %}Разблокировать{% endif %}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

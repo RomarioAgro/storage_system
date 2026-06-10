@@ -39,11 +39,25 @@ def _product_admin_context(db: Session) -> dict[str, object]:
     return {"products": products, "categories": categories}
 
 
+def _user_admin_context(db: Session) -> dict[str, object]:
+    users = db.scalars(select(User).options(joinedload(User.role)).order_by(User.id.asc())).all()
+    roles = db.scalars(select(Role).order_by(Role.id.asc())).all()
+    return {"users": users, "roles": roles}
+
+
+def _cell_admin_context(db: Session) -> dict[str, object]:
+    controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
+    cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
+    return {
+        "controllers": controllers,
+        "cells": cells,
+        "cell_statuses": list(CellStatus),
+    }
+
+
 @router.get("", response_class=HTMLResponse)
 def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     """Show minimal admin panel with operational tables."""
-    users = db.scalars(select(User).options(joinedload(User.role)).order_by(User.id.asc())).all()
-    roles = db.scalars(select(Role).order_by(Role.id.asc())).all()
     products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
     controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
     cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
@@ -60,8 +74,6 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
         request,
         "admin/index.html",
         {
-            "users": users,
-            "roles": roles,
             "products": products,
             "controllers": controllers,
             "cells": cells,
@@ -77,6 +89,16 @@ def admin_home(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     )
 
 
+@router.get("/users", response_class=HTMLResponse)
+def admin_users(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show user management in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/users.html",
+        _user_admin_context(db),
+    )
+
+
 @router.get("/products", response_class=HTMLResponse)
 def admin_products(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     """Show product and product category management in a separate admin tab."""
@@ -84,6 +106,16 @@ def admin_products(request: Request, db: Session = Depends(get_db)) -> HTMLRespo
         request,
         "admin/products.html",
         _product_admin_context(db),
+    )
+
+
+@router.get("/cells", response_class=HTMLResponse)
+def admin_cells(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show cell management in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/cells.html",
+        _cell_admin_context(db),
     )
 
 
@@ -100,7 +132,7 @@ async def create_user(request: Request, db: Session = Depends(get_db)) -> Redire
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin#users", status_code=303)
+    return RedirectResponse(url="/admin/users#users", status_code=303)
 
 
 @router.post("/users/{user_id}", response_class=HTMLResponse)
@@ -115,7 +147,7 @@ async def update_user(request: Request, user_id: int, db: Session = Depends(get_
     user.role_id = int(form["role_id"])
     user.is_active = str(form.get("is_active", "off")) == "on"
     db.commit()
-    return RedirectResponse(url="/admin#users", status_code=303)
+    return RedirectResponse(url="/admin/users#users", status_code=303)
 
 
 @router.post("/users/{user_id}/toggle-active", response_class=HTMLResponse)
@@ -126,7 +158,7 @@ def toggle_user_active(user_id: int, db: Session = Depends(get_db)) -> RedirectR
         raise NotFoundError("User not found")
     user.is_active = not user.is_active
     db.commit()
-    return RedirectResponse(url="/admin#users", status_code=303)
+    return RedirectResponse(url="/admin/users#users", status_code=303)
 
 
 @router.post("/products", response_class=HTMLResponse)
@@ -209,7 +241,7 @@ async def create_cell(request: Request, db: Session = Depends(get_db)) -> Redire
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin#cells", status_code=303)
+    return RedirectResponse(url="/admin/cells#cells", status_code=303)
 
 
 @router.post("/cells/{cell_id}", response_class=HTMLResponse)
@@ -227,7 +259,7 @@ async def update_cell(request: Request, cell_id: int, db: Session = Depends(get_
     cell.has_close_sensor = str(form.get("has_close_sensor", "off")) == "on"
     cell.comment = str(form.get("comment") or "").strip() or None
     db.commit()
-    return RedirectResponse(url="/admin#cells", status_code=303)
+    return RedirectResponse(url="/admin/cells#cells", status_code=303)
 
 
 @router.post("/cells/{cell_id}/toggle-block", response_class=HTMLResponse)
@@ -238,7 +270,7 @@ def toggle_cell_block(cell_id: int, db: Session = Depends(get_db)) -> RedirectRe
         raise NotFoundError("Cell not found")
     cell.status = CellStatus.ACTIVE if cell.status == CellStatus.BLOCKED else CellStatus.BLOCKED
     db.commit()
-    return RedirectResponse(url="/admin#cells", status_code=303)
+    return RedirectResponse(url="/admin/cells#cells", status_code=303)
 
 
 @router.post("/stock", response_class=HTMLResponse)
