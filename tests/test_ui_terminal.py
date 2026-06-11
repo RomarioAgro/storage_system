@@ -1,7 +1,6 @@
 from app.core.enums import AccessEventType, SessionOperationType
 from app.models.access_event import AccessEvent
 from app.models.product import Product
-from app.models.stock_item import StockItem
 from app.services.session_service import SessionService
 
 
@@ -83,16 +82,8 @@ def test_terminal_product_stock_overview_can_show_products_without_cells(client,
     assert 'name="show_without_cells" value="1" checked' in response.text
 
 
-def test_terminal_product_stock_overview_can_show_zero_stock_rows(client, db, sample_data):
-    data = sample_data()
-    db.add(
-        StockItem(
-            product_id=data["name_only_product"].id,
-            cell_id=data["cell2"].id,
-            quantity="0.000",
-        )
-    )
-    db.commit()
+def test_terminal_product_stock_overview_can_show_zero_stock_products(client, sample_data):
+    sample_data()
 
     client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
     hidden = client.get("/terminal/stock/products")

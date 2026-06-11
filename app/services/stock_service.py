@@ -57,22 +57,37 @@ class StockService:
             )
 
     @staticmethod
-    def get_or_create_stock_item(db: Session, product_id: int, cell_id: int) -> StockItem:
-        """Return an existing stock row or create an empty one.
+    def set_current_quantity(
+        db: Session,
+        product_id: int,
+        cell_id: int,
+        quantity: Decimal,
+    ) -> StockItem | None:
+        """Set current stock and remove the row when a cell becomes empty.
 
         Args:
             db: SQLAlchemy session.
             product_id: Product identifier.
             cell_id: Cell identifier.
+            quantity: New current quantity.
 
         Returns:
-            Existing or newly created stock row.
+            Updated stock row, or None when the quantity is zero and the row was
+            removed.
         """
         stock_item = StockService.get_stock_item(db, product_id=product_id, cell_id=cell_id)
+        if quantity <= 0:
+            if stock_item is not None:
+                db.delete(stock_item)
+                db.flush()
+            return None
+        StockService.ensure_cell_accepts_product(db, product_id=product_id, cell_id=cell_id)
         if stock_item is None:
-            stock_item = StockItem(product_id=product_id, cell_id=cell_id, quantity=Decimal("0.000"))
+            stock_item = StockItem(product_id=product_id, cell_id=cell_id, quantity=quantity)
             db.add(stock_item)
-            db.flush()
+        else:
+            stock_item.quantity = quantity
+        db.flush()
         return stock_item
 
     @staticmethod
@@ -91,10 +106,7 @@ class StockService:
         after = before + quantity
         if after > 0:
             StockService.ensure_cell_accepts_product(db, product_id=product_id, cell_id=cell_id)
-        if stock_item is None:
-            stock_item = StockService.get_or_create_stock_item(db, product_id=product_id, cell_id=cell_id)
-        before = stock_item.quantity
-        stock_item.quantity = after
+        StockService.set_current_quantity(db, product_id=product_id, cell_id=cell_id, quantity=after)
         movement = StockMovement(
             user_id=user_id,
             product_id=product_id,
@@ -127,10 +139,8 @@ class StockService:
             raise InsufficientStockError(
                 f"Not enough stock: product_id={product_id} cell_id={cell_id} available={before}"
             )
-        if stock_item is None:
-            stock_item = StockService.get_or_create_stock_item(db, product_id=product_id, cell_id=cell_id)
         after = before - quantity
-        stock_item.quantity = after
+        StockService.set_current_quantity(db, product_id=product_id, cell_id=cell_id, quantity=after)
         movement = StockMovement(
             user_id=user_id,
             product_id=product_id,
@@ -156,11 +166,14 @@ class StockService:
         actual_quantity: Decimal,
         comment: str | None = None,
     ) -> StockMovement:
-        if actual_quantity > 0:
-            StockService.ensure_cell_accepts_product(db, product_id=product_id, cell_id=cell_id)
-        stock_item = StockService.get_or_create_stock_item(db, product_id=product_id, cell_id=cell_id)
-        before = stock_item.quantity
-        stock_item.quantity = actual_quantity
+        stock_item = StockService.get_stock_item(db, product_id=product_id, cell_id=cell_id)
+        before = stock_item.quantity if stock_item is not None else Decimal("0.000")
+        StockService.set_current_quantity(
+            db,
+            product_id=product_id,
+            cell_id=cell_id,
+            quantity=actual_quantity,
+        )
         delta = actual_quantity - before
         movement = StockMovement(
             user_id=user_id,

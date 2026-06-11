@@ -60,7 +60,7 @@ def test_stock_items_reject_second_positive_product_in_cell(db, sample_data):
         db.flush()
 
 
-def test_stock_items_allow_zero_quantity_different_product_in_cell(db, sample_data):
+def test_stock_items_reject_zero_quantity_rows(db, sample_data):
     data = sample_data()
     zero_row = StockItem(
         product_id=data["name_only_product"].id,
@@ -69,6 +69,6 @@ def test_stock_items_allow_zero_quantity_different_product_in_cell(db, sample_da
     )
 
     db.add(zero_row)
-    db.flush()
 
-    assert zero_row.id is not None
+    with pytest.raises(IntegrityError):
+        db.flush()

@@ -234,6 +234,28 @@ def test_admin_can_create_stock_item_from_stock_page(client, db, sample_data):
     assert str(stock_item.quantity) == "7.000"
 
 
+def test_admin_zero_stock_quantity_removes_stock_item_row(client, db, sample_data):
+    data = sample_data()
+
+    response = client.post(
+        "/admin/stock",
+        data={
+            "product_id": str(data["product"].id),
+            "cell_id": str(data["cell1"].id),
+            "quantity": "0.000",
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+    assert (
+        db.query(StockItem)
+        .filter_by(product_id=data["product"].id, cell_id=data["cell1"].id)
+        .count()
+        == 0
+    )
+
+
 def test_admin_cannot_create_second_positive_product_in_cell(client, db, sample_data):
     data = sample_data()
 

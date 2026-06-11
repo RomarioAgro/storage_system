@@ -235,7 +235,7 @@ def _product_stock_page_query(
                     "quantity": stock_item.quantity,
                 }
             )
-        if show_without_cells and not stock_items:
+        if (show_zero or show_without_cells) and not visible_items:
             rows.append({"product": product, "cell": None, "quantity": Decimal("0.000")})
 
     pagination = _pagination(page, page_size, len(rows))

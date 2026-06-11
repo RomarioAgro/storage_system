@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from sqlalchemy import ForeignKey, Index, Integer, Numeric, UniqueConstraint, text
+from sqlalchemy import CheckConstraint, ForeignKey, Index, Integer, Numeric, UniqueConstraint, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, created_at_col, updated_at_col
@@ -12,6 +12,7 @@ class StockItem(Base):
     __tablename__ = "stock_items"
     __table_args__ = (
         UniqueConstraint("cell_id", "product_id", name="uq_stock_cell_product"),
+        CheckConstraint("quantity > 0", name="ck_stock_items_quantity_positive"),
         Index(
             "uq_stock_one_positive_product_per_cell",
             "cell_id",

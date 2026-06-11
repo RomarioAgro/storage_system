@@ -340,14 +340,12 @@ async def create_stock_item(request: Request, db: Session = Depends(get_db)) -> 
     product_id = int(form["product_id"])
     cell_id = int(form["cell_id"])
     quantity = Decimal(str(form["quantity"]))
-    if quantity > 0:
-        StockService.ensure_cell_accepts_product(db, product_id=product_id, cell_id=cell_id)
-    stock_item = StockService.get_or_create_stock_item(
+    StockService.set_current_quantity(
         db,
         product_id=product_id,
         cell_id=cell_id,
+        quantity=quantity,
     )
-    stock_item.quantity = quantity
     db.commit()
     return RedirectResponse(url="/admin/stock#stock", status_code=303)
 

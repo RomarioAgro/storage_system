@@ -67,6 +67,31 @@ def test_take_changes_stock_only_after_close_and_confirm(db, mock_lock_controlle
     assert movement.quantity_after == Decimal("3.000")
 
 
+def test_take_all_stock_removes_stock_item_row(db, mock_lock_controller, sample_data):
+    data = sample_data()
+
+    session = OperationService.start_take(
+        db,
+        mock_lock_controller,
+        user_id=data["users"]["user"].id,
+        product_id=data["product"].id,
+        cell_id=data["cell1"].id,
+        quantity=Decimal("5.000"),
+    )
+
+    SessionService.confirm_close(db, session.id)
+    OperationService.confirm_take(db, session.id)
+
+    assert (
+        db.query(StockItem)
+        .filter_by(product_id=data["product"].id, cell_id=data["cell1"].id)
+        .count()
+        == 0
+    )
+    movement = db.query(StockMovement).one()
+    assert movement.quantity_after == Decimal("0.000")
+
+
 def test_take_more_than_available_does_not_open_lock(db, mock_lock_controller, sample_data):
     data = sample_data()
 
