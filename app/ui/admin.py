@@ -77,7 +77,12 @@ def _stock_admin_context(db: Session) -> dict[str, object]:
 
 
 def _logs_admin_context(db: Session) -> dict[str, object]:
-    movements = db.scalars(select(StockMovement).order_by(StockMovement.created_at.desc()).limit(50)).all()
+    movements = db.scalars(
+        select(StockMovement)
+        .options(joinedload(StockMovement.product))
+        .order_by(StockMovement.created_at.desc())
+        .limit(50)
+    ).all()
     events = db.scalars(
         select(AccessEvent)
         .options(joinedload(AccessEvent.user))

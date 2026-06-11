@@ -191,6 +191,7 @@ def test_admin_movements_and_sessions_display_local_time(client, db, sample_data
 
     assert response.status_code == 200
     assert response.text.count("2026-06-10 13:00:00 +03:00") >= 2
+    assert "Cable" in response.text
 
 
 def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):

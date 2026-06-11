@@ -10,7 +10,7 @@
   <h2>История движений</h2>
   <table>
     <thead><tr><th>Время</th><th>Тип</th><th>Товар</th><th>Ячейка</th><th>До</th><th>После</th><th>Сессия</th></tr></thead>
-    <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at | local_datetime }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
+    <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at | local_datetime }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.product.name if movement.product else movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
   </table>
 </section>
 
