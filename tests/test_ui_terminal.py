@@ -1,4 +1,4 @@
-from app.core.enums import SessionOperationType
+from app.core.enums import AccessEventType, SessionOperationType
 from app.models.access_event import AccessEvent
 from app.models.product import Product
 from app.services.session_service import SessionService
@@ -49,6 +49,43 @@ def test_terminal_rfid_logs_client_ip(client, db, sample_data):
     assert response.status_code == 200
     event = db.query(AccessEvent).order_by(AccessEvent.id.desc()).first()
     assert event.client_ip == "testclient"
+
+
+def test_terminal_operation_events_reuse_session_client_ip(client, db, sample_data):
+    sample_data()
+
+    client.post("/terminal/rfid", data={"rfid_uid": "service-card"})
+    opened = client.post(
+        "/terminal/open-only/start",
+        data={"cell_id": "1", "comment": "service open"},
+    )
+    close = client.post(
+        "/terminal/sessions/1/confirm-close",
+        data={"next_action": "open_only"},
+    )
+    done = client.post("/terminal/open-only/1/complete")
+
+    assert opened.status_code == 200
+    assert close.status_code == 200
+    assert done.status_code == 200
+    events = db.query(AccessEvent).order_by(AccessEvent.id.asc()).all()
+    event_ips = {
+        event.event_type: event.client_ip
+        for event in events
+        if event.event_type
+        in {
+            AccessEventType.SESSION_STARTED,
+            AccessEventType.OPEN_CELL_SUCCESS,
+            AccessEventType.CLOSE_CONFIRMED,
+            AccessEventType.SESSION_COMPLETED,
+        }
+    }
+    assert event_ips == {
+        AccessEventType.SESSION_STARTED: "testclient",
+        AccessEventType.OPEN_CELL_SUCCESS: "testclient",
+        AccessEventType.CLOSE_CONFIRMED: "testclient",
+        AccessEventType.SESSION_COMPLETED: "testclient",
+    }
 
 
 def test_terminal_manager_can_create_product(client, db, sample_data):

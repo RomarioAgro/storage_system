@@ -47,7 +47,13 @@ class OperationService:
         return product
 
     @staticmethod
-    def _open_lock(db: Session, lock_controller: LockController, session: CellSession, cell: Cell) -> None:
+    def _open_lock(
+        db: Session,
+        lock_controller: LockController,
+        session: CellSession,
+        cell: Cell,
+        client_ip: str | None = None,
+    ) -> None:
         SessionService.mark_opening(db, session)
         db.commit()
         db.refresh(session)
@@ -68,6 +74,7 @@ class OperationService:
                 user_id=session.user_id,
                 cell_id=cell.id,
                 session_id=session.id,
+                client_ip=client_ip,
             )
             db.commit()
         except Exception as exc:
@@ -80,6 +87,7 @@ class OperationService:
                 cell_id=cell.id,
                 session_id=session.id,
                 details=str(exc),
+                client_ip=client_ip,
             )
             db.commit()
             raise
@@ -94,6 +102,7 @@ class OperationService:
         cell_id: int,
         quantity: Decimal,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         user = cls._get_user(db, user_id)
         PermissionService.require(user, "fill")
@@ -109,8 +118,9 @@ class OperationService:
             product_id=product.id,
             planned_quantity=quantity,
             comment=comment,
+            client_ip=client_ip,
         )
-        cls._open_lock(db, lock_controller, session, cell)
+        cls._open_lock(db, lock_controller, session, cell, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
@@ -121,6 +131,7 @@ class OperationService:
         db: Session,
         session_id: int,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         session = SessionService.get_session(db, session_id)
         if session.operation_type != SessionOperationType.FILL:
@@ -139,7 +150,7 @@ class OperationService:
             movement_type=MovementType.FILL,
             comment=comment,
         )
-        SessionService.complete(db, session)
+        SessionService.complete(db, session, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
@@ -154,6 +165,7 @@ class OperationService:
         cell_id: int,
         quantity: Decimal,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         user = cls._get_user(db, user_id)
         PermissionService.require(user, "take")
@@ -170,8 +182,9 @@ class OperationService:
             product_id=product.id,
             planned_quantity=quantity,
             comment=comment,
+            client_ip=client_ip,
         )
-        cls._open_lock(db, lock_controller, session, cell)
+        cls._open_lock(db, lock_controller, session, cell, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
@@ -182,6 +195,7 @@ class OperationService:
         db: Session,
         session_id: int,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         session = SessionService.get_session(db, session_id)
         if session.operation_type != SessionOperationType.TAKE:
@@ -200,7 +214,7 @@ class OperationService:
             movement_type=MovementType.TAKE,
             comment=comment,
         )
-        SessionService.complete(db, session)
+        SessionService.complete(db, session, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
@@ -213,6 +227,7 @@ class OperationService:
         user_id: int,
         cell_id: int,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         user = cls._get_user(db, user_id)
         PermissionService.require(user, "open_only")
@@ -223,20 +238,26 @@ class OperationService:
             cell=cell,
             operation_type=SessionOperationType.OPEN_ONLY,
             comment=comment,
+            client_ip=client_ip,
         )
-        cls._open_lock(db, lock_controller, session, cell)
+        cls._open_lock(db, lock_controller, session, cell, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
 
     @classmethod
-    def complete_open_only(cls, db: Session, session_id: int) -> CellSession:
+    def complete_open_only(
+        cls,
+        db: Session,
+        session_id: int,
+        client_ip: str | None = None,
+    ) -> CellSession:
         session = SessionService.get_session(db, session_id)
         if session.operation_type != SessionOperationType.OPEN_ONLY:
             raise InvalidSessionStateError("Session is not open_only")
         if session.status != SessionStatus.CLOSE_CONFIRMED:
             raise InvalidSessionStateError("Close must be confirmed before completion")
-        SessionService.complete(db, session)
+        SessionService.complete(db, session, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
@@ -251,6 +272,7 @@ class OperationService:
         cell_id: int,
         actual_quantity: Decimal,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         """Start inventory operation and open a cell through LockController.
 
@@ -280,8 +302,9 @@ class OperationService:
             product_id=product.id,
             planned_quantity=actual_quantity,
             comment=comment,
+            client_ip=client_ip,
         )
-        cls._open_lock(db, lock_controller, session, cell)
+        cls._open_lock(db, lock_controller, session, cell, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session
@@ -292,6 +315,7 @@ class OperationService:
         db: Session,
         session_id: int,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         """Confirm inventory after cell close and set stock to counted quantity.
 
@@ -322,7 +346,7 @@ class OperationService:
             actual_quantity=session.planned_quantity,
             comment=comment,
         )
-        SessionService.complete(db, session)
+        SessionService.complete(db, session, client_ip=client_ip)
         db.commit()
         db.refresh(session)
         return session

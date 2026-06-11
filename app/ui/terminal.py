@@ -6,6 +6,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session, joinedload
 
 from app.api.deps import get_lock_controller
+from app.core.client_ip import client_ip_from_request
 from app.core.database import get_db
 from app.hardware.lock_controller import LockController
 from app.models.cell import Cell
@@ -97,6 +98,11 @@ def _require_user(request: Request, db: Session) -> User | RedirectResponse:
         return RedirectResponse(url="/terminal", status_code=303)
 
 
+def _access_client_ip(request: Request) -> str | None:
+    """Return the IP address associated with the terminal UI session."""
+    return request.session.get("terminal_client_ip") or client_ip_from_request(request)
+
+
 def _product_stock(db: Session, product_id: int) -> tuple[Decimal, list[StockItem]]:
     """Return total stock and per-cell rows for a product."""
     total = db.scalar(
@@ -147,10 +153,11 @@ async def terminal_rfid(request: Request, db: Session = Depends(get_db)) -> HTML
     if blocker:
         return blocker
     try:
+        client_ip = client_ip_from_request(request)
         user = AuthService.authenticate_rfid(
             db,
             rfid_uid,
-            client_ip=request.client.host if request.client else None,
+            client_ip=client_ip,
         )
     except AppError:
         return templates.TemplateResponse(
@@ -160,6 +167,7 @@ async def terminal_rfid(request: Request, db: Session = Depends(get_db)) -> HTML
             status_code=403,
         )
     request.session["terminal_user_id"] = user.id
+    request.session["terminal_client_ip"] = client_ip
     return templates.TemplateResponse(
         request,
         "terminal/menu.html",
@@ -305,6 +313,7 @@ async def start_fill(
         cell_id=int(form["cell_id"]),
         quantity=Decimal(str(form["quantity"])),
         comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
     )
     return templates.TemplateResponse(
         request,
@@ -333,6 +342,7 @@ async def start_take(
         cell_id=int(form["cell_id"]),
         quantity=Decimal(str(form["quantity"])),
         comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
     )
     return templates.TemplateResponse(
         request,
@@ -361,6 +371,7 @@ async def start_inventory(
         cell_id=int(form["cell_id"]),
         actual_quantity=Decimal(str(form["actual_quantity"])),
         comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
     )
     return templates.TemplateResponse(
         request,
@@ -437,6 +448,7 @@ async def start_open_only(
         user_id=user.id,
         cell_id=int(form["cell_id"]),
         comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
     )
     return templates.TemplateResponse(
         request,
@@ -450,7 +462,11 @@ async def confirm_close(request: Request, session_id: int, db: Session = Depends
     """Confirm that the physical cell was closed."""
     form = await request.form()
     next_action = str(form.get("next_action") or "")
-    session = SessionService.confirm_close(db, session_id=session_id)
+    session = SessionService.confirm_close(
+        db,
+        session_id=session_id,
+        client_ip=_access_client_ip(request),
+    )
     return templates.TemplateResponse(
         request,
         "terminal/confirm_operation.html",
@@ -462,7 +478,12 @@ async def confirm_close(request: Request, session_id: int, db: Session = Depends
 async def confirm_fill(request: Request, session_id: int, db: Session = Depends(get_db)) -> HTMLResponse:
     """Confirm fill operation and apply stock change."""
     form = await request.form()
-    session = OperationService.confirm_fill(db, session_id=session_id, comment=str(form.get("comment") or ""))
+    session = OperationService.confirm_fill(
+        db,
+        session_id=session_id,
+        comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
+    )
     return templates.TemplateResponse(request, "terminal/done.html", {"session": session})
 
 
@@ -470,7 +491,12 @@ async def confirm_fill(request: Request, session_id: int, db: Session = Depends(
 async def confirm_take(request: Request, session_id: int, db: Session = Depends(get_db)) -> HTMLResponse:
     """Confirm take operation and apply stock change."""
     form = await request.form()
-    session = OperationService.confirm_take(db, session_id=session_id, comment=str(form.get("comment") or ""))
+    session = OperationService.confirm_take(
+        db,
+        session_id=session_id,
+        comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
+    )
     return templates.TemplateResponse(request, "terminal/done.html", {"session": session})
 
 
@@ -482,6 +508,7 @@ async def confirm_inventory(request: Request, session_id: int, db: Session = Dep
         db,
         session_id=session_id,
         comment=str(form.get("comment") or ""),
+        client_ip=_access_client_ip(request),
     )
     return templates.TemplateResponse(request, "terminal/done.html", {"session": session})
 
@@ -489,7 +516,11 @@ async def confirm_inventory(request: Request, session_id: int, db: Session = Dep
 @router.post("/open-only/{session_id}/complete", response_class=HTMLResponse)
 def complete_open_only(request: Request, session_id: int, db: Session = Depends(get_db)) -> HTMLResponse:
     """Complete open-only session after close confirmation."""
-    session = OperationService.complete_open_only(db, session_id=session_id)
+    session = OperationService.complete_open_only(
+        db,
+        session_id=session_id,
+        client_ip=_access_client_ip(request),
+    )
     return templates.TemplateResponse(request, "terminal/done.html", {"session": session})
 
 
@@ -497,7 +528,12 @@ def complete_open_only(request: Request, session_id: int, db: Session = Depends(
 async def cancel_session(request: Request, session_id: int, db: Session = Depends(get_db)) -> HTMLResponse:
     """Cancel active session without changing stock."""
     form = await request.form()
-    session = SessionService.cancel(db, session_id=session_id, reason=str(form.get("reason") or "UI cancel"))
+    session = SessionService.cancel(
+        db,
+        session_id=session_id,
+        reason=str(form.get("reason") or "UI cancel"),
+        client_ip=_access_client_ip(request),
+    )
     return templates.TemplateResponse(request, "terminal/done.html", {"session": session})
 
 

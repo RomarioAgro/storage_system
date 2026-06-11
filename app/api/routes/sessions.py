@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
+from app.core.client_ip import client_ip_from_request
 from app.core.database import get_db
 from app.schemas.session import ActiveSessionResponse, CancelSessionRequest, SessionResponse
 from app.services.session_service import SessionService
@@ -23,10 +24,24 @@ def get_active_session(db: Session = Depends(get_db)) -> ActiveSessionResponse:
 
 
 @router.post("/{session_id}/confirm-close", response_model=SessionResponse)
-def confirm_close(session_id: int, db: Session = Depends(get_db)):
-    return SessionService.confirm_close(db, session_id=session_id)
+def confirm_close(request: Request, session_id: int, db: Session = Depends(get_db)):
+    return SessionService.confirm_close(
+        db,
+        session_id=session_id,
+        client_ip=client_ip_from_request(request),
+    )
 
 
 @router.post("/{session_id}/cancel", response_model=SessionResponse)
-def cancel_session(session_id: int, payload: CancelSessionRequest, db: Session = Depends(get_db)):
-    return SessionService.cancel(db, session_id=session_id, reason=payload.reason)
+def cancel_session(
+    request: Request,
+    session_id: int,
+    payload: CancelSessionRequest,
+    db: Session = Depends(get_db),
+):
+    return SessionService.cancel(
+        db,
+        session_id=session_id,
+        reason=payload.reason,
+        client_ip=client_ip_from_request(request),
+    )

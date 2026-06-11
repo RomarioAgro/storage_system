@@ -223,6 +223,15 @@ partial unique index и на уровне сервисной логики.
 | `result` | string | Результат |
 | `details` | json/text | Детали |
 
+Правила IP-адреса:
+
+- события, созданные из HTTP-запроса, должны заполнять `client_ip`;
+- события жизненного цикла операции (`session_started`, `open_cell_success`,
+  `open_cell_failed`, `close_confirmed`, `session_completed`,
+  `session_cancelled`) наследуют IP текущего terminal/API запроса;
+- если запрос пришел с самого сервера через loopback (`127.0.0.1`, `::1`,
+  `localhost`), в журнал пишется LAN IP сервера, если его удалось определить.
+
 Правила времени:
 
 - `created_at` хранится как timezone-aware UTC timestamp.

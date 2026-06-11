@@ -48,6 +48,7 @@ class SessionService:
         product_id: int | None = None,
         planned_quantity=None,
         comment: str | None = None,
+        client_ip: str | None = None,
     ) -> CellSession:
         SessionService.ensure_no_active_session(db)
         session = CellSession(
@@ -72,6 +73,7 @@ class SessionService:
             user_id=user.id,
             cell_id=cell.id,
             session_id=session.id,
+            client_ip=client_ip,
         )
         return session
 
@@ -94,7 +96,7 @@ class SessionService:
         return session
 
     @staticmethod
-    def confirm_close(db: Session, session_id: int) -> CellSession:
+    def confirm_close(db: Session, session_id: int, client_ip: str | None = None) -> CellSession:
         session = SessionService.get_session(db, session_id)
         if session.status != SessionStatus.WAITING_CLOSE:
             raise InvalidSessionStateError(
@@ -109,13 +111,14 @@ class SessionService:
             user_id=session.user_id,
             cell_id=session.cell_id,
             session_id=session.id,
+            client_ip=client_ip,
         )
         db.commit()
         db.refresh(session)
         return session
 
     @staticmethod
-    def complete(db: Session, session: CellSession) -> CellSession:
+    def complete(db: Session, session: CellSession, client_ip: str | None = None) -> CellSession:
         session.status = SessionStatus.COMPLETED
         session.completed_at = utc_now()
         AccessLogService.log(
@@ -125,12 +128,18 @@ class SessionService:
             user_id=session.user_id,
             cell_id=session.cell_id,
             session_id=session.id,
+            client_ip=client_ip,
         )
         db.flush()
         return session
 
     @staticmethod
-    def cancel(db: Session, session_id: int, reason: str | None = None) -> CellSession:
+    def cancel(
+        db: Session,
+        session_id: int,
+        reason: str | None = None,
+        client_ip: str | None = None,
+    ) -> CellSession:
         session = SessionService.get_session(db, session_id)
         if session.status not in ACTIVE_SESSION_STATUSES:
             raise InvalidSessionStateError(f"Session is not active: {session.status}")
@@ -145,6 +154,7 @@ class SessionService:
             cell_id=session.cell_id,
             session_id=session.id,
             details=reason,
+            client_ip=client_ip,
         )
         db.commit()
         db.refresh(session)
