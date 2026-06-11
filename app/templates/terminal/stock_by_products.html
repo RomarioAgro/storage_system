@@ -11,6 +11,8 @@
         {% endfor %}
       </select>
     </label>
+    <label><input type="checkbox" name="show_zero" value="1" {% if show_zero %}checked{% endif %}> Показать товары с нулевым остатком</label>
+    <label><input type="checkbox" name="show_without_cells" value="1" {% if show_without_cells %}checked{% endif %}> Показать товары без ячеек</label>
     <button type="submit">Показать</button>
   </form>
 </section>
@@ -21,7 +23,7 @@
     <thead><tr><th>Товар</th><th>SKU</th><th>Ячейка</th><th>Количество</th></tr></thead>
     <tbody>
       {% for row in rows %}
-      <tr><td>{{ row.product.name }}</td><td>{{ row.product.sku or "" }}</td><td>{{ row.cell.number }}</td><td>{{ row.quantity }}</td></tr>
+      <tr><td>{{ row.product.name }}</td><td>{{ row.product.sku or "" }}</td><td>{{ row.cell.number if row.cell else "" }}</td><td>{{ row.quantity }}</td></tr>
       {% else %}
       <tr><td colspan="4">Остатков нет</td></tr>
       {% endfor %}
@@ -29,10 +31,10 @@
   </table>
   <div class="actions">
     {% if pagination.page > 1 %}
-    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page - 1 }}&page_size={{ pagination.page_size }}">Назад</a>
+    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page - 1 }}&page_size={{ pagination.page_size }}{% if show_zero %}&show_zero=1{% endif %}{% if show_without_cells %}&show_without_cells=1{% endif %}">Назад</a>
     {% endif %}
     {% if pagination.page < pagination.total_pages %}
-    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page + 1 }}&page_size={{ pagination.page_size }}">Вперед</a>
+    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page + 1 }}&page_size={{ pagination.page_size }}{% if show_zero %}&show_zero=1{% endif %}{% if show_without_cells %}&show_without_cells=1{% endif %}">Вперед</a>
     {% endif %}
   </div>
 </section>

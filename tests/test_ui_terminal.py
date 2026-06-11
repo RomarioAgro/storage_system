@@ -1,6 +1,7 @@
 from app.core.enums import AccessEventType, SessionOperationType
 from app.models.access_event import AccessEvent
 from app.models.product import Product
+from app.models.stock_item import StockItem
 from app.services.session_service import SessionService
 
 
@@ -57,14 +58,52 @@ def test_terminal_menu_links_to_paginated_stock_overviews(client, sample_data):
     assert "Cable" in products.text
     assert "SKU-1" in products.text
     assert "5.000" in products.text
+    assert "Special Battery" not in products.text
     assert 'value="20"' in products.text
     assert 'value="50" selected' in products.text
     assert 'value="100"' in products.text
+    assert "Показать товары с нулевым остатком" in products.text
+    assert "Показать товары без ячеек" in products.text
     assert cells.status_code == 200
     assert "Все ячейки с товарами" in cells.text
     assert "Cable" in cells.text
     assert "5.000" in cells.text
     assert 'value="100" selected' in cells.text
+
+
+def test_terminal_product_stock_overview_can_show_products_without_cells(client, sample_data):
+    sample_data()
+
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+    response = client.get("/terminal/stock/products?show_without_cells=1")
+
+    assert response.status_code == 200
+    assert "Special Battery" in response.text
+    assert "0.000" in response.text
+    assert 'name="show_without_cells" value="1" checked' in response.text
+
+
+def test_terminal_product_stock_overview_can_show_zero_stock_rows(client, db, sample_data):
+    data = sample_data()
+    db.add(
+        StockItem(
+            product_id=data["name_only_product"].id,
+            cell_id=data["cell2"].id,
+            quantity="0.000",
+        )
+    )
+    db.commit()
+
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+    hidden = client.get("/terminal/stock/products")
+    visible = client.get("/terminal/stock/products?show_zero=1")
+
+    assert hidden.status_code == 200
+    assert "Special Battery" not in hidden.text
+    assert visible.status_code == 200
+    assert "Special Battery" in visible.text
+    assert "0.000" in visible.text
+    assert 'name="show_zero" value="1" checked' in visible.text
 
 
 def test_terminal_rfid_logs_client_ip(client, db, sample_data):

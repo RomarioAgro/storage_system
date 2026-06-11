@@ -3,7 +3,7 @@ from decimal import Decimal
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from sqlalchemy import func, select
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session, joinedload, selectinload
 
 from app.api.deps import get_lock_controller
 from app.core.client_ip import client_ip_from_request
@@ -191,6 +191,62 @@ def _stock_page_query(db: Session, page: int, page_size: int, order_by: str) -> 
         .limit(int(pagination["page_size"]))
     ).all()
     return {"rows": rows, "pagination": pagination}
+
+
+def _product_stock_page_query(
+    db: Session,
+    page: int,
+    page_size: int,
+    show_zero: bool = False,
+    show_without_cells: bool = False,
+) -> dict[str, object]:
+    """Return paginated product-first stock rows for terminal overview.
+
+    Args:
+        db: SQLAlchemy session.
+        page: Requested page number.
+        page_size: Requested rows per page.
+        show_zero: Include stock rows with zero quantity.
+        show_without_cells: Include products that have no stock rows.
+
+    Returns:
+        Template context with product rows, filters and pagination metadata.
+    """
+    products = db.scalars(
+        select(Product)
+        .options(selectinload(Product.stock_items).joinedload(StockItem.cell))
+        .where(Product.is_active.is_(True))
+        .order_by(Product.name.asc())
+    ).all()
+    rows = []
+    for product in products:
+        stock_items = sorted(
+            product.stock_items,
+            key=lambda stock_item: stock_item.cell.number if stock_item.cell else 0,
+        )
+        visible_items = [
+            stock_item for stock_item in stock_items if stock_item.quantity > 0 or show_zero
+        ]
+        for stock_item in visible_items:
+            rows.append(
+                {
+                    "product": product,
+                    "cell": stock_item.cell,
+                    "quantity": stock_item.quantity,
+                }
+            )
+        if show_without_cells and not stock_items:
+            rows.append({"product": product, "cell": None, "quantity": Decimal("0.000")})
+
+    pagination = _pagination(page, page_size, len(rows))
+    start = (int(pagination["page"]) - 1) * int(pagination["page_size"])
+    end = start + int(pagination["page_size"])
+    return {
+        "rows": rows[start:end],
+        "pagination": pagination,
+        "show_zero": show_zero,
+        "show_without_cells": show_without_cells,
+    }
 
 
 @router.get("", response_class=HTMLResponse)
@@ -476,13 +532,21 @@ def stock_by_products(
     request: Request,
     page: int = 1,
     page_size: int = PAGE_SIZE_OPTIONS[0],
+    show_zero: bool = False,
+    show_without_cells: bool = False,
     db: Session = Depends(get_db),
 ) -> Response:
     """Show all positive stock rows grouped visually by product."""
     user = _require_user(request, db)
     if isinstance(user, RedirectResponse):
         return user
-    context = _stock_page_query(db, page=page, page_size=page_size, order_by="product")
+    context = _product_stock_page_query(
+        db,
+        page=page,
+        page_size=page_size,
+        show_zero=show_zero,
+        show_without_cells=show_without_cells,
+    )
     context["user"] = user
     return templates.TemplateResponse(request, "terminal/stock_by_products.html", context)
 
