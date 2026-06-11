@@ -19,6 +19,7 @@ def test_known_active_rfid_authenticates_and_logs_event(client, db, sample_data)
 
     assert response.status_code == 200
     assert response.json()["user_id"] == data["users"]["user"].id
+    assert response.json()["name"] == "Regular User"
     event = db.query(AccessEvent).order_by(AccessEvent.id.desc()).first()
     assert event.event_type == AccessEventType.LOGIN_SUCCESS
 

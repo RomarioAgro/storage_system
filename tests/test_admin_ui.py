@@ -24,7 +24,10 @@ def test_admin_can_update_and_block_user(client, db, sample_data):
     response = client.post(
         f"/admin/users/{user.id}",
         data={
-            "name": "Updated User",
+            "last_name": "Updated",
+            "first_name": "User",
+            "middle_name": "Middle",
+            "department": "Updated department",
             "rfid_uid": "updated-card",
             "role_id": str(manager_role.id),
             "is_active": "on",
@@ -34,7 +37,10 @@ def test_admin_can_update_and_block_user(client, db, sample_data):
     assert response.status_code == 303
     assert response.headers["location"] == "/admin/users#users"
     db.refresh(user)
-    assert user.name == "Updated User"
+    assert user.last_name == "Updated"
+    assert user.first_name == "User"
+    assert user.middle_name == "Middle"
+    assert user.department == "Updated department"
     assert user.rfid_uid == "updated-card"
     assert user.role_id == manager_role.id
 
@@ -105,6 +111,8 @@ def test_admin_users_page_renders_user_forms(client, sample_data):
 
     assert response.status_code == 200
     assert "Создать пользователя" in response.text
+    assert "Фамилия" in response.text
+    assert "Отдел" in response.text
     assert "Блокировать" in response.text
     assert "user-card" in response.text
 

@@ -11,7 +11,7 @@ def test_session_service_blocks_second_active_session(db):
     role = Role(code=RoleCode.USER, name="User")
     db.add(role)
     db.flush()
-    user = User(name="U", rfid_uid="u-card", role_id=role.id)
+    user = User(last_name="User", first_name="One", rfid_uid="u-card", role_id=role.id)
     controller = Controller(name="Mock", controller_type=ControllerType.MOCK, address=1)
     db.add_all([user, controller])
     db.flush()

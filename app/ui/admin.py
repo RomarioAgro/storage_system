@@ -169,7 +169,10 @@ async def create_user(request: Request, db: Session = Depends(get_db)) -> Redire
     form = await request.form()
     db.add(
         User(
-            name=str(form["name"]).strip(),
+            last_name=str(form["last_name"]).strip(),
+            first_name=str(form["first_name"]).strip(),
+            middle_name=str(form.get("middle_name") or "").strip() or None,
+            department=str(form.get("department") or "").strip() or None,
             rfid_uid=str(form["rfid_uid"]).strip(),
             role_id=int(form["role_id"]),
             is_active=str(form.get("is_active", "off")) == "on",
@@ -186,7 +189,10 @@ async def update_user(request: Request, user_id: int, db: Session = Depends(get_
     if user is None:
         raise NotFoundError("User not found")
     form = await request.form()
-    user.name = str(form["name"]).strip()
+    user.last_name = str(form["last_name"]).strip()
+    user.first_name = str(form["first_name"]).strip()
+    user.middle_name = str(form.get("middle_name") or "").strip() or None
+    user.department = str(form.get("department") or "").strip() or None
     user.rfid_uid = str(form["rfid_uid"]).strip()
     user.role_id = int(form["role_id"])
     user.is_active = str(form.get("is_active", "off")) == "on"

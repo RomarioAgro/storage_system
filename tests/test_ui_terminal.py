@@ -37,7 +37,7 @@ def test_terminal_rfid_creates_local_ui_session(client, sample_data):
 
     assert login.status_code == 200
     assert menu.status_code == 200
-    assert "Здравствуйте, User" in menu.text
+    assert "Здравствуйте, Regular User" in menu.text
 
 
 def test_terminal_manager_can_create_product(client, db, sample_data):

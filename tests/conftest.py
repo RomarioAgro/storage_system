@@ -71,13 +71,33 @@ def sample_data(db: Session):
             roles[code] = role
 
         users = {
-            "admin": User(name="Admin", rfid_uid="admin-card", role_id=roles[RoleCode.ADMIN].id),
-            "manager": User(
-                name="Manager", rfid_uid="manager-card", role_id=roles[RoleCode.MANAGER].id
+            "admin": User(
+                last_name="Admin",
+                first_name="User",
+                department="HQ",
+                rfid_uid="admin-card",
+                role_id=roles[RoleCode.ADMIN].id,
             ),
-            "user": User(name="User", rfid_uid="user-card", role_id=roles[RoleCode.USER].id),
+            "manager": User(
+                last_name="Manager",
+                first_name="User",
+                department="Warehouse",
+                rfid_uid="manager-card",
+                role_id=roles[RoleCode.MANAGER].id,
+            ),
+            "user": User(
+                last_name="Regular",
+                first_name="User",
+                department="Production",
+                rfid_uid="user-card",
+                role_id=roles[RoleCode.USER].id,
+            ),
             "service": User(
-                name="Service", rfid_uid="service-card", role_id=roles[RoleCode.SERVICE].id
+                last_name="Service",
+                first_name="User",
+                department="Maintenance",
+                rfid_uid="service-card",
+                role_id=roles[RoleCode.SERVICE].id,
             ),
         }
         db.add_all(users.values())

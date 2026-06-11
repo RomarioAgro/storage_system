@@ -17,7 +17,7 @@ def get_active_session(db: Session = Depends(get_db)) -> ActiveSessionResponse:
         has_active_session=True,
         session=session,
         cell_number=session.cell.number if session.cell else None,
-        user_name=session.user.name if session.user else None,
+        user_name=session.user.full_name if session.user else None,
         product_name=session.product.name if session.product else None,
     )
 

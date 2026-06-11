@@ -44,7 +44,10 @@
 | Поле | Тип | Описание |
 |---|---|---|
 | `id` | integer / uuid | PK |
-| `name` | string | Имя пользователя |
+| `last_name` | string | Фамилия пользователя, обязательное поле |
+| `first_name` | string | Имя пользователя, обязательное поле |
+| `middle_name` | string/null | Отчество пользователя |
+| `department` | string/null | Отдел пользователя |
 | `rfid_uid` | string | UID RFID-карты |
 | `role_id` | FK | Роль |
 | `is_active` | bool | Активен ли пользователь |
@@ -55,6 +58,7 @@
 
 - `UNIQUE(rfid_uid)`.
 - Индекс по `rfid_uid`.
+- Индексы по `last_name`, `first_name`, `department`.
 
 ## Таблица `controllers`
 

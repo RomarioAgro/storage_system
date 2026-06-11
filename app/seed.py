@@ -77,14 +77,23 @@ def seed() -> None:
         roles = {code: get_or_create_role(db, code) for code in RoleCode}
 
         users = [
-            ("Admin", "admin-card", roles[RoleCode.ADMIN]),
-            ("Manager", "manager-card", roles[RoleCode.MANAGER]),
-            ("Regular User", "user-card", roles[RoleCode.USER]),
-            ("Service", "service-card", roles[RoleCode.SERVICE]),
+            ("Админов", "Админ", None, "Администрация", "admin-card", roles[RoleCode.ADMIN]),
+            ("Менеджеров", "Менеджер", None, "Склад", "manager-card", roles[RoleCode.MANAGER]),
+            ("Пользов", "Пользователь", None, "Производство", "user-card", roles[RoleCode.USER]),
+            ("Сервисов", "Сервис", None, "Сервис", "service-card", roles[RoleCode.SERVICE]),
         ]
-        for name, rfid_uid, role in users:
+        for last_name, first_name, middle_name, department, rfid_uid, role in users:
             if db.scalars(select(User).where(User.rfid_uid == rfid_uid)).first() is None:
-                db.add(User(name=name, rfid_uid=rfid_uid, role_id=role.id))
+                db.add(
+                    User(
+                        last_name=last_name,
+                        first_name=first_name,
+                        middle_name=middle_name,
+                        department=department,
+                        rfid_uid=rfid_uid,
+                        role_id=role.id,
+                    )
+                )
 
         controller = db.scalars(select(Controller).where(Controller.name == "Mock controller 1")).first()
         if controller is None:

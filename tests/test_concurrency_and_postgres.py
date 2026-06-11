@@ -19,7 +19,7 @@ def _seed_concurrency_db(SessionTesting):
         role = Role(code=RoleCode.SERVICE, name="Service")
         db.add(role)
         db.flush()
-        user = User(name="Service", rfid_uid="service-card", role_id=role.id)
+        user = User(last_name="Service", first_name="User", rfid_uid="service-card", role_id=role.id)
         controller = Controller(name="Mock", controller_type=ControllerType.MOCK, address=1)
         db.add_all([user, controller])
         db.flush()

@@ -279,7 +279,10 @@ Acceptance checks
 ### users
 
 * id
-* name
+* last_name
+* first_name
+* middle_name
+* department
 * rfid_uid
 * role_id
 * is_active

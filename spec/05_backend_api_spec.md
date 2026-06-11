@@ -36,10 +36,13 @@ Success response:
 ```json
 {
   "user_id": 1,
-  "name": "Администратор",
+  "name": "Иванов Иван Иванович",
   "role": "admin"
 }
 ```
+
+Поле `name` в ответе является отображаемым ФИО, собранным из `last_name`,
+`first_name` и `middle_name`.
 
 Error response:
 
