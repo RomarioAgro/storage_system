@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h1>Все товары с остатками</h1>
+  <form method="get" action="/terminal/stock/products">
+    <label>
+      <span>Строк на странице</span>
+      <select name="page_size">
+        {% for size in pagination.page_size_options %}
+        <option value="{{ size }}" {% if size == pagination.page_size %}selected{% endif %}>{{ size }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button type="submit">Показать</button>
+  </form>
+</section>
+
+<section class="panel">
+  <p class="muted">Страница {{ pagination.page }} из {{ pagination.total_pages }}, всего строк: {{ pagination.total }}</p>
+  <table>
+    <thead><tr><th>Товар</th><th>SKU</th><th>Ячейка</th><th>Количество</th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr><td>{{ row.product.name }}</td><td>{{ row.product.sku or "" }}</td><td>{{ row.cell.number }}</td><td>{{ row.quantity }}</td></tr>
+      {% else %}
+      <tr><td colspan="4">Остатков нет</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="actions">
+    {% if pagination.page > 1 %}
+    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page - 1 }}&page_size={{ pagination.page_size }}">Назад</a>
+    {% endif %}
+    {% if pagination.page < pagination.total_pages %}
+    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page + 1 }}&page_size={{ pagination.page_size }}">Вперед</a>
+    {% endif %}
+  </div>
+</section>
+<p><a href="/terminal/menu">Назад в меню</a></p>
+{% endblock %}

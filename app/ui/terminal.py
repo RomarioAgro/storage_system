@@ -23,6 +23,8 @@ from app.ui.templates import templates
 
 router = APIRouter(prefix="/terminal", tags=["terminal-ui"], include_in_schema=False)
 
+PAGE_SIZE_OPTIONS = (20, 50, 100)
+
 
 def _active_context(db: Session) -> dict[str, object] | None:
     """Build template context for an unfinished active session.
@@ -133,6 +135,62 @@ def _can_manage_products(user: User) -> bool:
     except AppError:
         return False
     return True
+
+
+def _pagination(page: int, page_size: int, total: int) -> dict[str, int | list[int]]:
+    """Build bounded pagination metadata for terminal list screens.
+
+    Args:
+        page: Requested 1-based page number.
+        page_size: Requested number of rows per page.
+        total: Total number of rows available for the list.
+
+    Returns:
+        Dictionary with normalized page, page size, total rows, total pages and
+        available page-size options.
+    """
+    normalized_size = page_size if page_size in PAGE_SIZE_OPTIONS else PAGE_SIZE_OPTIONS[0]
+    total_pages = max((total + normalized_size - 1) // normalized_size, 1)
+    normalized_page = min(max(page, 1), total_pages)
+    return {
+        "page": normalized_page,
+        "page_size": normalized_size,
+        "total": total,
+        "total_pages": total_pages,
+        "page_size_options": list(PAGE_SIZE_OPTIONS),
+    }
+
+
+def _stock_page_query(db: Session, page: int, page_size: int, order_by: str) -> dict[str, object]:
+    """Return paginated positive stock rows for terminal stock overview screens.
+
+    Args:
+        db: SQLAlchemy session.
+        page: Requested page number.
+        page_size: Requested rows per page.
+        order_by: Sort mode: ``product`` or ``cell``.
+
+    Returns:
+        Template context with stock rows and pagination metadata.
+    """
+    total = db.scalar(select(func.count()).select_from(StockItem).where(StockItem.quantity > 0)) or 0
+    pagination = _pagination(page, page_size, total)
+    sort_columns = (
+        (Product.name.asc(), Cell.number.asc())
+        if order_by == "product"
+        else (Cell.number.asc(), Product.name.asc())
+    )
+    rows = db.scalars(
+        select(StockItem)
+        .join(StockItem.product)
+        .join(StockItem.cell)
+        .options(joinedload(StockItem.product), joinedload(StockItem.cell))
+        .where(StockItem.quantity > 0)
+        .order_by(*sort_columns)
+        .offset((int(pagination["page"]) - 1) * int(pagination["page_size"]))
+        .limit(int(pagination["page_size"]))
+    ).all()
+    return {"rows": rows, "pagination": pagination}
 
 
 @router.get("", response_class=HTMLResponse)
@@ -411,6 +469,38 @@ def cell_contents_form(
             "rows": rows,
         },
     )
+
+
+@router.get("/stock/products", response_class=HTMLResponse)
+def stock_by_products(
+    request: Request,
+    page: int = 1,
+    page_size: int = PAGE_SIZE_OPTIONS[0],
+    db: Session = Depends(get_db),
+) -> Response:
+    """Show all positive stock rows grouped visually by product."""
+    user = _require_user(request, db)
+    if isinstance(user, RedirectResponse):
+        return user
+    context = _stock_page_query(db, page=page, page_size=page_size, order_by="product")
+    context["user"] = user
+    return templates.TemplateResponse(request, "terminal/stock_by_products.html", context)
+
+
+@router.get("/stock/cells", response_class=HTMLResponse)
+def stock_by_cells(
+    request: Request,
+    page: int = 1,
+    page_size: int = PAGE_SIZE_OPTIONS[0],
+    db: Session = Depends(get_db),
+) -> Response:
+    """Show all positive stock rows grouped visually by cell."""
+    user = _require_user(request, db)
+    if isinstance(user, RedirectResponse):
+        return user
+    context = _stock_page_query(db, page=page, page_size=page_size, order_by="cell")
+    context["user"] = user
+    return templates.TemplateResponse(request, "terminal/stock_by_cells.html", context)
 
 
 @router.get("/open-only", response_class=HTMLResponse)

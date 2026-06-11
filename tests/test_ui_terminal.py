@@ -41,6 +41,32 @@ def test_terminal_rfid_creates_local_ui_session(client, sample_data):
     assert "Здравствуйте, Regular User" in menu.text
 
 
+def test_terminal_menu_links_to_paginated_stock_overviews(client, sample_data):
+    sample_data()
+
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+    menu = client.get("/terminal/menu")
+    products = client.get("/terminal/stock/products?page_size=50")
+    cells = client.get("/terminal/stock/cells?page_size=100")
+
+    assert menu.status_code == 200
+    assert 'href="/terminal/stock/products"' in menu.text
+    assert 'href="/terminal/stock/cells"' in menu.text
+    assert products.status_code == 200
+    assert "Все товары с остатками" in products.text
+    assert "Cable" in products.text
+    assert "SKU-1" in products.text
+    assert "5.000" in products.text
+    assert 'value="20"' in products.text
+    assert 'value="50" selected' in products.text
+    assert 'value="100"' in products.text
+    assert cells.status_code == 200
+    assert "Все ячейки с товарами" in cells.text
+    assert "Cable" in cells.text
+    assert "5.000" in cells.text
+    assert 'value="100" selected' in cells.text
+
+
 def test_terminal_rfid_logs_client_ip(client, db, sample_data):
     sample_data()
 
