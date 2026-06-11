@@ -10,6 +10,7 @@ def test_unknown_rfid_is_rejected_and_logged(client, db, sample_data):
     assert response.status_code == 403
     event = db.query(AccessEvent).order_by(AccessEvent.id.desc()).first()
     assert event.event_type == AccessEventType.UNKNOWN_RFID
+    assert event.client_ip == "testclient"
 
 
 def test_known_active_rfid_authenticates_and_logs_event(client, db, sample_data):
@@ -22,6 +23,7 @@ def test_known_active_rfid_authenticates_and_logs_event(client, db, sample_data)
     assert response.json()["name"] == "Regular User"
     event = db.query(AccessEvent).order_by(AccessEvent.id.desc()).first()
     assert event.event_type == AccessEventType.LOGIN_SUCCESS
+    assert event.client_ip == "testclient"
 
 
 def test_product_search_prefers_barcode_before_sku_and_name(client, db, sample_data):

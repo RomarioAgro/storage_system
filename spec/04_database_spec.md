@@ -216,6 +216,7 @@ partial unique index и на уровне сервисной логики.
 | `created_at` | datetime | Дата события |
 | `user_id` | FK/null | Пользователь, если известен |
 | `rfid_uid` | string/null | RFID UID |
+| `client_ip` | string/null | IP-адрес клиента, если событие пришло из HTTP-запроса |
 | `cell_id` | FK/null | Ячейка |
 | `session_id` | FK/null | Сессия |
 | `event_type` | string / enum | Тип события |

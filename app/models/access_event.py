@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import ForeignKey, Integer, String, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.time import UTCDateTime, utc_now
 from app.core.enums import AccessEventType, EventResult
@@ -16,8 +16,11 @@ class AccessEvent(Base):
     created_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utc_now, index=True)
     user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
     rfid_uid: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
+    client_ip: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     cell_id: Mapped[int | None] = mapped_column(ForeignKey("cells.id"), nullable=True, index=True)
     session_id: Mapped[int | None] = mapped_column(ForeignKey("cell_sessions.id"), nullable=True, index=True)
     event_type: Mapped[AccessEventType] = mapped_column(enum_column(AccessEventType), index=True)
     result: Mapped[EventResult] = mapped_column(enum_column(EventResult), index=True)
     details: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    user = relationship("User", back_populates="access_events")

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -9,6 +9,14 @@ router = APIRouter()
 
 
 @router.post("/rfid", response_model=RfidAuthResponse)
-def authenticate_rfid(payload: RfidAuthRequest, db: Session = Depends(get_db)) -> RfidAuthResponse:
-    user = AuthService.authenticate_rfid(db, payload.rfid_uid)
+def authenticate_rfid(
+    request: Request,
+    payload: RfidAuthRequest,
+    db: Session = Depends(get_db),
+) -> RfidAuthResponse:
+    user = AuthService.authenticate_rfid(
+        db,
+        payload.rfid_uid,
+        client_ip=request.client.host if request.client else None,
+    )
     return RfidAuthResponse(user_id=user.id, name=user.full_name, role=user.role.code.value)

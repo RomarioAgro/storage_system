@@ -140,12 +140,14 @@ def test_admin_cells_page_renders_cell_forms(client, sample_data):
 
 
 def test_admin_access_log_displays_local_time(client, db, sample_data):
-    sample_data()
+    data = sample_data()
     db.add(
         AccessEvent(
             created_at=datetime(2026, 6, 10, 10, 0, 0, tzinfo=UTC),
+            user_id=data["users"]["user"].id,
             event_type=AccessEventType.LOGIN_SUCCESS,
             result=EventResult.OK,
+            client_ip="192.168.0.25",
             details="timezone check",
         )
     )
@@ -156,6 +158,8 @@ def test_admin_access_log_displays_local_time(client, db, sample_data):
     assert response.status_code == 200
     assert "Europe/Moscow" in response.text
     assert "2026-06-10 13:00:00 +03:00" in response.text
+    assert "Regular User" in response.text
+    assert "192.168.0.25" in response.text
 
 
 def test_admin_movements_and_sessions_display_local_time(client, db, sample_data):

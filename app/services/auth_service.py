@@ -9,7 +9,7 @@ from app.services.errors import PermissionDeniedError
 
 class AuthService:
     @staticmethod
-    def authenticate_rfid(db: Session, rfid_uid: str) -> User:
+    def authenticate_rfid(db: Session, rfid_uid: str, client_ip: str | None = None) -> User:
         user = db.scalars(
             select(User).options(joinedload(User.role)).where(User.rfid_uid == rfid_uid)
         ).first()
@@ -19,6 +19,7 @@ class AuthService:
                 event_type=AccessEventType.UNKNOWN_RFID,
                 result=EventResult.DENIED,
                 rfid_uid=rfid_uid,
+                client_ip=client_ip,
                 details="RFID card is not registered",
             )
             db.commit()
@@ -30,6 +31,7 @@ class AuthService:
                 result=EventResult.DENIED,
                 user_id=user.id,
                 rfid_uid=rfid_uid,
+                client_ip=client_ip,
                 details="User or role is inactive",
             )
             db.commit()
@@ -40,6 +42,7 @@ class AuthService:
             result=EventResult.OK,
             user_id=user.id,
             rfid_uid=rfid_uid,
+            client_ip=client_ip,
         )
         db.commit()
         db.refresh(user)

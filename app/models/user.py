@@ -22,6 +22,7 @@ class User(Base):
 
     role = relationship("Role", back_populates="users")
     sessions = relationship("CellSession", back_populates="user")
+    access_events = relationship("AccessEvent", back_populates="user")
 
     @property
     def full_name(self) -> str:
@@ -40,3 +41,12 @@ class User(Base):
             The same value as full_name for older UI/API code paths.
         """
         return self.full_name
+
+    @property
+    def short_name(self) -> str:
+        """Return surname and name for compact UI tables.
+
+        Returns:
+            Space-separated last name and first name.
+        """
+        return f"{self.last_name} {self.first_name}"

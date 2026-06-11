@@ -1,4 +1,5 @@
 from app.core.enums import SessionOperationType
+from app.models.access_event import AccessEvent
 from app.models.product import Product
 from app.services.session_service import SessionService
 
@@ -38,6 +39,16 @@ def test_terminal_rfid_creates_local_ui_session(client, sample_data):
     assert login.status_code == 200
     assert menu.status_code == 200
     assert "Здравствуйте, Regular User" in menu.text
+
+
+def test_terminal_rfid_logs_client_ip(client, db, sample_data):
+    sample_data()
+
+    response = client.post("/terminal/rfid", data={"rfid_uid": "manager-card"})
+
+    assert response.status_code == 200
+    event = db.query(AccessEvent).order_by(AccessEvent.id.desc()).first()
+    assert event.client_ip == "testclient"
 
 
 def test_terminal_manager_can_create_product(client, db, sample_data):

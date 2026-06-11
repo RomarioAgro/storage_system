@@ -147,7 +147,11 @@ async def terminal_rfid(request: Request, db: Session = Depends(get_db)) -> HTML
     if blocker:
         return blocker
     try:
-        user = AuthService.authenticate_rfid(db, rfid_uid)
+        user = AuthService.authenticate_rfid(
+            db,
+            rfid_uid,
+            client_ip=request.client.host if request.client else None,
+        )
     except AppError:
         return templates.TemplateResponse(
             request,
