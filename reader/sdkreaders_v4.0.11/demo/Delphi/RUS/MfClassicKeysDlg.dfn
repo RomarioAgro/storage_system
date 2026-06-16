@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file original="D:\Projects\IL_SdkReaders4\demo\Delphi\MfClassicKeysDlg.dfm" source-language="en-US" target-language="ru-RU" datatype="delphiform" tool="ETM v10.0" ts="D:\Projects\IL_SdkReaders4\demo\Delphi\MfClassicKeysDlg.dfm">
+    <header>
+      <prop-group name="ITEHeaderProp">
+        <prop prop-type="Version">9.0</prop>
+        <prop prop-type="SelfDateTime">46059.8144907407</prop>
+        <prop prop-type="OrigDateTime">45530.4140740741</prop>
+        <prop prop-type="XlatDateTime">45448.8113888889</prop>
+        <prop prop-type="Translated">12</prop>
+        <prop prop-type="UnTranslated">103</prop>
+      </prop-group>
+    </header>
+    <body>
+      <trans-unit id="O:fmMfClassicKeysDlg.Left" resname="O:fmMfClassicKeysDlg.Left">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">0</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Top" resname="O:fmMfClassicKeysDlg.Top">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">1</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.BorderIcons" resname="O:fmMfClassicKeysDlg.BorderIcons">
+        <source>[biSystemMenu]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">2</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Caption" resname="O:fmMfClassicKeysDlg.Caption">
+        <source>'Mifare Classic keys'</source>
+        <target>'Ключи Mifare Classic'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">1</prop><prop prop-type="Order">3</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.ClientHeight" resname="O:fmMfClassicKeysDlg.ClientHeight">
+        <source>362</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">4</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.ClientWidth" resname="O:fmMfClassicKeysDlg.ClientWidth">
+        <source>402</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">5</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Color" resname="O:fmMfClassicKeysDlg.Color">
+        <source>clBtnFace</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">6</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Constraints.MinHeight" resname="O:fmMfClassicKeysDlg.Constraints.MinHeight">
+        <source>220</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">7</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Constraints.MinWidth" resname="O:fmMfClassicKeysDlg.Constraints.MinWidth">
+        <source>300</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">8</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Font.Charset" resname="O:fmMfClassicKeysDlg.Font.Charset">
+        <source>DEFAULT_CHARSET</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">9</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Font.Color" resname="O:fmMfClassicKeysDlg.Font.Color">
+        <source>clWindowText</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">10</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Font.Height" resname="O:fmMfClassicKeysDlg.Font.Height">
+        <source>-11</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">11</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Font.Name" resname="O:fmMfClassicKeysDlg.Font.Name">
+        <source>'Tahoma'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">6</prop><prop prop-type="Order">12</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Font.Style" resname="O:fmMfClassicKeysDlg.Font.Style">
+        <source>[]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">13</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.OldCreateOrder" resname="O:fmMfClassicKeysDlg.OldCreateOrder">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">14</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.Position" resname="O:fmMfClassicKeysDlg.Position">
+        <source>poOwnerFormCenter</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">15</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.OnClose" resname="O:fmMfClassicKeysDlg.OnClose">
+        <source>FormClose</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">16</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.OnCreate" resname="O:fmMfClassicKeysDlg.OnCreate">
+        <source>FormCreate</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">17</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.OnDestroy" resname="O:fmMfClassicKeysDlg.OnDestroy">
+        <source>FormDestroy</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">18</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.OnShow" resname="O:fmMfClassicKeysDlg.OnShow">
+        <source>FormShow</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">19</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.DesignSize[0]" resname="O:fmMfClassicKeysDlg.DesignSize[0]">
+        <source>402</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">20</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">(</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.DesignSize[1]" resname="O:fmMfClassicKeysDlg.DesignSize[1]">
+        <source>362</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">21</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">)</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.PixelsPerInch" resname="O:fmMfClassicKeysDlg.PixelsPerInch">
+        <source>96</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">22</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.TextHeight" resname="O:fmMfClassicKeysDlg.TextHeight">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">23</prop><prop prop-type="Type">TfmMfClassicKeysDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Left" resname="O:fmMfClassicKeysDlg.O:btnCancel.Left">
+        <source>306</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">24</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Top" resname="O:fmMfClassicKeysDlg.O:btnCancel.Top">
+        <source>329</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">25</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Width" resname="O:fmMfClassicKeysDlg.O:btnCancel.Width">
+        <source>88</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">26</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Height" resname="O:fmMfClassicKeysDlg.O:btnCancel.Height">
+        <source>25</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">27</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Anchors" resname="O:fmMfClassicKeysDlg.O:btnCancel.Anchors">
+        <source>[akRight, akBottom]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">28</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Cancel" resname="O:fmMfClassicKeysDlg.O:btnCancel.Cancel">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980208</prop><prop prop-type="Status">0</prop><prop prop-type="Order">29</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.Caption" resname="O:fmMfClassicKeysDlg.O:btnCancel.Caption">
+        <source>'Cancel'</source>
+        <target>'Отмена'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">1</prop><prop prop-type="Order">30</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.ModalResult" resname="O:fmMfClassicKeysDlg.O:btnCancel.ModalResult">
+        <source>2</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">31</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.TabOrder" resname="O:fmMfClassicKeysDlg.O:btnCancel.TabOrder">
+        <source>3</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">32</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnCancel.ExplicitLeft" resname="O:fmMfClassicKeysDlg.O:btnCancel.ExplicitLeft">
+        <source>308</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">33</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Left" resname="O:fmMfClassicKeysDlg.O:btnOk.Left">
+        <source>212</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">34</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Top" resname="O:fmMfClassicKeysDlg.O:btnOk.Top">
+        <source>329</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">35</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Width" resname="O:fmMfClassicKeysDlg.O:btnOk.Width">
+        <source>88</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">36</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Height" resname="O:fmMfClassicKeysDlg.O:btnOk.Height">
+        <source>25</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">37</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Anchors" resname="O:fmMfClassicKeysDlg.O:btnOk.Anchors">
+        <source>[akRight, akBottom]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">38</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Caption" resname="O:fmMfClassicKeysDlg.O:btnOk.Caption">
+        <source>'OK'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">1</prop><prop prop-type="Order">39</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.Default" resname="O:fmMfClassicKeysDlg.O:btnOk.Default">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">40</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.ModalResult" resname="O:fmMfClassicKeysDlg.O:btnOk.ModalResult">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">41</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.TabOrder" resname="O:fmMfClassicKeysDlg.O:btnOk.TabOrder">
+        <source>2</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">42</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.OnClick" resname="O:fmMfClassicKeysDlg.O:btnOk.OnClick">
+        <source>btnOkClick</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">43</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:btnOk.ExplicitLeft" resname="O:fmMfClassicKeysDlg.O:btnOk.ExplicitLeft">
+        <source>214</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">44</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Left" resname="O:fmMfClassicKeysDlg.O:ListView1.Left">
+        <source>6</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">45</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Top" resname="O:fmMfClassicKeysDlg.O:ListView1.Top">
+        <source>8</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">46</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Width" resname="O:fmMfClassicKeysDlg.O:ListView1.Width">
+        <source>388</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">47</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Height" resname="O:fmMfClassicKeysDlg.O:ListView1.Height">
+        <source>244</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">48</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Anchors" resname="O:fmMfClassicKeysDlg.O:ListView1.Anchors">
+        <source>[akLeft, akTop, akRight, akBottom]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">49</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Columns[0].Caption" resname="O:fmMfClassicKeysDlg.O:ListView1.Columns[0].Caption">
+        <source>'#'</source>
+        <target>'№'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">1</prop><prop prop-type="Order">50</prop><prop prop-type="Type">C:TListView</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">&lt;item</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Columns[0].Width" resname="O:fmMfClassicKeysDlg.O:ListView1.Columns[0].Width">
+        <source>40</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">51</prop><prop prop-type="Type">C:TListView</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">end</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Columns[1].Caption" resname="O:fmMfClassicKeysDlg.O:ListView1.Columns[1].Caption">
+        <source>'Key'</source>
+        <target>'Ключ'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">1</prop><prop prop-type="Order">52</prop><prop prop-type="Type">C:TListView</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">item</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Columns[1].Width" resname="O:fmMfClassicKeysDlg.O:ListView1.Columns[1].Width">
+        <source>120</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">53</prop><prop prop-type="Type">C:TListView</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">end</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Columns[2].AutoSize" resname="O:fmMfClassicKeysDlg.O:ListView1.Columns[2].AutoSize">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">54</prop><prop prop-type="Type">C:TListView</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">item</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.Columns[2].Caption" resname="O:fmMfClassicKeysDlg.O:ListView1.Columns[2].Caption">
+        <source>'Comment'</source>
+        <target>'Комментарий'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">1</prop><prop prop-type="Order">55</prop><prop prop-type="Type">C:TListView</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">end&gt;</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.HideSelection" resname="O:fmMfClassicKeysDlg.O:ListView1.HideSelection">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">56</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.MultiSelect" resname="O:fmMfClassicKeysDlg.O:ListView1.MultiSelect">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">57</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.OwnerData" resname="O:fmMfClassicKeysDlg.O:ListView1.OwnerData">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">58</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.ReadOnly" resname="O:fmMfClassicKeysDlg.O:ListView1.ReadOnly">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">59</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.RowSelect" resname="O:fmMfClassicKeysDlg.O:ListView1.RowSelect">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">60</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.TabOrder" resname="O:fmMfClassicKeysDlg.O:ListView1.TabOrder">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">61</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.ViewStyle" resname="O:fmMfClassicKeysDlg.O:ListView1.ViewStyle">
+        <source>vsReport</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">62</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.OnCustomDrawSubItem" resname="O:fmMfClassicKeysDlg.O:ListView1.OnCustomDrawSubItem">
+        <source>ListView1CustomDrawSubItem</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">63</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.OnData" resname="O:fmMfClassicKeysDlg.O:ListView1.OnData">
+        <source>ListView1Data</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">64</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.OnDataHint" resname="O:fmMfClassicKeysDlg.O:ListView1.OnDataHint">
+        <source>ListView1DataHint</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">65</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.OnKeyDown" resname="O:fmMfClassicKeysDlg.O:ListView1.OnKeyDown">
+        <source>ListView1KeyDown</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">66</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.OnSelectItem" resname="O:fmMfClassicKeysDlg.O:ListView1.OnSelectItem">
+        <source>ListView1SelectItem</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">67</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:ListView1.ExplicitWidth" resname="O:fmMfClassicKeysDlg.O:ListView1.ExplicitWidth">
+        <source>390</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">68</prop><prop prop-type="Type">TListView</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.Left" resname="O:fmMfClassicKeysDlg.O:panProperties.Left">
+        <source>6</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">69</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.Top" resname="O:fmMfClassicKeysDlg.O:panProperties.Top">
+        <source>258</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">70</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.Width" resname="O:fmMfClassicKeysDlg.O:panProperties.Width">
+        <source>388</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">71</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.Height" resname="O:fmMfClassicKeysDlg.O:panProperties.Height">
+        <source>65</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6156980324</prop><prop prop-type="Status">0</prop><prop prop-type="Order">72</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.Anchors" resname="O:fmMfClassicKeysDlg.O:panProperties.Anchors">
+        <source>[akLeft, akRight, akBottom]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">73</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.ShowCaption" resname="O:fmMfClassicKeysDlg.O:panProperties.ShowCaption">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">74</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.TabOrder" resname="O:fmMfClassicKeysDlg.O:panProperties.TabOrder">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">75</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.ExplicitWidth" resname="O:fmMfClassicKeysDlg.O:panProperties.ExplicitWidth">
+        <source>390</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">76</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.DesignSize[0]" resname="O:fmMfClassicKeysDlg.O:panProperties.DesignSize[0]">
+        <source>388</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">77</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">(</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.DesignSize[1]" resname="O:fmMfClassicKeysDlg.O:panProperties.DesignSize[1]">
+        <source>65</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">78</prop><prop prop-type="Type">TPanel</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">)</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Left" resname="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Left">
+        <source>76</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">79</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Top" resname="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Top">
+        <source>11</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">80</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Width" resname="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Width">
+        <source>22</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">81</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Height" resname="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Height">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">82</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Alignment" resname="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Alignment">
+        <source>taRightJustify</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">83</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Caption" resname="O:fmMfClassicKeysDlg.O:panProperties.O:laKey.Caption">
+        <source>'Key:'</source>
+        <target>'Ключ:'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">1</prop><prop prop-type="Order">84</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Left" resname="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Left">
+        <source>49</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">85</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Top" resname="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Top">
+        <source>38</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">86</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Width" resname="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Width">
+        <source>49</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">87</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Height" resname="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Height">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">88</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Alignment" resname="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Alignment">
+        <source>taRightJustify</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">89</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Caption" resname="O:fmMfClassicKeysDlg.O:panProperties.O:labComment.Caption">
+        <source>'Comment:'</source>
+        <target>'Комментарий:'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">1</prop><prop prop-type="Order">90</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Left" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Left">
+        <source>104</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">91</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Top" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Top">
+        <source>35</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">92</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Width" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Width">
+        <source>277</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">93</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Height" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Height">
+        <source>21</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">94</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Anchors" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.Anchors">
+        <source>[akLeft, akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">95</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.TabOrder" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.TabOrder">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">96</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.ExplicitWidth" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtComment.ExplicitWidth">
+        <source>279</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">97</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Left" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Left">
+        <source>104</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">98</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Top" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Top">
+        <source>8</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">99</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Width" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Width">
+        <source>275</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">100</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Height" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Height">
+        <source>22</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">101</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Anchors" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Anchors">
+        <source>[akLeft, akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">102</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.EditMask" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.EditMask">
+        <source>'\0xAAAAAAAAAAAA;0;_'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">6</prop><prop prop-type="Order">103</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Charset" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Charset">
+        <source>DEFAULT_CHARSET</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">104</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Color" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Color">
+        <source>clWindowText</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">105</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Height" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Height">
+        <source>-11</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">106</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Name" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Name">
+        <source>'Courier New'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">6</prop><prop prop-type="Order">107</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Style" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Font.Style">
+        <source>[]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">108</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.MaxLength" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.MaxLength">
+        <source>14</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">109</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.ParentFont" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.ParentFont">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">110</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.TabOrder" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.TabOrder">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">111</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Text" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.Text">
+        <source>''</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">6</prop><prop prop-type="Order">112</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.OnKeyPress" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.OnKeyPress">
+        <source>edtKeyKeyPress</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.615698044</prop><prop prop-type="Status">0</prop><prop prop-type="Order">113</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.ExplicitWidth" resname="O:fmMfClassicKeysDlg.O:panProperties.O:edtKey.ExplicitWidth">
+        <source>277</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145127083</prop><prop prop-type="Status">0</prop><prop prop-type="Order">114</prop><prop prop-type="Type">TMaskEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

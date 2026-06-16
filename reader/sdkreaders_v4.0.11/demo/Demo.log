@@ -1,0 +1,50 @@
+09:57:51.521 [I TID_5540] Log 16.06.2026 (SDK Readers v4.0.11.1, Windows v10.0.97.83)
+09:57:51.522 [I TID_5540 IILR] The search interface ILRSearch 000000000097FC50 has been created
+09:57:51.526 [I TID_14052 SThread] OS notifications on changing the list of COM ports are enabled
+09:57:51.530 [E TID_14052 CCcidConnection] SCardEstablishContext error -2146435043
+09:57:51.530 [E TID_14052 CCcidConnection] SCardEstablishContext error -2146435043
+09:57:51.530 [E TID_14052 SThread] Exception in the "UpdateCcidReaders" function
+09:57:51.542 [I TID_14052 COM12] Port is open
+09:57:51.543 [I TID_14052 COM12] Port configuration set: 9600,N82,none, EvtChar: 0x00
+09:57:51.543 [I TID_14052 COM12] Port cleared (in out)
+09:57:51.544 [I TID_14052 COM12] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:51.544 [I TID_14052 COM12] << (1) i
+09:57:51.587 [I TID_14052 COM11] Port is open
+09:57:51.587 [I TID_14052 COM11] Port configuration set: 9600,N82,none, EvtChar: 0x00
+09:57:51.587 [I TID_14052 COM11] Port cleared (in out)
+09:57:51.587 [I TID_14052 COM11] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:51.587 [I TID_14052 COM11] << (1) i
+09:57:51.602 [I TID_14052 COM10] Port is open
+09:57:51.602 [I TID_14052 COM10] Port configuration set: 9600,N82,none, EvtChar: 0x00
+09:57:51.602 [I TID_14052 COM10] Port cleared (in out)
+09:57:51.602 [I TID_14052 COM10] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:51.603 [I TID_14052 COM10] << (1) i
+09:57:51.604 [I TID_14052 COM1] Port is open
+09:57:51.604 [I TID_14052 COM1] Port configuration set: 9600,N82,none, EvtChar: 0x00
+09:57:51.605 [I TID_14052 COM1] Port cleared (in out)
+09:57:51.605 [I TID_14052 COM1] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:51.605 [I TID_14052 COM1] << (1) i
+09:57:51.605 [I TID_14052 COM12] >> (1) \r
+09:57:51.624 [I TID_14052 COM12] >> (34) \nUSB Z-2 ADAPTER S/N:38186 [0301]\r
+09:57:51.681 [I TID_14052 COM12] >> (54) \nCopyright (C)2005 IronLogic, Saint-Petersburg,RUSSIA\r
+09:57:51.739 [I TID_14052 COM12] >> (56) \nwww.ironlogic.ru ph. +7(495)787-70-66,+7(812)542-11-85\r
+09:57:51.784 [I TID_14052 COM12] >> (43) \nPlease send Email: marketing@ironlogic.ru\r
+09:57:51.837 [I TID_14052 COM12] >> (52) \nSoftware version: 230, Build Oct  5 2016 16:00:06 \r
+09:57:51.957 [I TID_14052 COM12] Port is closed
+09:57:56.592 [I TID_14052 COM11] << (2) ~\r
+09:57:56.592 [I TID_14052 COM11] Port cleared (in out)
+09:57:56.592 [I TID_14052 COM11] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:56.592 [I TID_14052 COM11] << (1) i
+09:57:56.623 [I TID_14052 COM10] << (2) ~\r
+09:57:56.623 [I TID_14052 COM1] << (2) ~\r
+09:57:56.624 [I TID_14052 COM10] Port cleared (in out)
+09:57:56.624 [I TID_14052 COM10] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:56.624 [I TID_14052 COM10] << (1) i
+09:57:56.624 [I TID_14052 COM1] Port cleared (in out)
+09:57:56.624 [I TID_14052 COM1] Port configuration set: 9600,N82,none, EvtChar: 0x0d
+09:57:56.625 [I TID_14052 COM1] << (1) i
+09:58:01.613 [I TID_14052 COM11] Port is closed
+09:58:01.660 [I TID_14052 COM10] Port is closed
+09:58:01.677 [I TID_14052 COM1] Port is closed
+09:58:07.645 [I TID_5540 SThread] OS notifications on changing the list of COM ports are disabled
+09:58:07.645 [I TID_5540 IILRSearch] Interface 000000000097FC50 released

@@ -1,0 +1,6 @@
+LIBRARY     ILREADERS.DLL
+
+EXPORTS
+    ILR_GetErrorText               @1   ; ILR_GetErrorText
+    ILR_GetInterface               @2   ; ILR_GetInterface
+    ILR_GetVersion                 @3   ; ILR_GetVersion

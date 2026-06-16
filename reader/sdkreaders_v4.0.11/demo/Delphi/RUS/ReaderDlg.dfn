@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file original="D:\Projects\IL_SdkReaders4\demo\Delphi\ReaderDlg.dfm" source-language="en-US" target-language="ru-RU" datatype="delphiform" tool="ETM v10.0" ts="D:\Projects\IL_SdkReaders4\demo\Delphi\ReaderDlg.dfm">
+    <header>
+      <prop-group name="ITEHeaderProp">
+        <prop prop-type="Version">9.0</prop>
+        <prop prop-type="SelfDateTime">46059.8145138889</prop>
+        <prop prop-type="OrigDateTime">45574.8645138889</prop>
+        <prop prop-type="XlatDateTime">45448.661712963</prop>
+        <prop prop-type="Translated">7</prop>
+        <prop prop-type="UnTranslated">70</prop>
+      </prop-group>
+    </header>
+    <body>
+      <trans-unit id="O:fmReaderDlg.Left" resname="O:fmReaderDlg.Left">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">0</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Top" resname="O:fmReaderDlg.Top">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">1</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.BorderIcons" resname="O:fmReaderDlg.BorderIcons">
+        <source>[biSystemMenu]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">2</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Caption" resname="O:fmReaderDlg.Caption">
+        <source>'Reader'</source>
+        <target>'Считыватель'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">1</prop><prop prop-type="Order">3</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.ClientHeight" resname="O:fmReaderDlg.ClientHeight">
+        <source>132</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">4</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.ClientWidth" resname="O:fmReaderDlg.ClientWidth">
+        <source>434</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">5</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Color" resname="O:fmReaderDlg.Color">
+        <source>clBtnFace</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">6</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Constraints.MinHeight" resname="O:fmReaderDlg.Constraints.MinHeight">
+        <source>170</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">7</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Constraints.MinWidth" resname="O:fmReaderDlg.Constraints.MinWidth">
+        <source>400</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">8</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Font.Charset" resname="O:fmReaderDlg.Font.Charset">
+        <source>DEFAULT_CHARSET</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">9</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Font.Color" resname="O:fmReaderDlg.Font.Color">
+        <source>clWindowText</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">10</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Font.Height" resname="O:fmReaderDlg.Font.Height">
+        <source>-11</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">11</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Font.Name" resname="O:fmReaderDlg.Font.Name">
+        <source>'Tahoma'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">6</prop><prop prop-type="Order">12</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Font.Style" resname="O:fmReaderDlg.Font.Style">
+        <source>[]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">13</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.OldCreateOrder" resname="O:fmReaderDlg.OldCreateOrder">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">14</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.Position" resname="O:fmReaderDlg.Position">
+        <source>poOwnerFormCenter</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">15</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.OnClose" resname="O:fmReaderDlg.OnClose">
+        <source>FormClose</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">16</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.OnCreate" resname="O:fmReaderDlg.OnCreate">
+        <source>FormCreate</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">46059.8145171065</prop><prop prop-type="Status">0</prop><prop prop-type="Order">17</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.OnShow" resname="O:fmReaderDlg.OnShow">
+        <source>FormShow</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">18</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.DesignSize[0]" resname="O:fmReaderDlg.DesignSize[0]">
+        <source>434</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">19</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">(</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.DesignSize[1]" resname="O:fmReaderDlg.DesignSize[1]">
+        <source>132</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">20</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">)</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.PixelsPerInch" resname="O:fmReaderDlg.PixelsPerInch">
+        <source>96</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">21</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.TextHeight" resname="O:fmReaderDlg.TextHeight">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">22</prop><prop prop-type="Type">TfmReaderDlg</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.Left" resname="O:fmReaderDlg.O:grConnectionStatus.Left">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">23</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.Top" resname="O:fmReaderDlg.O:grConnectionStatus.Top">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">24</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.Width" resname="O:fmReaderDlg.O:grConnectionStatus.Width">
+        <source>434</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">25</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.Height" resname="O:fmReaderDlg.O:grConnectionStatus.Height">
+        <source>65</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">26</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.Anchors" resname="O:fmReaderDlg.O:grConnectionStatus.Anchors">
+        <source>[akLeft, akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">27</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.Caption" resname="O:fmReaderDlg.O:grConnectionStatus.Caption">
+        <source>'Connection status'</source>
+        <target>'Состояние подключения'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">1</prop><prop prop-type="Order">28</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.TabOrder" resname="O:fmReaderDlg.O:grConnectionStatus.TabOrder">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">29</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.DesignSize[0]" resname="O:fmReaderDlg.O:grConnectionStatus.DesignSize[0]">
+        <source>434</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">30</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">(</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.DesignSize[1]" resname="O:fmReaderDlg.O:grConnectionStatus.DesignSize[1]">
+        <source>65</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">31</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">)</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Left" resname="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Left">
+        <source>24</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">32</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Top" resname="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Top">
+        <source>24</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">33</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Width" resname="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Width">
+        <source>20</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116782</prop><prop prop-type="Status">0</prop><prop prop-type="Order">34</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Height" resname="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Height">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">35</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Caption" resname="O:fmReaderDlg.O:grConnectionStatus.O:labConnectionStatus.Caption">
+        <source>'-----'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">6</prop><prop prop-type="Order">36</prop><prop prop-type="Type">TLabel</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Left" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Left">
+        <source>246</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">37</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Top" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Top">
+        <source>24</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">38</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Width" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Width">
+        <source>88</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">39</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Height" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Height">
+        <source>25</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">40</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Anchors" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Anchors">
+        <source>[akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">41</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Caption" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.Caption">
+        <source>'Connect'</source>
+        <target>'Подключиться'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">1</prop><prop prop-type="Order">42</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.TabOrder" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.TabOrder">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">43</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.OnClick" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnConnect.OnClick">
+        <source>btnConnectClick</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">44</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Left" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Left">
+        <source>338</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">45</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Top" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Top">
+        <source>24</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">46</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Width" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Width">
+        <source>88</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">47</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Height" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Height">
+        <source>25</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">48</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Anchors" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Anchors">
+        <source>[akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">49</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Caption" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.Caption">
+        <source>'Disonnect'</source>
+        <target>'Отключиться'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">1</prop><prop prop-type="Order">50</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.TabOrder" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.TabOrder">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">51</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.OnClick" resname="O:fmReaderDlg.O:grConnectionStatus.O:btnDisconnect.OnClick">
+        <source>btnDisconnectClick</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">52</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.Left" resname="O:fmReaderDlg.O:grCurrentCard.Left">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">53</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.Top" resname="O:fmReaderDlg.O:grCurrentCard.Top">
+        <source>71</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">54</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.Width" resname="O:fmReaderDlg.O:grCurrentCard.Width">
+        <source>434</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">55</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.Height" resname="O:fmReaderDlg.O:grCurrentCard.Height">
+        <source>58</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">56</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.Anchors" resname="O:fmReaderDlg.O:grCurrentCard.Anchors">
+        <source>[akLeft, akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">57</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.Caption" resname="O:fmReaderDlg.O:grCurrentCard.Caption">
+        <source>'Current card'</source>
+        <target>'Текущая карта'</target>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">1</prop><prop prop-type="Order">58</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.TabOrder" resname="O:fmReaderDlg.O:grCurrentCard.TabOrder">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">59</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.DesignSize[0]" resname="O:fmReaderDlg.O:grCurrentCard.DesignSize[0]">
+        <source>434</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">60</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop><prop prop-type="Open">(</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.DesignSize[1]" resname="O:fmReaderDlg.O:grCurrentCard.DesignSize[1]">
+        <source>58</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45450.6157116898</prop><prop prop-type="Status">0</prop><prop prop-type="Order">61</prop><prop prop-type="Type">TGroupBox</prop><prop prop-type="Localize">1</prop><prop prop-type="Close">)</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Left" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Left">
+        <source>338</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">62</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Top" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Top">
+        <source>19</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">63</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Width" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Width">
+        <source>88</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">64</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Height" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Height">
+        <source>25</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">65</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Anchors" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Anchors">
+        <source>[akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">66</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Caption" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.Caption">
+        <source>'Refresh'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">67</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.TabOrder" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.TabOrder">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">68</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.OnClick" resname="O:fmReaderDlg.O:grCurrentCard.O:btnRefresh.OnClick">
+        <source>btnRefreshClick</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">69</prop><prop prop-type="Type">TButton</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Left" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Left">
+        <source>16</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">70</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Top" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Top">
+        <source>21</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">71</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Width" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Width">
+        <source>316</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">72</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Height" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Height">
+        <source>21</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">73</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Anchors" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.Anchors">
+        <source>[akLeft, akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">74</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.ReadOnly" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.ReadOnly">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">75</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.TabOrder" resname="O:fmReaderDlg.O:grCurrentCard.O:edtCurrentCard.TabOrder">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">45527.359682419</prop><prop prop-type="Status">0</prop><prop prop-type="Order">76</prop><prop prop-type="Type">TEdit</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,120 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0AAB466D-2C5A-4DA7-99ED-5647B4092B0E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="EnumReaders.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ReaderDetector.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ConnectToReader.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CardDetector.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MfUltralight.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MfClassic.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MfPlus.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Temic.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="EnumReaders">
+        <MSBuild Projects="EnumReaders.dproj"/>
+    </Target>
+    <Target Name="EnumReaders:Clean">
+        <MSBuild Projects="EnumReaders.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnumReaders:Make">
+        <MSBuild Projects="EnumReaders.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ReaderDetector">
+        <MSBuild Projects="ReaderDetector.dproj"/>
+    </Target>
+    <Target Name="ReaderDetector:Clean">
+        <MSBuild Projects="ReaderDetector.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ReaderDetector:Make">
+        <MSBuild Projects="ReaderDetector.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ConnectToReader">
+        <MSBuild Projects="ConnectToReader.dproj"/>
+    </Target>
+    <Target Name="ConnectToReader:Clean">
+        <MSBuild Projects="ConnectToReader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ConnectToReader:Make">
+        <MSBuild Projects="ConnectToReader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CardDetector">
+        <MSBuild Projects="CardDetector.dproj"/>
+    </Target>
+    <Target Name="CardDetector:Clean">
+        <MSBuild Projects="CardDetector.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CardDetector:Make">
+        <MSBuild Projects="CardDetector.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MfUltralight">
+        <MSBuild Projects="MfUltralight.dproj"/>
+    </Target>
+    <Target Name="MfUltralight:Clean">
+        <MSBuild Projects="MfUltralight.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MfUltralight:Make">
+        <MSBuild Projects="MfUltralight.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MfClassic">
+        <MSBuild Projects="MfClassic.dproj"/>
+    </Target>
+    <Target Name="MfClassic:Clean">
+        <MSBuild Projects="MfClassic.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MfClassic:Make">
+        <MSBuild Projects="MfClassic.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MfPlus">
+        <MSBuild Projects="MfPlus.dproj"/>
+    </Target>
+    <Target Name="MfPlus:Clean">
+        <MSBuild Projects="MfPlus.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MfPlus:Make">
+        <MSBuild Projects="MfPlus.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Temic">
+        <MSBuild Projects="Temic.dproj"/>
+    </Target>
+    <Target Name="Temic:Clean">
+        <MSBuild Projects="Temic.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Temic:Make">
+        <MSBuild Projects="Temic.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="EnumReaders;ReaderDetector;ConnectToReader;CardDetector;MfUltralight;MfClassic;MfPlus;Temic"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="EnumReaders:Clean;ReaderDetector:Clean;ConnectToReader:Clean;CardDetector:Clean;MfUltralight:Clean;MfClassic:Clean;MfPlus:Clean;Temic:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="EnumReaders:Make;ReaderDetector:Make;ConnectToReader:Make;CardDetector:Make;MfUltralight:Make;MfClassic:Make;MfPlus:Make;Temic:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

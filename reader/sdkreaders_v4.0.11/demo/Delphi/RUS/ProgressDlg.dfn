@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file original="E:\Develop\_Draft\IL_SdkReaders4b\demo\Delphi\ProgressDlg.dfm" source-language="en-US" target-language="ru-RU" datatype="delphiform" tool="ETM v10.0" ts="E:\Develop\_Draft\IL_SdkReaders4b\demo\Delphi\ProgressDlg.dfm">
+    <header>
+      <prop-group name="ITEHeaderProp">
+        <prop prop-type="Version">9.0</prop>
+        <prop prop-type="SelfDateTime">45464.5177083333</prop>
+        <prop prop-type="OrigDateTime">45449.8136805556</prop>
+        <prop prop-type="XlatDateTime">45449.8136805556</prop>
+        <prop prop-type="Translated">4</prop>
+        <prop prop-type="UnTranslated">45</prop>
+      </prop-group>
+    </header>
+    <body>
+      <trans-unit id="O:fmProgressDlg.Left" resname="O:fmProgressDlg.Left">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">0</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Top" resname="O:fmProgressDlg.Top">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">1</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.BorderStyle" resname="O:fmProgressDlg.BorderStyle">
+        <source>bsDialog</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">2</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Caption" resname="O:fmProgressDlg.Caption">
+        <source>'Progress'</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">1</prop>
+          <prop prop-type="Order">3</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+        <target>'Прогресс'</target>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.ClientHeight" resname="O:fmProgressDlg.ClientHeight">
+        <source>204</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">4</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.ClientWidth" resname="O:fmProgressDlg.ClientWidth">
+        <source>485</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">5</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Color" resname="O:fmProgressDlg.Color">
+        <source>clBtnFace</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">6</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Font.Charset" resname="O:fmProgressDlg.Font.Charset">
+        <source>DEFAULT_CHARSET</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">7</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Font.Color" resname="O:fmProgressDlg.Font.Color">
+        <source>clWindowText</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">8</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Font.Height" resname="O:fmProgressDlg.Font.Height">
+        <source>-11</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">9</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Font.Name" resname="O:fmProgressDlg.Font.Name">
+        <source>'Tahoma'</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">6</prop>
+          <prop prop-type="Order">10</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Font.Style" resname="O:fmProgressDlg.Font.Style">
+        <source>[]</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">11</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.OldCreateOrder" resname="O:fmProgressDlg.OldCreateOrder">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">12</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.Position" resname="O:fmProgressDlg.Position">
+        <source>poOwnerFormCenter</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">13</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.OnClose" resname="O:fmProgressDlg.OnClose">
+        <source>FormClose</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">14</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.OnCreate" resname="O:fmProgressDlg.OnCreate">
+        <source>FormCreate</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">15</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.OnShow" resname="O:fmProgressDlg.OnShow">
+        <source>FormShow</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">16</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.DesignSize[0]" resname="O:fmProgressDlg.DesignSize[0]">
+        <source>485</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">17</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+          <prop prop-type="Open">(</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.DesignSize[1]" resname="O:fmProgressDlg.DesignSize[1]">
+        <source>204</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">18</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+          <prop prop-type="Close">)</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.PixelsPerInch" resname="O:fmProgressDlg.PixelsPerInch">
+        <source>96</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">19</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.TextHeight" resname="O:fmProgressDlg.TextHeight">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">20</prop>
+          <prop prop-type="Type">TfmProgressDlg</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:labDescription.Left" resname="O:fmProgressDlg.O:labDescription.Left">
+        <source>8</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">21</prop>
+          <prop prop-type="Type">TLabel</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:labDescription.Top" resname="O:fmProgressDlg.O:labDescription.Top">
+        <source>8</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">22</prop>
+          <prop prop-type="Type">TLabel</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:labDescription.Width" resname="O:fmProgressDlg.O:labDescription.Width">
+        <source>63</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">23</prop>
+          <prop prop-type="Type">TLabel</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:labDescription.Height" resname="O:fmProgressDlg.O:labDescription.Height">
+        <source>13</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">24</prop>
+          <prop prop-type="Type">TLabel</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:labDescription.Caption" resname="O:fmProgressDlg.O:labDescription.Caption">
+        <source>'Processing...'</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">1</prop>
+          <prop prop-type="Order">25</prop>
+          <prop prop-type="Type">TLabel</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+        <target>'Выполнение...'</target>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:ProgressBar1.Left" resname="O:fmProgressDlg.O:ProgressBar1.Left">
+        <source>8</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">26</prop>
+          <prop prop-type="Type">TProgressBar</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:ProgressBar1.Top" resname="O:fmProgressDlg.O:ProgressBar1.Top">
+        <source>27</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">27</prop>
+          <prop prop-type="Type">TProgressBar</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:ProgressBar1.Width" resname="O:fmProgressDlg.O:ProgressBar1.Width">
+        <source>469</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">28</prop>
+          <prop prop-type="Type">TProgressBar</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:ProgressBar1.Height" resname="O:fmProgressDlg.O:ProgressBar1.Height">
+        <source>17</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">29</prop>
+          <prop prop-type="Type">TProgressBar</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:ProgressBar1.Anchors" resname="O:fmProgressDlg.O:ProgressBar1.Anchors">
+        <source>[akLeft, akTop, akRight]</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">30</prop>
+          <prop prop-type="Type">TProgressBar</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:ProgressBar1.TabOrder" resname="O:fmProgressDlg.O:ProgressBar1.TabOrder">
+        <source>0</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">31</prop>
+          <prop prop-type="Type">TProgressBar</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.Left" resname="O:fmProgressDlg.O:btnCancel.Left">
+        <source>208</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114583</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">32</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.Top" resname="O:fmProgressDlg.O:btnCancel.Top">
+        <source>171</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">33</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.Width" resname="O:fmProgressDlg.O:btnCancel.Width">
+        <source>75</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">34</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.Height" resname="O:fmProgressDlg.O:btnCancel.Height">
+        <source>25</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">35</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.Anchors" resname="O:fmProgressDlg.O:btnCancel.Anchors">
+        <source>[akLeft, akBottom]</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">36</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.Caption" resname="O:fmProgressDlg.O:btnCancel.Caption">
+        <source>'Cancel'</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">1</prop>
+          <prop prop-type="Order">37</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+        <target>'Отмена'</target>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.TabOrder" resname="O:fmProgressDlg.O:btnCancel.TabOrder">
+        <source>1</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">38</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:btnCancel.OnClick" resname="O:fmProgressDlg.O:btnCancel.OnClick">
+        <source>btnCancelClick</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">39</prop>
+          <prop prop-type="Type">TButton</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.Left" resname="O:fmProgressDlg.O:edtLog.Left">
+        <source>8</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">40</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.Top" resname="O:fmProgressDlg.O:edtLog.Top">
+        <source>50</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">41</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.Width" resname="O:fmProgressDlg.O:edtLog.Width">
+        <source>469</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">42</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.Height" resname="O:fmProgressDlg.O:edtLog.Height">
+        <source>112</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">43</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.Anchors" resname="O:fmProgressDlg.O:edtLog.Anchors">
+        <source>[akLeft, akTop, akRight, akBottom]</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">44</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.ReadOnly" resname="O:fmProgressDlg.O:edtLog.ReadOnly">
+        <source>True</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">45</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.ScrollBars" resname="O:fmProgressDlg.O:edtLog.ScrollBars">
+        <source>ssVertical</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">46</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.TabOrder" resname="O:fmProgressDlg.O:edtLog.TabOrder">
+        <source>2</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">47</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+      <trans-unit id="O:fmProgressDlg.O:edtLog.Visible" resname="O:fmProgressDlg.O:edtLog.Visible">
+        <source>False</source>
+        <prop-group name="ITEFieldProp">
+          <prop prop-type="Created">45450.6157114699</prop>
+          <prop prop-type="Status">0</prop>
+          <prop prop-type="Order">48</prop>
+          <prop prop-type="Type">TMemo</prop>
+          <prop prop-type="Localize">1</prop>
+        </prop-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
