@@ -17,32 +17,46 @@
     <label><span>Комментарий</span><input name="comment"></label>
     <button type="submit">Создать ячейку</button>
   </form>
+  <form method="get" action="/admin/cells" class="actions">
+    <label>
+      <span>Ячеек на странице</span>
+      <select name="page_size">
+        {% for size in pagination.page_size_options %}
+        <option value="{{ size }}" {% if size == pagination.page_size %}selected{% endif %}>{{ size }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button type="submit">Показать</button>
+  </form>
+  <p class="muted">Страница {{ pagination.page }} из {{ pagination.total_pages }}, всего ячеек: {{ pagination.total }}</p>
   <table>
-    <thead><tr><th>ID</th><th>Редактирование</th><th>Действие</th></tr></thead>
+    <thead><tr><th>Номер</th><th>Статус</th><th>Контроллер</th><th>Адрес</th><th>Канал</th><th>Комментарий</th><th>Датчик закрытия</th><th>Действие</th></tr></thead>
     <tbody>
       {% for cell in cells %}
       <tr>
-        <td>{{ cell.id }}</td>
-        <td>
-          <form method="post" action="/admin/cells/{{ cell.id }}" class="grid">
-            <label><span>Номер</span><input name="number" value="{{ cell.number }}" required></label>
-            <label><span>Статус</span><select name="status">{% for status in cell_statuses %}<option value="{{ status }}" {% if status == cell.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></label>
-            <label><span>Контроллер</span><select name="controller_id"><option value="">Нет</option>{% for controller in controllers %}<option value="{{ controller.id }}" {% if controller.id == cell.controller_id %}selected{% endif %}>{{ controller.name }}</option>{% endfor %}</select></label>
-            <label><span>Адрес</span><input name="controller_address" value="{{ cell.controller_address or '' }}"></label>
-            <label><span>Канал</span><input name="relay_channel" value="{{ cell.relay_channel or '' }}"></label>
-            <label><span>Датчик закрытия</span><input type="checkbox" name="has_close_sensor" {% if cell.has_close_sensor %}checked{% endif %}></label>
-            <label><span>Комментарий</span><input name="comment" value="{{ cell.comment or '' }}"></label>
-            <button type="submit">Сохранить</button>
-          </form>
-        </td>
-        <td>
+        <td><input class="number-field" form="cell-form-{{ cell.id }}" name="number" value="{{ cell.number }}" required></td>
+        <td><select form="cell-form-{{ cell.id }}" name="status">{% for status in cell_statuses %}<option value="{{ status }}" {% if status == cell.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></td>
+        <td><select form="cell-form-{{ cell.id }}" name="controller_id"><option value="">Нет</option>{% for controller in controllers %}<option value="{{ controller.id }}" {% if controller.id == cell.controller_id %}selected{% endif %}>{{ controller.name }}</option>{% endfor %}</select></td>
+        <td><input class="number-field" form="cell-form-{{ cell.id }}" name="controller_address" value="{{ cell.controller_address or '' }}"></td>
+        <td><input class="number-field" form="cell-form-{{ cell.id }}" name="relay_channel" value="{{ cell.relay_channel or '' }}"></td>
+        <td><input form="cell-form-{{ cell.id }}" name="comment" value="{{ cell.comment or '' }}"></td>
+        <td><input form="cell-form-{{ cell.id }}" type="checkbox" name="has_close_sensor" {% if cell.has_close_sensor %}checked{% endif %}></td>
+        <td class="actions">
+          <form id="cell-form-{{ cell.id }}" method="post" action="/admin/cells/{{ cell.id }}"></form>
+          <button form="cell-form-{{ cell.id }}" type="submit">Сохранить</button>
           <form method="post" action="/admin/cells/{{ cell.id }}/toggle-block">
             <button class="{% if cell.status == "blocked" %}secondary{% else %}danger{% endif %}" type="submit">{% if cell.status == "blocked" %}Разблокировать{% else %}Блокировать{% endif %}</button>
           </form>
         </td>
       </tr>
+      {% else %}
+      <tr><td colspan="8">Ячейки не найдены</td></tr>
       {% endfor %}
     </tbody>
   </table>
+  <div class="actions">
+    {% if pagination.page > 1 %}<a class="button secondary" href="{{ cell_prev_url }}">Назад</a>{% endif %}
+    {% if pagination.page < pagination.total_pages %}<a class="button secondary" href="{{ cell_next_url }}">Вперед</a>{% endif %}
+  </div>
 </section>
 {% endblock %}

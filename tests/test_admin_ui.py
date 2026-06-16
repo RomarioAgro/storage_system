@@ -10,6 +10,7 @@ from app.core.enums import (
     RoleCode,
 )
 from app.models.access_event import AccessEvent
+from app.models.cell import Cell
 from app.models.cell_session import CellSession
 from app.models.product_category import ProductCategory
 from app.models.stock_item import StockItem
@@ -181,7 +182,32 @@ def test_admin_cells_page_renders_cell_forms(client, sample_data):
     assert response.status_code == 200
     assert "Создать ячейку" in response.text
     assert "Блокировать" in response.text
+    assert "Сохранить" in response.text
+    assert "<th>Редактирование</th>" not in response.text
+    assert 'class="number-field"' in response.text
+    assert '<option value="10" selected>10</option>' in response.text
     assert "relay_channel" in response.text
+
+
+def test_admin_cells_page_paginates_cells(client, db, sample_data):
+    data = sample_data()
+    for number in range(3, 15):
+        db.add(
+            Cell(
+                number=number,
+                status=CellStatus.ACTIVE,
+                controller_id=data["controller"].id,
+                controller_address=1,
+                relay_channel=number,
+            )
+        )
+    db.commit()
+
+    response = client.get("/admin/cells?page_size=10")
+
+    assert response.status_code == 200
+    assert "Страница 1 из 2" in response.text
+    assert "Вперед" in response.text
 
 
 def test_admin_access_log_displays_local_time(client, db, sample_data):
@@ -400,7 +426,7 @@ def test_admin_can_update_and_block_cell(client, db, sample_data):
         follow_redirects=False,
     )
     assert response.status_code == 303
-    assert response.headers["location"] == "/admin/cells#cells"
+    assert response.headers["location"] == "/admin/cells"
     db.refresh(cell)
     assert cell.number == 101
     assert cell.controller_address == 7
@@ -409,6 +435,6 @@ def test_admin_can_update_and_block_cell(client, db, sample_data):
 
     response = client.post(f"/admin/cells/{cell.id}/toggle-block", follow_redirects=False)
     assert response.status_code == 303
-    assert response.headers["location"] == "/admin/cells#cells"
+    assert response.headers["location"] == "/admin/cells"
     db.refresh(cell)
     assert cell.status == CellStatus.BLOCKED

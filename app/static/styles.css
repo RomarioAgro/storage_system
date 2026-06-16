@@ -75,6 +75,10 @@ select {
   font-size: 16px;
 }
 
+.number-field {
+  width: 72px;
+}
+
 button,
 .button {
   display: inline-flex;

@@ -65,6 +65,17 @@ def _admin_url(request: Request, **overrides: object) -> str:
     return "/admin/products?" + urlencode(params)
 
 
+def _admin_path_url(request: Request, path: str, **overrides: object) -> str:
+    """Build an admin URL for the given path preserving query parameters."""
+    params = dict(request.query_params)
+    for key, value in overrides.items():
+        if value is None or value == "":
+            params.pop(key, None)
+        else:
+            params[key] = str(value)
+    return path + ("?" + urlencode(params) if params else "")
+
+
 def _product_list_context(request: Request, db: Session) -> dict[str, object]:
     """Build filtered, sorted, paginated product list context."""
     products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
@@ -204,13 +215,19 @@ def _user_admin_context(db: Session) -> dict[str, object]:
     return {"users": users, "roles": roles}
 
 
-def _cell_admin_context(db: Session) -> dict[str, object]:
+def _cell_admin_context(request: Request, db: Session) -> dict[str, object]:
     controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
-    cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
+    all_cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
+    page = int(request.query_params.get("page") or 1)
+    page_size = int(request.query_params.get("page_size") or ADMIN_PAGE_SIZE_OPTIONS[0])
+    cells, pagination = _admin_pagination(all_cells, page, page_size)
     return {
         "controllers": controllers,
         "cells": cells,
         "cell_statuses": list(CellStatus),
+        "pagination": pagination,
+        "cell_prev_url": _admin_path_url(request, "/admin/cells", page=pagination["page"] - 1),
+        "cell_next_url": _admin_path_url(request, "/admin/cells", page=pagination["page"] + 1),
     }
 
 
@@ -297,7 +314,7 @@ def admin_cells(request: Request, db: Session = Depends(get_db)) -> HTMLResponse
     return templates.TemplateResponse(
         request,
         "admin/cells.html",
-        _cell_admin_context(db),
+        _cell_admin_context(request, db),
     )
 
 
@@ -488,7 +505,7 @@ async def create_cell(request: Request, db: Session = Depends(get_db)) -> Redire
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin/cells#cells", status_code=303)
+    return RedirectResponse(url="/admin/cells", status_code=303)
 
 
 @router.post("/cells/{cell_id}", response_class=HTMLResponse)
@@ -506,7 +523,7 @@ async def update_cell(request: Request, cell_id: int, db: Session = Depends(get_
     cell.has_close_sensor = str(form.get("has_close_sensor", "off")) == "on"
     cell.comment = str(form.get("comment") or "").strip() or None
     db.commit()
-    return RedirectResponse(url="/admin/cells#cells", status_code=303)
+    return RedirectResponse(url="/admin/cells", status_code=303)
 
 
 @router.post("/cells/{cell_id}/toggle-block", response_class=HTMLResponse)
@@ -517,7 +534,7 @@ def toggle_cell_block(cell_id: int, db: Session = Depends(get_db)) -> RedirectRe
         raise NotFoundError("Cell not found")
     cell.status = CellStatus.ACTIVE if cell.status == CellStatus.BLOCKED else CellStatus.BLOCKED
     db.commit()
-    return RedirectResponse(url="/admin/cells#cells", status_code=303)
+    return RedirectResponse(url="/admin/cells", status_code=303)
 
 
 @router.post("/stock", response_class=HTMLResponse)
