@@ -137,3 +137,28 @@ th {
   color: #b42318;
   font-weight: 700;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgb(27 31 35 / 55%);
+}
+
+.modal:target {
+  display: flex;
+}
+
+.modal-box {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  padding: 20px;
+  border: 1px solid #d8dee4;
+  border-radius: 6px;
+  background: #fff;
+}

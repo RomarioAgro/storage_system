@@ -142,12 +142,20 @@ def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
     assert product_response.status_code == 200
     assert "Special Battery" in product_response.text
     assert "Cable" not in product_response.text
+    assert "<th>Редактирование</th>" not in product_response.text
+    assert 'href="#edit-product-' in product_response.text
+    assert "Редактировать товар" in product_response.text
+    assert "/toggle-active" in product_response.text
     assert '<option value="10" selected>10</option>' in product_response.text
 
     category_response = client.get("/admin/products?view=categories&category_name=Каб&category_page_size=20")
 
     assert category_response.status_code == 200
     assert "Кабели" in category_response.text
+    assert "<th>Редактирование</th>" not in category_response.text
+    assert 'href="#edit-category-' in category_response.text
+    assert "Редактировать группу" in category_response.text
+    assert "Отменить" in category_response.text
     assert '<option value="20" selected>20</option>' in category_response.text
 
 
@@ -367,6 +375,12 @@ def test_admin_can_update_product_fields_and_category(client, db, sample_data):
     assert product.external_id == "EXT-UPDATED"
     assert product.category_id == category.id
     assert product.is_active is True
+
+    response = client.post(f"/admin/products/{product.id}/toggle-active", follow_redirects=False)
+    assert response.status_code == 303
+    assert response.headers["location"] == "/admin/products?view=products"
+    db.refresh(product)
+    assert product.is_active is False
 
 
 def test_admin_can_update_and_block_cell(client, db, sample_data):
