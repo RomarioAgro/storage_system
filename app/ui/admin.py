@@ -1,4 +1,5 @@
 from decimal import Decimal
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -27,8 +28,105 @@ from app.ui.templates import templates
 
 router = APIRouter(prefix="/admin", tags=["admin-ui"], include_in_schema=False)
 
+ADMIN_PAGE_SIZE_OPTIONS = (10, 20, 50)
+PRODUCT_SORTS = {"id", "name", "category", "sku", "barcode", "unit", "is_active"}
+CATEGORY_SORTS = {"id", "name", "parent", "sort_order", "is_active"}
 
-def _product_admin_context(db: Session) -> dict[str, object]:
+
+def _contains(value: object, needle: str) -> bool:
+    """Return True when a stringified value contains the requested text."""
+    return needle.lower() in str(value or "").lower()
+
+
+def _admin_pagination(rows: list[object], page: int, page_size: int) -> tuple[list[object], dict[str, object]]:
+    """Return a bounded page slice and pagination metadata."""
+    size = page_size if page_size in ADMIN_PAGE_SIZE_OPTIONS else ADMIN_PAGE_SIZE_OPTIONS[0]
+    total = len(rows)
+    total_pages = max((total + size - 1) // size, 1)
+    normalized_page = min(max(page, 1), total_pages)
+    start = (normalized_page - 1) * size
+    return rows[start : start + size], {
+        "page": normalized_page,
+        "page_size": size,
+        "page_size_options": list(ADMIN_PAGE_SIZE_OPTIONS),
+        "total": total,
+        "total_pages": total_pages,
+    }
+
+
+def _admin_url(request: Request, **overrides: object) -> str:
+    """Build an admin products URL while preserving existing query parameters."""
+    params = dict(request.query_params)
+    for key, value in overrides.items():
+        if value is None or value == "":
+            params.pop(key, None)
+        else:
+            params[key] = str(value)
+    return "/admin/products?" + urlencode(params)
+
+
+def _product_list_context(request: Request, db: Session) -> dict[str, object]:
+    """Build filtered, sorted, paginated product list context."""
+    products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
+    page = int(request.query_params.get("page") or 1)
+    page_size = int(request.query_params.get("page_size") or ADMIN_PAGE_SIZE_OPTIONS[0])
+    sort = str(request.query_params.get("sort") or "name")
+    direction = str(request.query_params.get("direction") or "asc")
+    if sort not in PRODUCT_SORTS:
+        sort = "name"
+    if direction not in {"asc", "desc"}:
+        direction = "asc"
+
+    filters = {
+        "id": str(request.query_params.get("id") or "").strip(),
+        "name": str(request.query_params.get("name") or "").strip(),
+        "category": str(request.query_params.get("category") or "").strip(),
+        "sku": str(request.query_params.get("sku") or "").strip(),
+        "barcode": str(request.query_params.get("barcode") or "").strip(),
+        "unit": str(request.query_params.get("unit") or "").strip(),
+        "is_active": str(request.query_params.get("is_active") or "").strip(),
+    }
+    rows = [
+        product
+        for product in products
+        if (not filters["id"] or filters["id"] == str(product.id))
+        and (not filters["name"] or _contains(product.name, filters["name"]))
+        and (not filters["category"] or _contains(product.category.name if product.category else "", filters["category"]))
+        and (not filters["sku"] or _contains(product.sku, filters["sku"]))
+        and (not filters["barcode"] or _contains(product.barcode, filters["barcode"]))
+        and (not filters["unit"] or _contains(product.unit, filters["unit"]))
+        and (not filters["is_active"] or str(product.is_active).lower() == filters["is_active"].lower())
+    ]
+    sort_key = {
+        "id": lambda product: product.id,
+        "name": lambda product: product.name.lower(),
+        "category": lambda product: (product.category.name if product.category else "").lower(),
+        "sku": lambda product: (product.sku or "").lower(),
+        "barcode": lambda product: (product.barcode or "").lower(),
+        "unit": lambda product: product.unit.lower(),
+        "is_active": lambda product: product.is_active,
+    }[sort]
+    rows.sort(key=sort_key, reverse=direction == "desc")
+    page_rows, pagination = _admin_pagination(rows, page, page_size)
+    return {
+        "products": page_rows,
+        "product_filters": filters,
+        "product_pagination": pagination,
+        "product_sort_urls": {
+            name: _admin_url(
+                request,
+                sort=name,
+                direction="desc" if name == sort and direction == "asc" else "asc",
+                page=1,
+            )
+            for name in PRODUCT_SORTS
+        },
+        "product_prev_url": _admin_url(request, page=pagination["page"] - 1),
+        "product_next_url": _admin_url(request, page=pagination["page"] + 1),
+    }
+
+
+def _product_admin_context(request: Request, db: Session) -> dict[str, object]:
     categories = db.scalars(
         select(ProductCategory).order_by(
             ProductCategory.parent_id.asc().nullsfirst(),
@@ -36,8 +134,68 @@ def _product_admin_context(db: Session) -> dict[str, object]:
             ProductCategory.name.asc(),
         )
     ).all()
-    products = db.scalars(select(Product).options(joinedload(Product.category)).order_by(Product.name.asc())).all()
-    return {"products": products, "categories": categories}
+    view = str(request.query_params.get("view") or "create_product")
+
+    category_sort = str(request.query_params.get("category_sort") or "name")
+    category_direction = str(request.query_params.get("category_direction") or "asc")
+    if category_sort not in CATEGORY_SORTS:
+        category_sort = "name"
+    if category_direction not in {"asc", "desc"}:
+        category_direction = "asc"
+    category_page = int(request.query_params.get("category_page") or 1)
+    category_page_size = int(request.query_params.get("category_page_size") or ADMIN_PAGE_SIZE_OPTIONS[0])
+    category_filters = {
+        "category_id": str(request.query_params.get("category_id_filter") or "").strip(),
+        "category_name": str(request.query_params.get("category_name") or "").strip(),
+        "parent": str(request.query_params.get("parent") or "").strip(),
+        "sort_order": str(request.query_params.get("sort_order") or "").strip(),
+        "category_is_active": str(request.query_params.get("category_is_active") or "").strip(),
+    }
+    filtered_categories = [
+        category
+        for category in categories
+        if (not category_filters["category_id"] or category_filters["category_id"] == str(category.id))
+        and (not category_filters["category_name"] or _contains(category.name, category_filters["category_name"]))
+        and (not category_filters["parent"] or _contains(category.parent.name if category.parent else "", category_filters["parent"]))
+        and (not category_filters["sort_order"] or category_filters["sort_order"] == str(category.sort_order))
+        and (
+            not category_filters["category_is_active"]
+            or str(category.is_active).lower() == category_filters["category_is_active"].lower()
+        )
+    ]
+    category_key = {
+        "id": lambda category: category.id,
+        "name": lambda category: category.name.lower(),
+        "parent": lambda category: (category.parent.name if category.parent else "").lower(),
+        "sort_order": lambda category: category.sort_order,
+        "is_active": lambda category: category.is_active,
+    }[category_sort]
+    filtered_categories.sort(key=category_key, reverse=category_direction == "desc")
+    category_rows, category_pagination = _admin_pagination(filtered_categories, category_page, category_page_size)
+
+    context = {
+        "view": view,
+        "categories": categories,
+        "category_rows": category_rows,
+        "category_filters": category_filters,
+        "category_pagination": category_pagination,
+        "category_sort": category_sort,
+        "category_direction": category_direction,
+        "category_sort_urls": {
+            name: _admin_url(
+                request,
+                category_sort=name,
+                category_direction="desc" if name == category_sort and category_direction == "asc" else "asc",
+                category_page=1,
+            )
+            for name in CATEGORY_SORTS
+        },
+        "category_prev_url": _admin_url(request, category_page=category_pagination["page"] - 1),
+        "category_next_url": _admin_url(request, category_page=category_pagination["page"] + 1),
+    }
+    if view == "products":
+        context.update(_product_list_context(request, db))
+    return context
 
 
 def _user_admin_context(db: Session) -> dict[str, object]:
@@ -129,7 +287,7 @@ def admin_products(request: Request, db: Session = Depends(get_db)) -> HTMLRespo
     return templates.TemplateResponse(
         request,
         "admin/products.html",
-        _product_admin_context(db),
+        _product_admin_context(request, db),
     )
 
 
@@ -236,7 +394,7 @@ async def create_product(request: Request, db: Session = Depends(get_db)) -> Red
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin/products#products", status_code=303)
+    return RedirectResponse(url="/admin/products?view=products", status_code=303)
 
 
 @router.post("/products/{product_id}", response_class=HTMLResponse)
@@ -254,7 +412,7 @@ async def update_product(request: Request, product_id: int, db: Session = Depend
     product.category_id = int(form["category_id"]) if form.get("category_id") else None
     product.is_active = str(form.get("is_active", "off")) == "on"
     db.commit()
-    return RedirectResponse(url="/admin/products#products", status_code=303)
+    return RedirectResponse(url="/admin/products?view=products", status_code=303)
 
 
 @router.post("/categories", response_class=HTMLResponse)
@@ -270,7 +428,7 @@ async def create_category(request: Request, db: Session = Depends(get_db)) -> Re
         )
     )
     db.commit()
-    return RedirectResponse(url="/admin/products#categories", status_code=303)
+    return RedirectResponse(url="/admin/products?view=categories", status_code=303)
 
 
 @router.post("/categories/{category_id}", response_class=HTMLResponse)
@@ -289,7 +447,7 @@ async def update_category(
     category.sort_order = int(form.get("sort_order") or 0)
     category.is_active = str(form.get("is_active", "off")) == "on"
     db.commit()
-    return RedirectResponse(url="/admin/products#categories", status_code=303)
+    return RedirectResponse(url="/admin/products?view=categories", status_code=303)
 
 
 @router.post("/categories/{category_id}/toggle-active", response_class=HTMLResponse)
@@ -300,7 +458,7 @@ def toggle_category_active(category_id: int, db: Session = Depends(get_db)) -> R
         raise NotFoundError("Product category not found")
     category.is_active = not category.is_active
     db.commit()
-    return RedirectResponse(url="/admin/products#categories", status_code=303)
+    return RedirectResponse(url="/admin/products?view=categories", status_code=303)
 
 
 @router.post("/cells", response_class=HTMLResponse)

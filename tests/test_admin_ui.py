@@ -125,7 +125,44 @@ def test_admin_products_page_renders_product_and_category_forms(client, sample_d
     assert response.status_code == 200
     assert "Создать товар" in response.text
     assert "Создать группу" in response.text
-    assert "Special Battery" in response.text
+    assert ">Товары<" in response.text
+    assert ">Группы<" in response.text
+    assert "Special Battery" not in response.text
+
+
+def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
+    data = sample_data()
+    category = ProductCategory(name="Кабели", sort_order=10)
+    db.add(category)
+    data["product"].category_id = category.id
+    db.commit()
+
+    product_response = client.get("/admin/products?view=products&sku=BAT-1&page_size=10&sort=sku&direction=desc")
+
+    assert product_response.status_code == 200
+    assert "Special Battery" in product_response.text
+    assert "Cable" not in product_response.text
+    assert '<option value="10" selected>10</option>' in product_response.text
+
+    category_response = client.get("/admin/products?view=categories&category_name=Каб&category_page_size=20")
+
+    assert category_response.status_code == 200
+    assert "Кабели" in category_response.text
+    assert '<option value="20" selected>20</option>' in category_response.text
+
+
+def test_admin_product_page_opens_create_forms_by_button_view(client, sample_data):
+    sample_data()
+
+    product_response = client.get("/admin/products?view=create_product")
+    category_response = client.get("/admin/products?view=create_category")
+
+    assert product_response.status_code == 200
+    assert 'action="/admin/products"' in product_response.text
+    assert "External ID" in product_response.text
+    assert category_response.status_code == 200
+    assert 'action="/admin/categories"' in category_response.text
+    assert "Порядок" in category_response.text
 
 
 def test_admin_cells_page_renders_cell_forms(client, sample_data):
@@ -289,7 +326,7 @@ def test_admin_can_create_and_disable_product_category(client, db, sample_data):
     )
 
     assert created.status_code == 303
-    assert created.headers["location"] == "/admin/products#categories"
+    assert created.headers["location"] == "/admin/products?view=categories"
     category = db.query(ProductCategory).filter_by(name="Картриджи").one()
     assert category.is_active is True
 
@@ -321,7 +358,7 @@ def test_admin_can_update_product_fields_and_category(client, db, sample_data):
     )
 
     assert response.status_code == 303
-    assert response.headers["location"] == "/admin/products#products"
+    assert response.headers["location"] == "/admin/products?view=products"
     db.refresh(product)
     assert product.name == "Updated cable"
     assert product.sku == "SKU-UPDATED"
