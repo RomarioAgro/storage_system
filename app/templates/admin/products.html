@@ -17,8 +17,26 @@
     <button type="submit">Создать товар</button>
   </form>
   <table>
-    <thead><tr><th>ID</th><th>Название</th><th>Группа</th><th>SKU</th><th>Barcode</th><th>Активен</th></tr></thead>
-    <tbody>{% for product in products %}<tr><td>{{ product.id }}</td><td>{{ product.name }}</td><td>{{ product.category.name if product.category else "" }}</td><td>{{ product.sku or "" }}</td><td>{{ product.barcode or "" }}</td><td>{{ product.is_active }}</td></tr>{% endfor %}</tbody>
+    <thead><tr><th>ID</th><th>Редактирование</th></tr></thead>
+    <tbody>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.id }}</td>
+        <td>
+          <form method="post" action="/admin/products/{{ product.id }}" class="grid">
+            <label><span>Название</span><input name="name" value="{{ product.name }}" required></label>
+            <label><span>SKU</span><input name="sku" value="{{ product.sku or '' }}"></label>
+            <label><span>Barcode</span><input name="barcode" value="{{ product.barcode or '' }}"></label>
+            <label><span>Ед.</span><input name="unit" value="{{ product.unit }}"></label>
+            <label><span>Группа</span><select name="category_id"><option value="">Без группы</option>{% for category in categories %}<option value="{{ category.id }}" {% if category.id == product.category_id %}selected{% endif %}>{% if category.parent %}{{ category.parent.name }} / {% endif %}{{ category.name }}</option>{% endfor %}</select></label>
+            <label><span>External ID</span><input name="external_id" value="{{ product.external_id or '' }}"></label>
+            <label><span>Активен</span><input type="checkbox" name="is_active" {% if product.is_active %}checked{% endif %}></label>
+            <button type="submit">Сохранить</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </section>
 

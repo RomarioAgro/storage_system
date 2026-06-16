@@ -239,6 +239,24 @@ async def create_product(request: Request, db: Session = Depends(get_db)) -> Red
     return RedirectResponse(url="/admin/products#products", status_code=303)
 
 
+@router.post("/products/{product_id}", response_class=HTMLResponse)
+async def update_product(request: Request, product_id: int, db: Session = Depends(get_db)) -> RedirectResponse:
+    """Update a product from the admin MVP form."""
+    product = db.get(Product, product_id)
+    if product is None:
+        raise NotFoundError("Product not found")
+    form = await request.form()
+    product.name = str(form["name"]).strip()
+    product.sku = str(form.get("sku") or "").strip() or None
+    product.barcode = str(form.get("barcode") or "").strip() or None
+    product.unit = str(form.get("unit") or "pcs").strip()
+    product.external_id = str(form.get("external_id") or "").strip() or None
+    product.category_id = int(form["category_id"]) if form.get("category_id") else None
+    product.is_active = str(form.get("is_active", "off")) == "on"
+    db.commit()
+    return RedirectResponse(url="/admin/products#products", status_code=303)
+
+
 @router.post("/categories", response_class=HTMLResponse)
 async def create_category(request: Request, db: Session = Depends(get_db)) -> RedirectResponse:
     """Create a product category from the admin MVP form."""

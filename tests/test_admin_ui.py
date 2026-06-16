@@ -299,6 +299,39 @@ def test_admin_can_create_and_disable_product_category(client, db, sample_data):
     assert category.is_active is False
 
 
+def test_admin_can_update_product_fields_and_category(client, db, sample_data):
+    data = sample_data()
+    product = data["product"]
+    category = ProductCategory(name="Кабели", sort_order=10)
+    db.add(category)
+    db.commit()
+
+    response = client.post(
+        f"/admin/products/{product.id}",
+        data={
+            "name": "Updated cable",
+            "sku": "SKU-UPDATED",
+            "barcode": "BAR-UPDATED",
+            "unit": "box",
+            "external_id": "EXT-UPDATED",
+            "category_id": str(category.id),
+            "is_active": "on",
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/admin/products#products"
+    db.refresh(product)
+    assert product.name == "Updated cable"
+    assert product.sku == "SKU-UPDATED"
+    assert product.barcode == "BAR-UPDATED"
+    assert product.unit == "box"
+    assert product.external_id == "EXT-UPDATED"
+    assert product.category_id == category.id
+    assert product.is_active is True
+
+
 def test_admin_can_update_and_block_cell(client, db, sample_data):
     data = sample_data()
     cell = data["cell1"]
