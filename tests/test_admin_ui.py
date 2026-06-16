@@ -80,7 +80,23 @@ def test_admin_logs_page_renders_operational_sections(client, sample_data):
     assert "История движений" in response.text
     assert "Журнал доступа" in response.text
     assert "Сессии открытия" in response.text
+    assert 'href="/admin/logs?view=movements"' in response.text
+    assert 'href="/admin/logs?view=access"' in response.text
+    assert 'href="/admin/logs?view=sessions"' in response.text
+    assert "<h2>История движений</h2>" in response.text
+    assert "<h2>Журнал доступа</h2>" not in response.text
+    assert "<h2>Сессии открытия</h2>" not in response.text
     assert "Europe/Moscow" in response.text
+
+    access_response = client.get("/admin/logs?view=access")
+    sessions_response = client.get("/admin/logs?view=sessions")
+
+    assert access_response.status_code == 200
+    assert "<h2>Журнал доступа</h2>" in access_response.text
+    assert "<h2>История движений</h2>" not in access_response.text
+    assert sessions_response.status_code == 200
+    assert "<h2>Сессии открытия</h2>" in sessions_response.text
+    assert "<h2>Журнал доступа</h2>" not in sessions_response.text
 
 
 def test_admin_stock_page_renders_stock_form_and_rows(client, sample_data):
@@ -224,7 +240,7 @@ def test_admin_access_log_displays_local_time(client, db, sample_data):
     )
     db.commit()
 
-    response = client.get("/admin/logs")
+    response = client.get("/admin/logs?view=access")
 
     assert response.status_code == 200
     assert "Europe/Moscow" in response.text
@@ -258,11 +274,16 @@ def test_admin_movements_and_sessions_display_local_time(client, db, sample_data
     )
     db.commit()
 
-    response = client.get("/admin/logs")
+    response = client.get("/admin/logs?view=movements")
 
     assert response.status_code == 200
-    assert response.text.count("2026-06-10 13:00:00 +03:00") >= 2
+    assert "2026-06-10 13:00:00 +03:00" in response.text
     assert "Cable" in response.text
+
+    sessions_response = client.get("/admin/logs?view=sessions")
+
+    assert sessions_response.status_code == 200
+    assert "2026-06-10 13:00:00 +03:00" in sessions_response.text
 
 
 def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
@@ -283,7 +304,7 @@ def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
     )
 
     assert response.status_code == 303
-    assert response.headers["location"] == "/admin/logs#sessions"
+    assert response.headers["location"] == "/admin/logs?view=sessions"
 
 
 def test_admin_can_create_stock_item_from_stock_page(client, db, sample_data):

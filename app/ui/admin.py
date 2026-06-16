@@ -251,7 +251,10 @@ def _stock_admin_context(db: Session) -> dict[str, object]:
     }
 
 
-def _logs_admin_context(db: Session) -> dict[str, object]:
+def _logs_admin_context(request: Request, db: Session) -> dict[str, object]:
+    view = str(request.query_params.get("view") or "movements")
+    if view not in {"movements", "access", "sessions"}:
+        view = "movements"
     movements = db.scalars(
         select(StockMovement)
         .options(joinedload(StockMovement.product))
@@ -266,6 +269,7 @@ def _logs_admin_context(db: Session) -> dict[str, object]:
     ).all()
     sessions = db.scalars(select(CellSession).order_by(CellSession.created_at.desc()).limit(50)).all()
     return {
+        "view": view,
         "movements": movements,
         "events": events,
         "sessions": sessions,
@@ -344,7 +348,7 @@ def admin_logs(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     return templates.TemplateResponse(
         request,
         "admin/logs.html",
-        _logs_admin_context(db),
+        _logs_admin_context(request, db),
     )
 
 
@@ -560,4 +564,4 @@ async def emergency_cancel(request: Request, session_id: int, db: Session = Depe
     form = await request.form()
     reason = str(form.get("reason") or "Emergency admin cancellation")
     SessionService.cancel(db, session_id=session_id, reason=reason)
-    return RedirectResponse(url="/admin/logs#sessions", status_code=303)
+    return RedirectResponse(url="/admin/logs?view=sessions", status_code=303)

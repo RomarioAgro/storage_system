@@ -3,9 +3,15 @@
 <section class="panel">
   <h1>Журналы и сессии</h1>
   <p class="muted">Время показано в локальном часовом поясе: {{ local_timezone }}</p>
-  <a class="button" href="/admin">Вернуться в админ-панель</a>
+  <div class="actions">
+    <a class="button secondary" href="/admin">Вернуться в админ-панель</a>
+    <a class="button" href="/admin/logs?view=movements">История движений</a>
+    <a class="button" href="/admin/logs?view=access">Журнал доступа</a>
+    <a class="button" href="/admin/logs?view=sessions">Сессии открытия</a>
+  </div>
 </section>
 
+{% if view == "movements" %}
 <section class="panel" id="movements">
   <h2>История движений</h2>
   <table>
@@ -13,6 +19,7 @@
     <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at | local_datetime }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.product.name if movement.product else movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
   </table>
 </section>
+{% elif view == "access" %}
 
 <section class="panel" id="events">
   <h2>Журнал доступа</h2>
@@ -21,6 +28,7 @@
     <tbody>{% for event in events %}<tr><td>{{ event.created_at | local_datetime }}</td><td>{{ event.event_type }}</td><td>{{ event.result }}</td><td>{{ event.user.short_name if event.user else "" }}</td><td>{{ event.client_ip or "" }}</td><td>{{ event.cell_id or "" }}</td><td>{{ event.details or "" }}</td></tr>{% endfor %}</tbody>
   </table>
 </section>
+{% elif view == "sessions" %}
 
 <section class="panel" id="sessions">
   <h2>Сессии открытия</h2>
@@ -48,4 +56,5 @@
     </tbody>
   </table>
 </section>
+{% endif %}
 {% endblock %}
