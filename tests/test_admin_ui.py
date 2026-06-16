@@ -307,6 +307,25 @@ def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
     assert response.headers["location"] == "/admin/logs?view=sessions"
 
 
+def test_admin_logs_page_shows_active_session_controls(client, db, sample_data):
+    data = sample_data()
+    session = CellSession(
+        user_id=data["users"]["service"].id,
+        cell_id=data["cell1"].id,
+        operation_type=SessionOperationType.OPEN_ONLY,
+        status=SessionStatus.OPENED,
+    )
+    db.add(session)
+    db.commit()
+
+    response = client.get("/admin/logs")
+
+    assert response.status_code == 200
+    assert 'id="active-session"' in response.text
+    assert f'action="/admin/sessions/{session.id}/emergency-cancel"' in response.text
+    assert "open_only" in response.text
+
+
 def test_admin_can_create_stock_item_from_stock_page(client, db, sample_data):
     data = sample_data()
 

@@ -3,11 +3,13 @@ from decimal import Decimal
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from sqlalchemy import func, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, joinedload, selectinload
 
 from app.api.deps import get_lock_controller
 from app.core.client_ip import client_ip_from_request
 from app.core.database import get_db
+from app.core.enums import CellStatus
 from app.hardware.lock_controller import LockController
 from app.models.cell import Cell
 from app.models.product import Product
@@ -135,6 +137,44 @@ def _can_manage_products(user: User) -> bool:
     except AppError:
         return False
     return True
+
+
+def _can_perform(user: User, action: str) -> bool:
+    try:
+        PermissionService.require(user, action)
+    except AppError:
+        return False
+    return True
+
+
+def _terminal_user_context(user: User) -> dict[str, object]:
+    return {
+        "user": user,
+        "can_manage_products": _can_perform(user, "manage_products"),
+        "can_fill": _can_perform(user, "fill"),
+        "can_take": _can_perform(user, "take"),
+        "can_inventory": _can_perform(user, "inventory"),
+        "can_open_only": _can_perform(user, "open_only"),
+    }
+
+
+def _active_cells(db: Session) -> list[Cell]:
+    return list(
+        db.scalars(
+            select(Cell)
+            .where(Cell.status == CellStatus.ACTIVE)
+            .order_by(Cell.number.asc())
+        ).all()
+    )
+
+
+def _terminal_error(request: Request, message: str, status_code: int = 400) -> HTMLResponse:
+    return templates.TemplateResponse(
+        request,
+        "terminal/error.html",
+        {"error": message},
+        status_code=status_code,
+    )
 
 
 def _pagination(page: int, page_size: int, total: int) -> dict[str, int | list[int]]:
@@ -285,7 +325,7 @@ async def terminal_rfid(request: Request, db: Session = Depends(get_db)) -> HTML
     return templates.TemplateResponse(
         request,
         "terminal/menu.html",
-        {"user": user, "can_manage_products": _can_manage_products(user)},
+        _terminal_user_context(user),
     )
 
 
@@ -301,17 +341,23 @@ def terminal_menu(request: Request, db: Session = Depends(get_db)) -> Response:
     return templates.TemplateResponse(
         request,
         "terminal/menu.html",
-        {"user": user, "can_manage_products": _can_manage_products(user)},
+        _terminal_user_context(user),
     )
 
 
 @router.get("/products/new", response_class=HTMLResponse)
 def new_product_form(request: Request, db: Session = Depends(get_db)) -> Response:
     """Show product creation form for managers and admins."""
+    blocker = _render_blocker(request, db)
+    if blocker:
+        return blocker
     user = _require_user(request, db)
     if isinstance(user, RedirectResponse):
         return user
-    PermissionService.require(user, "manage_products")
+    try:
+        PermissionService.require(user, "manage_products")
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
     categories = db.scalars(
         select(ProductCategory)
         .where(ProductCategory.is_active.is_(True))
@@ -331,8 +377,14 @@ def new_product_form(request: Request, db: Session = Depends(get_db)) -> Respons
 @router.post("/products", response_class=HTMLResponse)
 async def create_product(request: Request, db: Session = Depends(get_db)) -> Response:
     """Create a product from terminal UI when the role allows it."""
-    user = _current_user(request, db)
-    PermissionService.require(user, "manage_products")
+    blocker = _render_blocker(request, db)
+    if blocker:
+        return blocker
+    try:
+        user = _current_user(request, db)
+        PermissionService.require(user, "manage_products")
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
     form = await request.form()
     category_id = int(form["category_id"]) if form.get("category_id") else None
     if category_id is not None and db.get(ProductCategory, category_id) is None:
@@ -348,7 +400,29 @@ async def create_product(request: Request, db: Session = Depends(get_db)) -> Res
         category_id=category_id,
     )
     db.add(product)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        categories = db.scalars(
+            select(ProductCategory)
+            .where(ProductCategory.is_active.is_(True))
+            .order_by(
+                ProductCategory.parent_id.asc().nullsfirst(),
+                ProductCategory.sort_order.asc(),
+                ProductCategory.name.asc(),
+            )
+        ).all()
+        return templates.TemplateResponse(
+            request,
+            "terminal/new_product.html",
+            {
+                "user": user,
+                "categories": categories,
+                "error": "Product with the same SKU, barcode, or external ID already exists",
+            },
+            status_code=409,
+        )
     db.refresh(product)
     return RedirectResponse(url=f"/terminal/products/{product.id}", status_code=303)
 
@@ -360,6 +434,9 @@ def search_products(
     db: Session = Depends(get_db),
 ) -> Response:
     """Search products from terminal UI."""
+    blocker = _render_blocker(request, db)
+    if blocker:
+        return blocker
     user = _require_user(request, db)
     if isinstance(user, RedirectResponse):
         return user
@@ -388,12 +465,16 @@ def product_card(
     db: Session = Depends(get_db),
 ) -> Response:
     """Show product card with stock and operation forms."""
+    blocker = _render_blocker(request, db)
+    if blocker:
+        return blocker
     user = _require_user(request, db)
     if isinstance(user, RedirectResponse):
         return user
     product = db.get(Product, product_id)
-    cells = db.scalars(select(Cell).order_by(Cell.number.asc())).all()
+    cells = _active_cells(db)
     total, stock_rows = _product_stock(db, product_id)
+    active_stock_rows = [row for row in stock_rows if row.cell and row.cell.status == CellStatus.ACTIVE]
     return templates.TemplateResponse(
         request,
         "terminal/product.html",
@@ -402,7 +483,11 @@ def product_card(
             "product": product,
             "cells": cells,
             "stock_rows": stock_rows,
+            "active_stock_rows": active_stock_rows,
             "total": total,
+            "can_fill": _can_perform(user, "fill"),
+            "can_take": _can_perform(user, "take"),
+            "can_inventory": _can_perform(user, "inventory"),
         },
     )
 
@@ -419,16 +504,19 @@ async def start_fill(
         return blocker
     form = await request.form()
     user = _current_user(request, db)
-    session = OperationService.start_fill(
-        db=db,
-        lock_controller=lock_controller,
-        user_id=user.id,
-        product_id=int(form["product_id"]),
-        cell_id=int(form["cell_id"]),
-        quantity=Decimal(str(form["quantity"])),
-        comment=str(form.get("comment") or ""),
-        client_ip=_access_client_ip(request),
-    )
+    try:
+        session = OperationService.start_fill(
+            db=db,
+            lock_controller=lock_controller,
+            user_id=user.id,
+            product_id=int(form["product_id"]),
+            cell_id=int(form["cell_id"]),
+            quantity=Decimal(str(form["quantity"])),
+            comment=str(form.get("comment") or ""),
+            client_ip=_access_client_ip(request),
+        )
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
     return templates.TemplateResponse(
         request,
         "terminal/opened.html",
@@ -448,16 +536,19 @@ async def start_take(
         return blocker
     form = await request.form()
     user = _current_user(request, db)
-    session = OperationService.start_take(
-        db=db,
-        lock_controller=lock_controller,
-        user_id=user.id,
-        product_id=int(form["product_id"]),
-        cell_id=int(form["cell_id"]),
-        quantity=Decimal(str(form["quantity"])),
-        comment=str(form.get("comment") or ""),
-        client_ip=_access_client_ip(request),
-    )
+    try:
+        session = OperationService.start_take(
+            db=db,
+            lock_controller=lock_controller,
+            user_id=user.id,
+            product_id=int(form["product_id"]),
+            cell_id=int(form["cell_id"]),
+            quantity=Decimal(str(form["quantity"])),
+            comment=str(form.get("comment") or ""),
+            client_ip=_access_client_ip(request),
+        )
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
     return templates.TemplateResponse(
         request,
         "terminal/opened.html",
@@ -477,16 +568,19 @@ async def start_inventory(
         return blocker
     form = await request.form()
     user = _current_user(request, db)
-    session = OperationService.start_inventory(
-        db=db,
-        lock_controller=lock_controller,
-        user_id=user.id,
-        product_id=int(form["product_id"]),
-        cell_id=int(form["cell_id"]),
-        actual_quantity=Decimal(str(form["actual_quantity"])),
-        comment=str(form.get("comment") or ""),
-        client_ip=_access_client_ip(request),
-    )
+    try:
+        session = OperationService.start_inventory(
+            db=db,
+            lock_controller=lock_controller,
+            user_id=user.id,
+            product_id=int(form["product_id"]),
+            cell_id=int(form["cell_id"]),
+            actual_quantity=Decimal(str(form["actual_quantity"])),
+            comment=str(form.get("comment") or ""),
+            client_ip=_access_client_ip(request),
+        )
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
     return templates.TemplateResponse(
         request,
         "terminal/opened.html",
@@ -501,6 +595,9 @@ def cell_contents_form(
     db: Session = Depends(get_db),
 ) -> Response:
     """Show cell contents lookup screen."""
+    blocker = _render_blocker(request, db)
+    if blocker:
+        return blocker
     user = _require_user(request, db)
     if isinstance(user, RedirectResponse):
         return user
@@ -576,7 +673,11 @@ def open_only_form(request: Request, db: Session = Depends(get_db)) -> Response:
     user = _require_user(request, db)
     if isinstance(user, RedirectResponse):
         return user
-    cells = db.scalars(select(Cell).order_by(Cell.number.asc())).all()
+    try:
+        PermissionService.require(user, "open_only")
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
+    cells = _active_cells(db)
     return templates.TemplateResponse(
         request,
         "terminal/open_only.html",
@@ -596,14 +697,17 @@ async def start_open_only(
         return blocker
     form = await request.form()
     user = _current_user(request, db)
-    session = OperationService.start_open_only(
-        db=db,
-        lock_controller=lock_controller,
-        user_id=user.id,
-        cell_id=int(form["cell_id"]),
-        comment=str(form.get("comment") or ""),
-        client_ip=_access_client_ip(request),
-    )
+    try:
+        session = OperationService.start_open_only(
+            db=db,
+            lock_controller=lock_controller,
+            user_id=user.id,
+            cell_id=int(form["cell_id"]),
+            comment=str(form.get("comment") or ""),
+            client_ip=_access_client_ip(request),
+        )
+    except AppError as exc:
+        return _terminal_error(request, str(exc), exc.status_code)
     return templates.TemplateResponse(
         request,
         "terminal/opened.html",

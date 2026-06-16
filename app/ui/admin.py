@@ -273,6 +273,7 @@ def _logs_admin_context(request: Request, db: Session) -> dict[str, object]:
         "movements": movements,
         "events": events,
         "sessions": sessions,
+        "active_session": SessionService.get_active_session(db),
         "local_timezone": settings.local_timezone,
     }
 

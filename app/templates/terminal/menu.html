@@ -4,13 +4,21 @@
   <h1>Здравствуйте, {{ user.full_name }}</h1>
   <div class="grid">
     <a class="button" href="/terminal/search">Найти товар</a>
+    {% if can_fill %}
     <a class="button" href="/terminal/search">Положить товар</a>
+    {% endif %}
+    {% if can_take %}
     <a class="button" href="/terminal/search">Забрать товар</a>
+    {% endif %}
     <a class="button" href="/terminal/cell-contents">Что в ячейке?</a>
     <a class="button secondary" href="/terminal/stock/products">Все товары с остатками</a>
     <a class="button secondary" href="/terminal/stock/cells">Все ячейки с товарами</a>
+    {% if can_inventory %}
     <a class="button secondary" href="/terminal/search">Инвентаризация</a>
+    {% endif %}
+    {% if can_open_only %}
     <a class="button" href="/terminal/open-only">Открыть ячейку</a>
+    {% endif %}
     {% if can_manage_products %}
     <a class="button secondary" href="/terminal/products/new">Создать товар</a>
     {% endif %}

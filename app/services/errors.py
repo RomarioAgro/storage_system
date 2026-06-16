@@ -22,5 +22,9 @@ class InsufficientStockError(AppError):
     status_code = 409
 
 
+class InvalidQuantityError(AppError):
+    status_code = 400
+
+
 class CellProductConflictError(AppError):
     status_code = 409

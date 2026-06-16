@@ -2,6 +2,7 @@
 {% block content %}
 <section class="panel">
   <h1>Создать товар</h1>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
   <form method="post" action="/terminal/products">
     <label><span>Название</span><input name="name" required autofocus></label>
     <label><span>SKU</span><input name="sku"></label>

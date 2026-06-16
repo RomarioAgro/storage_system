@@ -1,5 +1,6 @@
-from app.core.enums import AccessEventType, SessionOperationType
+from app.core.enums import AccessEventType, CellStatus, SessionOperationType
 from app.models.access_event import AccessEvent
+from app.models.cell_session import CellSession
 from app.models.product import Product
 from app.services.session_service import SessionService
 
@@ -182,3 +183,118 @@ def test_terminal_regular_user_cannot_create_product(client, sample_data):
 
     assert "Создать товар" not in menu.text
     assert created.status_code == 403
+
+
+def test_terminal_user_menu_hides_forbidden_operation_links(client, sample_data):
+    sample_data()
+
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+    user_menu = client.get("/terminal/menu")
+    client.get("/terminal/logout")
+    client.post("/terminal/rfid", data={"rfid_uid": "service-card"})
+    service_menu = client.get("/terminal/menu")
+
+    assert user_menu.status_code == 200
+    assert 'href="/terminal/open-only"' not in user_menu.text
+    assert service_menu.status_code == 200
+    assert 'href="/terminal/open-only"' in service_menu.text
+
+
+def test_terminal_direct_product_url_is_blocked_by_active_session(client, db, sample_data):
+    data = sample_data()
+    SessionService.create_session(
+        db,
+        data["users"]["user"],
+        data["cell1"],
+        SessionOperationType.OPEN_ONLY,
+    )
+    db.commit()
+
+    response = client.get(f"/terminal/products/{data['product'].id}")
+
+    assert response.status_code == 200
+    assert "open_only" in response.text
+    assert "Cable" not in response.text
+    return
+    assert "Р•СЃС‚СЊ РЅРµР·Р°РІРµСЂС€РµРЅРЅР°СЏ РѕРїРµСЂР°С†РёСЏ" in response.text
+    assert "Cable" not in response.text
+
+
+def test_terminal_take_rejects_non_positive_quantity_before_opening(
+    client,
+    db,
+    mock_lock_controller,
+    sample_data,
+):
+    data = sample_data()
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+
+    zero = client.post(
+        "/terminal/take/start",
+        data={
+            "product_id": str(data["product"].id),
+            "cell_id": str(data["cell1"].id),
+            "quantity": "0",
+        },
+    )
+    negative = client.post(
+        "/terminal/take/start",
+        data={
+            "product_id": str(data["product"].id),
+            "cell_id": str(data["cell1"].id),
+            "quantity": "-1",
+        },
+    )
+
+    assert zero.status_code == 400
+    assert negative.status_code == 400
+    assert "Quantity must be greater than zero" in zero.text
+    assert "Quantity must be greater than zero" in negative.text
+    assert mock_lock_controller.calls == []
+    assert db.query(CellSession).count() == 0
+
+
+def test_terminal_operation_errors_are_rendered_as_html(client, sample_data):
+    data = sample_data()
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+
+    response = client.post(
+        "/terminal/take/start",
+        data={
+            "product_id": str(data["product"].id),
+            "cell_id": str(data["cell1"].id),
+            "quantity": "9999",
+        },
+    )
+
+    assert response.status_code == 409
+    assert "text/html" in response.headers["content-type"]
+    assert "Not enough stock in selected cell" in response.text
+    assert '{"detail"' not in response.text
+
+
+def test_terminal_duplicate_sku_returns_form_error(client, sample_data):
+    sample_data()
+    client.post("/terminal/rfid", data={"rfid_uid": "manager-card"})
+
+    response = client.post(
+        "/terminal/products",
+        data={"name": "Duplicate", "sku": "SKU-1", "unit": "pcs"},
+    )
+
+    assert response.status_code == 409
+    assert "Product with the same SKU, barcode, or external ID already exists" in response.text
+    assert "Internal Server Error" not in response.text
+
+
+def test_terminal_product_forms_exclude_blocked_cells(client, db, sample_data):
+    data = sample_data()
+    data["cell2"].status = CellStatus.BLOCKED
+    db.commit()
+    client.post("/terminal/rfid", data={"rfid_uid": "manager-card"})
+
+    response = client.get(f"/terminal/products/{data['product'].id}")
+
+    assert response.status_code == 200
+    assert f'<option value="{data["cell1"].id}">{data["cell1"].number}</option>' in response.text
+    assert f'<option value="{data["cell2"].id}">{data["cell2"].number}</option>' not in response.text

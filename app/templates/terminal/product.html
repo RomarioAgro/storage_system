@@ -16,6 +16,7 @@
   </table>
 </section>
 <section class="grid">
+  {% if can_fill %}
   <form class="panel" method="post" action="/terminal/fill/start">
     <h2>Положить товар</h2>
     <input type="hidden" name="product_id" value="{{ product.id }}">
@@ -23,13 +24,17 @@
     <label><span>Количество</span><input name="quantity" value="1.000"></label>
     <button type="submit">Открыть ячейку</button>
   </form>
+  {% endif %}
+  {% if can_take %}
   <form class="panel" method="post" action="/terminal/take/start">
     <h2>Забрать товар</h2>
     <input type="hidden" name="product_id" value="{{ product.id }}">
-    <label><span>Ячейка</span><select name="cell_id">{% for row in stock_rows %}<option value="{{ row.cell_id }}">{{ row.cell.number }}</option>{% endfor %}</select></label>
+    <label><span>Ячейка</span><select name="cell_id">{% for row in active_stock_rows %}<option value="{{ row.cell_id }}">{{ row.cell.number }}</option>{% endfor %}</select></label>
     <label><span>Количество</span><input name="quantity" value="1.000"></label>
     <button type="submit">Открыть ячейку</button>
   </form>
+  {% endif %}
+  {% if can_inventory %}
   <form class="panel" method="post" action="/terminal/inventory/start">
     <h2>Инвентаризация</h2>
     <input type="hidden" name="product_id" value="{{ product.id }}">
@@ -37,6 +42,7 @@
     <label><span>Фактическое количество</span><input name="actual_quantity" value="{{ total }}"></label>
     <button type="submit">Открыть для пересчета</button>
   </form>
+  {% endif %}
 </section>
 <p><a href="/terminal/search">Назад к поиску</a></p>
 {% endblock %}

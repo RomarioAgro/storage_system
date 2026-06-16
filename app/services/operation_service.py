@@ -18,13 +18,28 @@ from app.models.cell_session import CellSession
 from app.models.product import Product
 from app.models.user import User
 from app.services.access_log_service import AccessLogService
-from app.services.errors import InsufficientStockError, InvalidSessionStateError, NotFoundError
+from app.services.errors import (
+    InsufficientStockError,
+    InvalidQuantityError,
+    InvalidSessionStateError,
+    NotFoundError,
+)
 from app.services.permission_service import PermissionService
 from app.services.session_service import SessionService
 from app.services.stock_service import StockService
 
 
 class OperationService:
+    @staticmethod
+    def _require_positive_quantity(quantity: Decimal) -> None:
+        if quantity <= 0:
+            raise InvalidQuantityError("Quantity must be greater than zero")
+
+    @staticmethod
+    def _require_non_negative_quantity(quantity: Decimal) -> None:
+        if quantity < 0:
+            raise InvalidQuantityError("Quantity must not be negative")
+
     @staticmethod
     def _get_user(db: Session, user_id: int) -> User:
         user = db.scalars(select(User).options(joinedload(User.role)).where(User.id == user_id)).first()
@@ -104,12 +119,12 @@ class OperationService:
         comment: str | None = None,
         client_ip: str | None = None,
     ) -> CellSession:
+        cls._require_positive_quantity(quantity)
         user = cls._get_user(db, user_id)
         PermissionService.require(user, "fill")
         product = cls._get_product(db, product_id)
         cell = cls._get_cell(db, cell_id)
-        if quantity > 0:
-            StockService.ensure_cell_accepts_product(db, product_id=product.id, cell_id=cell.id)
+        StockService.ensure_cell_accepts_product(db, product_id=product.id, cell_id=cell.id)
         session = SessionService.create_session(
             db,
             user=user,
@@ -167,6 +182,7 @@ class OperationService:
         comment: str | None = None,
         client_ip: str | None = None,
     ) -> CellSession:
+        cls._require_positive_quantity(quantity)
         user = cls._get_user(db, user_id)
         PermissionService.require(user, "take")
         product = cls._get_product(db, product_id)
@@ -284,10 +300,15 @@ class OperationService:
             cell_id: Cell being inventoried.
             actual_quantity: Quantity counted by the user after opening.
             comment: Optional operation comment.
+            client_ip: Optional IP address for audit events.
 
         Returns:
             Created cell session in waiting-close state.
+
+        Raises:
+            InvalidQuantityError: If the counted quantity is negative.
         """
+        cls._require_non_negative_quantity(actual_quantity)
         user = cls._get_user(db, user_id)
         PermissionService.require(user, "inventory")
         product = cls._get_product(db, product_id)
