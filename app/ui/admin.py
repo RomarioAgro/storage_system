@@ -22,6 +22,7 @@ from app.models import (
     User,
 )
 from app.services.errors import NotFoundError
+from app.services.permission_service import PermissionService
 from app.services.session_service import SessionService
 from app.services.stock_service import StockService
 from app.ui.templates import templates
@@ -224,6 +225,20 @@ def _user_admin_context(request: Request, db: Session) -> dict[str, object]:
     }
 
 
+def _role_admin_context(db: Session) -> dict[str, object]:
+    """Build role management context."""
+    roles = db.scalars(select(Role).order_by(Role.id.asc())).all()
+    return {
+        "roles": roles,
+        "users": db.scalars(select(User).options(joinedload(User.role)).order_by(User.id.asc())).all(),
+        "permissions": PermissionService.ACTION_LABELS,
+        "role_permissions": {
+            role.id: PermissionService.allowed_actions(role)
+            for role in roles
+        },
+    }
+
+
 def _cell_admin_context(request: Request, db: Session) -> dict[str, object]:
     controllers = db.scalars(select(Controller).order_by(Controller.id.asc())).all()
     all_cells = db.scalars(select(Cell).options(joinedload(Cell.controller)).order_by(Cell.number.asc())).all()
@@ -312,6 +327,16 @@ def admin_users(request: Request, db: Session = Depends(get_db)) -> HTMLResponse
     )
 
 
+@router.get("/roles", response_class=HTMLResponse)
+def admin_roles(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Show role and permission management in a separate admin tab."""
+    return templates.TemplateResponse(
+        request,
+        "admin/roles.html",
+        _role_admin_context(db),
+    )
+
+
 @router.get("/products", response_class=HTMLResponse)
 def admin_products(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     """Show product and product category management in a separate admin tab."""
@@ -397,6 +422,58 @@ async def update_user(request: Request, user_id: int, db: Session = Depends(get_
     user.is_active = str(form.get("is_active", "off")) == "on"
     db.commit()
     return RedirectResponse(url="/admin/users#users", status_code=303)
+
+
+def _permissions_from_form(form: object) -> list[str]:
+    """Return known permissions selected in a form."""
+    selected = set(form.getlist("permissions"))
+    return [action for action in PermissionService.ALL_ACTIONS if action in selected]
+
+
+@router.post("/roles", response_class=HTMLResponse)
+async def create_role(request: Request, db: Session = Depends(get_db)) -> RedirectResponse:
+    """Create a role from the admin MVP form."""
+    form = await request.form()
+    db.add(
+        Role(
+            code=str(form["code"]).strip(),
+            name=str(form["name"]).strip(),
+            permissions=_permissions_from_form(form),
+            is_active=str(form.get("is_active", "off")) == "on",
+        )
+    )
+    db.commit()
+    return RedirectResponse(url="/admin/roles", status_code=303)
+
+
+@router.post("/roles/assign-user", response_class=HTMLResponse)
+async def assign_user_role(request: Request, db: Session = Depends(get_db)) -> RedirectResponse:
+    """Assign an existing user to a role from the admin MVP form."""
+    form = await request.form()
+    user = db.get(User, int(form["user_id"]))
+    role = db.get(Role, int(form["role_id"]))
+    if user is None:
+        raise NotFoundError("User not found")
+    if role is None:
+        raise NotFoundError("Role not found")
+    user.role_id = role.id
+    db.commit()
+    return RedirectResponse(url="/admin/roles", status_code=303)
+
+
+@router.post("/roles/{role_id}", response_class=HTMLResponse)
+async def update_role(request: Request, role_id: int, db: Session = Depends(get_db)) -> RedirectResponse:
+    """Update role fields and permissions from the admin MVP form."""
+    role = db.get(Role, role_id)
+    if role is None:
+        raise NotFoundError("Role not found")
+    form = await request.form()
+    role.code = str(form["code"]).strip()
+    role.name = str(form["name"]).strip()
+    role.permissions = _permissions_from_form(form)
+    role.is_active = str(form.get("is_active", "off")) == "on"
+    db.commit()
+    return RedirectResponse(url="/admin/roles", status_code=303)
 
 
 @router.post("/users/{user_id}/toggle-active", response_class=HTMLResponse)

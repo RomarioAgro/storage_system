@@ -13,6 +13,7 @@ from app.models.access_event import AccessEvent
 from app.models.cell import Cell
 from app.models.cell_session import CellSession
 from app.models.product_category import ProductCategory
+from app.models.role import Role
 from app.models.stock_item import StockItem
 from app.models.stock_movement import StockMovement
 from app.models.user import User
@@ -132,6 +133,7 @@ def test_admin_users_page_renders_user_forms(client, sample_data):
 
     assert response.status_code == 200
     assert "Создать пользователя" in response.text
+    assert 'href="/admin/roles"' in response.text
     assert "Фамилия" in response.text
     assert "Отдел" in response.text
     assert "<th>Редактирование</th>" not in response.text
@@ -166,6 +168,77 @@ def test_admin_users_page_paginates_users(client, db, sample_data):
     assert "Страница 1 из 2" in response.text
     assert "Вперед" in response.text
     assert "page-user-14" not in response.text
+
+
+def test_admin_roles_page_creates_edits_and_assigns_roles(client, db, sample_data):
+    data = sample_data()
+    user = data["users"]["user"]
+
+    page = client.get("/admin/roles")
+    created = client.post(
+        "/admin/roles",
+        data={
+            "code": "qa_role",
+            "name": "QA Role",
+            "permissions": ["view_stock", "open_only"],
+            "is_active": "on",
+        },
+        follow_redirects=False,
+    )
+    role = db.query(Role).filter_by(code="qa_role").one()
+    updated = client.post(
+        f"/admin/roles/{role.id}",
+        data={
+            "code": "qa_role",
+            "name": "QA Role Updated",
+            "permissions": ["view_stock", "fill"],
+            "is_active": "on",
+        },
+        follow_redirects=False,
+    )
+    assigned = client.post(
+        "/admin/roles/assign-user",
+        data={"user_id": str(user.id), "role_id": str(role.id)},
+        follow_redirects=False,
+    )
+
+    assert page.status_code == 200
+    assert "Создать роль" in page.text
+    assert "Добавить пользователя в роль" in page.text
+    assert "Управление пользователями" in page.text
+    assert created.status_code == 303
+    assert updated.status_code == 303
+    assert assigned.status_code == 303
+    db.refresh(role)
+    db.refresh(user)
+    assert role.name == "QA Role Updated"
+    assert role.permissions == ["view_stock", "fill"]
+    assert user.role_id == role.id
+
+
+def test_admin_role_permissions_apply_to_terminal_user(client, db, sample_data):
+    sample_data()
+    client.post(
+        "/admin/roles",
+        data={
+            "code": "open_only_role",
+            "name": "Open Only Role",
+            "permissions": ["view_stock", "open_only"],
+            "is_active": "on",
+        },
+    )
+    role = db.query(Role).filter_by(code="open_only_role").one()
+    client.post(
+        "/admin/roles/assign-user",
+        data={"user_id": "3", "role_id": str(role.id)},
+    )
+
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+    menu = client.get("/terminal/menu")
+
+    assert menu.status_code == 200
+    assert 'href="/terminal/open-only"' in menu.text
+    assert "Положить товар" not in menu.text
 
 
 def test_admin_products_page_renders_product_and_category_forms(client, sample_data):

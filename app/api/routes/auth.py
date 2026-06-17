@@ -20,4 +20,4 @@ def authenticate_rfid(
         payload.rfid_uid,
         client_ip=client_ip_from_request(request),
     )
-    return RfidAuthResponse(user_id=user.id, name=user.full_name, role=user.role.code.value)
+    return RfidAuthResponse(user_id=user.id, name=user.full_name, role=str(user.role.code))

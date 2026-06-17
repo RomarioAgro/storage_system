@@ -7,6 +7,7 @@ from app.core.database import SessionLocal, engine
 from app.core.enums import CellStatus, ControllerType, RoleCode
 from app.models import Cell, Controller, Product, ProductCategory, Role, StockItem, User
 from app.models.base import Base
+from app.services.permission_service import PermissionService
 
 # Ensure metadata is populated for create_all.
 import app.models  # noqa: F401
@@ -33,9 +34,15 @@ def get_or_create_role(db, code: RoleCode) -> Role:
     """
     role = db.scalars(select(Role).where(Role.code == code)).first()
     if role is None:
-        role = Role(code=code, name=ROLE_NAMES[code])
+        role = Role(
+            code=code.value,
+            name=ROLE_NAMES[code],
+            permissions=sorted(PermissionService.ROLE_ACTIONS[code]),
+        )
         db.add(role)
         db.flush()
+    elif role.permissions is None:
+        role.permissions = sorted(PermissionService.ROLE_ACTIONS[code])
     return role
 
 
