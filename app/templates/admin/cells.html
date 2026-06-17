@@ -22,13 +22,12 @@
   <form method="get" action="/admin/cells" class="actions">
     <label>
       <span>Ячеек на странице</span>
-      <select name="page_size">
+      <select name="page_size" onchange="this.form.submit()">
         {% for size in pagination.page_size_options %}
         <option value="{{ size }}" {% if size == pagination.page_size %}selected{% endif %}>{{ size }}</option>
         {% endfor %}
       </select>
     </label>
-    <button type="submit">Показать</button>
   </form>
   <p class="muted">Страница {{ pagination.page }} из {{ pagination.total_pages }}, всего ячеек: {{ pagination.total }}</p>
   <div class="actions">

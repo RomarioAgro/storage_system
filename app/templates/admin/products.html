@@ -51,8 +51,18 @@
     <label><span>Barcode</span><input name="barcode" value="{{ product_filters.barcode }}"></label>
     <label><span>Ед.</span><input name="unit" value="{{ product_filters.unit }}"></label>
     <label><span>Активен</span><select name="is_active"><option value="">Все</option><option value="true" {% if product_filters.is_active == "true" %}selected{% endif %}>Да</option><option value="false" {% if product_filters.is_active == "false" %}selected{% endif %}>Нет</option></select></label>
-    <label><span>На странице</span><select name="page_size">{% for size in product_pagination.page_size_options %}<option value="{{ size }}" {% if size == product_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>
     <button type="submit">Фильтровать</button>
+  </form>
+  <form method="get" action="/admin/products" class="actions">
+    <input type="hidden" name="view" value="products">
+    <input type="hidden" name="id" value="{{ product_filters.id }}">
+    <input type="hidden" name="name" value="{{ product_filters.name }}">
+    <input type="hidden" name="category" value="{{ product_filters.category }}">
+    <input type="hidden" name="sku" value="{{ product_filters.sku }}">
+    <input type="hidden" name="barcode" value="{{ product_filters.barcode }}">
+    <input type="hidden" name="unit" value="{{ product_filters.unit }}">
+    <input type="hidden" name="is_active" value="{{ product_filters.is_active }}">
+    <label><span>На странице</span><select name="page_size" onchange="this.form.submit()">{% for size in product_pagination.page_size_options %}<option value="{{ size }}" {% if size == product_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>
   </form>
   <p class="muted">Страница {{ product_pagination.page }} из {{ product_pagination.total_pages }}, всего товаров: {{ product_pagination.total }}</p>
   <div class="actions">
@@ -117,8 +127,16 @@
     <label><span>Родитель</span><input name="parent" value="{{ category_filters.parent }}"></label>
     <label><span>Порядок</span><input name="sort_order" value="{{ category_filters.sort_order }}"></label>
     <label><span>Активна</span><select name="category_is_active"><option value="">Все</option><option value="true" {% if category_filters.category_is_active == "true" %}selected{% endif %}>Да</option><option value="false" {% if category_filters.category_is_active == "false" %}selected{% endif %}>Нет</option></select></label>
-    <label><span>На странице</span><select name="category_page_size">{% for size in category_pagination.page_size_options %}<option value="{{ size }}" {% if size == category_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>
     <button type="submit">Фильтровать</button>
+  </form>
+  <form method="get" action="/admin/products" class="actions">
+    <input type="hidden" name="view" value="categories">
+    <input type="hidden" name="category_id_filter" value="{{ category_filters.category_id }}">
+    <input type="hidden" name="category_name" value="{{ category_filters.category_name }}">
+    <input type="hidden" name="parent" value="{{ category_filters.parent }}">
+    <input type="hidden" name="sort_order" value="{{ category_filters.sort_order }}">
+    <input type="hidden" name="category_is_active" value="{{ category_filters.category_is_active }}">
+    <label><span>На странице</span><select name="category_page_size" onchange="this.form.submit()">{% for size in category_pagination.page_size_options %}<option value="{{ size }}" {% if size == category_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>
   </form>
   <p class="muted">Страница {{ category_pagination.page }} из {{ category_pagination.total_pages }}, всего групп: {{ category_pagination.total }}</p>
   <div class="actions">

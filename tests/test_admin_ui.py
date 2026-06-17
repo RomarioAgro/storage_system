@@ -281,6 +281,8 @@ def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
     assert "Редактировать товар" in product_response.text
     assert "/toggle-active" in product_response.text
     assert '<option value="10" selected>10</option>' in product_response.text
+    assert 'name="page_size" onchange="this.form.submit()"' in product_response.text
+    assert product_response.text.index('name="page_size" onchange="this.form.submit()"') < product_response.text.index("Страница 1 из")
 
     category_response = client.get("/admin/products?view=categories&category_name=Каб&category_page_size=20")
 
@@ -293,6 +295,7 @@ def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
     assert "Редактировать группу" in category_response.text
     assert "Отменить" in category_response.text
     assert '<option value="20" selected>20</option>' in category_response.text
+    assert 'name="category_page_size" onchange="this.form.submit()"' in category_response.text
 
 
 def test_admin_categories_default_sort_uses_sort_order_ascending(client, db, sample_data):
