@@ -35,7 +35,7 @@
       {% for cell in cells %}
       <tr>
         <td class="cell-number">{{ cell.number }}</td>
-        <td><span class="status-badge status-{{ cell.status }}">{{ cell.status }}</span></td>
+        <td><span class="status-badge status-{{ cell.status }}">{{ cell.status | cell_status }}</span></td>
         <td>{{ cell.controller.name if cell.controller else "Нет" }}</td>
         <td>{{ cell.controller_address or "" }}</td>
         <td>{{ cell.relay_channel or "" }}</td>

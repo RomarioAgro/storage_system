@@ -120,6 +120,8 @@ def test_admin_hardware_page_renders_controllers(client, sample_data):
     assert "Оборудование" in response.text
     assert "Mock" in response.text
     assert "mock" in response.text
+    assert "Да" in response.text
+    assert "True" not in response.text
 
 
 def test_admin_users_page_renders_user_forms(client, sample_data):
@@ -160,6 +162,8 @@ def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
     assert product_response.status_code == 200
     assert "Special Battery" in product_response.text
     assert "Cable" not in product_response.text
+    assert ">Да</td>" in product_response.text
+    assert ">True</td>" not in product_response.text
     assert "<th>Редактирование</th>" not in product_response.text
     assert 'href="#edit-product-' in product_response.text
     assert "Редактировать товар" in product_response.text
@@ -170,6 +174,8 @@ def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
 
     assert category_response.status_code == 200
     assert "Кабели" in category_response.text
+    assert ">Да</td>" in category_response.text
+    assert ">True</td>" not in category_response.text
     assert "<th>Редактирование</th>" not in category_response.text
     assert 'href="#edit-category-' in category_response.text
     assert "Редактировать группу" in category_response.text
@@ -217,6 +223,7 @@ def test_admin_cells_page_renders_cell_forms(client, sample_data):
     assert "<th>Редактирование</th>" not in response.text
     assert 'class="cell-number"' in response.text
     assert 'class="status-badge status-active"' in response.text
+    assert "активна" in response.text
     assert 'class="number-field"' in response.text
     assert '<option value="10" selected>10</option>' in response.text
     assert "relay_channel" in response.text

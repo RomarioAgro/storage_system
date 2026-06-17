@@ -62,7 +62,7 @@
         <td>{{ product.sku or "" }}</td>
         <td>{{ product.barcode or "" }}</td>
         <td>{{ product.unit }}</td>
-        <td>{{ product.is_active }}</td>
+        <td>{{ product.is_active | yes_no }}</td>
         <td class="actions">
           <a class="button secondary" href="#edit-product-{{ product.id }}">Редактировать</a>
           <form method="post" action="/admin/products/{{ product.id }}/toggle-active">
@@ -121,7 +121,7 @@
         <td>{{ category.name }}</td>
         <td>{{ category.parent.name if category.parent else "" }}</td>
         <td>{{ category.sort_order }}</td>
-        <td>{{ category.is_active }}</td>
+        <td>{{ category.is_active | yes_no }}</td>
         <td class="actions">
           <a class="button secondary" href="#edit-category-{{ category.id }}">Редактировать</a>
           <form method="post" action="/admin/categories/{{ category.id }}/toggle-active">

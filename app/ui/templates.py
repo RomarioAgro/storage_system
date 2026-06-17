@@ -21,6 +21,11 @@ OPERATION_TYPE_LABELS = {
     "inventory": "инвентаризация",
     "open_only": "открытие без изменения остатка",
 }
+CELL_STATUS_LABELS = {
+    "active": "активна",
+    "blocked": "заблокирована",
+    "maintenance": "обслуживание",
+}
 
 
 def template_directory() -> str:
@@ -55,6 +60,18 @@ def enum_label(value: object, labels: dict[str, str]) -> str:
     return labels.get(str(key), str(key))
 
 
+def yes_no(value: object) -> str:
+    """Return a Russian yes/no label for truthy values.
+
+    Args:
+        value: Value to display.
+
+    Returns:
+        ``Да`` for truthy values, otherwise ``Нет``.
+    """
+    return "Да" if value else "Нет"
+
+
 templates = Jinja2Templates(directory=template_directory())
 templates.env.filters["local_datetime"] = lambda value: format_local_datetime(
     value,
@@ -62,3 +79,5 @@ templates.env.filters["local_datetime"] = lambda value: format_local_datetime(
 )
 templates.env.filters["session_status"] = lambda value: enum_label(value, SESSION_STATUS_LABELS)
 templates.env.filters["operation_type"] = lambda value: enum_label(value, OPERATION_TYPE_LABELS)
+templates.env.filters["cell_status"] = lambda value: enum_label(value, CELL_STATUS_LABELS)
+templates.env.filters["yes_no"] = yes_no

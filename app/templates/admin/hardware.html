@@ -10,7 +10,7 @@
   <h2>Оборудование</h2>
   <table>
     <thead><tr><th>ID</th><th>Имя</th><th>Тип</th><th>Адрес</th><th>Порт</th><th>Активен</th></tr></thead>
-    <tbody>{% for controller in controllers %}<tr><td>{{ controller.id }}</td><td>{{ controller.name }}</td><td>{{ controller.controller_type }}</td><td>{{ controller.address or "" }}</td><td>{{ controller.port or "" }}</td><td>{{ controller.is_active }}</td></tr>{% endfor %}</tbody>
+    <tbody>{% for controller in controllers %}<tr><td>{{ controller.id }}</td><td>{{ controller.name }}</td><td>{{ controller.controller_type }}</td><td>{{ controller.address or "" }}</td><td>{{ controller.port or "" }}</td><td>{{ controller.is_active | yes_no }}</td></tr>{% endfor %}</tbody>
   </table>
 </section>
 {% endblock %}
