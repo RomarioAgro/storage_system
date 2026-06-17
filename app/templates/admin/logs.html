@@ -2,6 +2,7 @@
 {% block content %}
 <section class="panel">
   <h1>Журналы и сессии</h1>
+  <p class="muted">Раздел помогает разбирать операции, входы пользователей и незавершенные открытия ячеек.</p>
   <p class="muted">Время показано в локальном часовом поясе: {{ local_timezone }}</p>
   <div class="actions">
     <a class="button secondary" href="/admin">Вернуться в админ-панель</a>
@@ -14,6 +15,7 @@
 {% if active_session %}
 <section class="panel" id="active-session">
   <h2>Активная сессия</h2>
+  <p class="muted">Используйте аварийное завершение только если операция зависла и терминал заблокирован.</p>
   <p>ID {{ active_session.id }}: {{ active_session.operation_type | operation_type }} / {{ active_session.status | session_status }}, ячейка {{ active_session.cell_id }}</p>
   <form method="post" action="/admin/sessions/{{ active_session.id }}/emergency-cancel">
     <input name="reason" value="Emergency admin cancellation">
@@ -25,6 +27,7 @@
 {% if view == "movements" %}
 <section class="panel" id="movements">
   <h2>История движений</h2>
+  <p class="muted">Показывает изменения остатков: тип операции, товар, ячейку и количество до/после.</p>
   <form method="get" action="/admin/logs" class="actions">
     <input type="hidden" name="view" value="movements">
     <label><span>Записей на странице</span><select name="page_size">{% for size in movement_pagination.page_size_options %}<option value="{{ size }}" {% if size == movement_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>
@@ -48,6 +51,7 @@
 
 <section class="panel" id="events">
   <h2>Журнал доступа</h2>
+  <p class="muted">Показывает входы по RFID и события операций с результатом, пользователем и IP.</p>
   <form method="get" action="/admin/logs" class="actions">
     <input type="hidden" name="view" value="access">
     <label><span>Записей на странице</span><select name="page_size">{% for size in event_pagination.page_size_options %}<option value="{{ size }}" {% if size == event_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>
@@ -71,6 +75,7 @@
 
 <section class="panel" id="sessions">
   <h2>Сессии открытия</h2>
+  <p class="muted">Показывает открытия ячеек, статусы сессий и доступное аварийное завершение.</p>
   <form method="get" action="/admin/logs" class="actions">
     <input type="hidden" name="view" value="sessions">
     <label><span>Записей на странице</span><select name="page_size">{% for size in session_pagination.page_size_options %}<option value="{{ size }}" {% if size == session_pagination.page_size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></label>

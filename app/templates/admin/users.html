@@ -2,6 +2,7 @@
 {% block content %}
 <section class="panel">
   <h1>Пользователи</h1>
+  <p class="muted">Здесь создают сотрудников, меняют RFID, отдел, роль и активность доступа.</p>
   <div class="actions">
     <a class="button secondary" href="/admin">Назад в админку</a>
     <a class="button" href="/admin/roles">Роли</a>
@@ -10,6 +11,7 @@
 
 <section class="panel" id="users">
   <h2>Создать пользователя</h2>
+  <p class="muted">Новый пользователь сможет входить в терминал по RFID и получит права выбранной роли.</p>
   <form method="post" action="/admin/users" class="grid">
     <label><span>Фамилия</span><input name="last_name" required></label>
     <label><span>Имя</span><input name="first_name" required></label>

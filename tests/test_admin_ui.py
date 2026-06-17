@@ -81,6 +81,8 @@ def test_admin_logs_page_renders_operational_sections(client, sample_data):
 
     assert response.status_code == 200
     assert "История движений" in response.text
+    assert "разбирать операции, входы пользователей" in response.text
+    assert "изменения остатков" in response.text
     assert "Журнал доступа" in response.text
     assert "Сессии открытия" in response.text
     assert 'href="/admin/logs?view=movements"' in response.text
@@ -109,6 +111,7 @@ def test_admin_stock_page_renders_stock_form_and_rows(client, sample_data):
 
     assert response.status_code == 200
     assert "Остатки" in response.text
+    assert "вручную задать количество товара в ячейке" in response.text
     assert "Сохранить остаток" in response.text
     assert "Добавить строку остатка" not in response.text
     assert "Special Battery" in response.text
@@ -121,6 +124,7 @@ def test_admin_hardware_page_renders_controllers(client, sample_data):
 
     assert response.status_code == 200
     assert "Оборудование" in response.text
+    assert "контроллеры замков" in response.text
     assert "Mock" in response.text
     assert "mock" in response.text
     assert "Да" in response.text
@@ -134,6 +138,7 @@ def test_admin_users_page_renders_user_forms(client, sample_data):
 
     assert response.status_code == 200
     assert "Создать пользователя" in response.text
+    assert "меняют RFID, отдел, роль" in response.text
     assert 'href="/admin/roles"' in response.text
     assert "Фамилия" in response.text
     assert "Отдел" in response.text
@@ -205,6 +210,7 @@ def test_admin_roles_page_creates_edits_and_assigns_roles(client, db, sample_dat
 
     assert page.status_code == 200
     assert "Создать роль" in page.text
+    assert "Роли задают набор прав" in page.text
     assert "Добавить пользователя в роль" in page.text
     assert "Управление пользователями" in page.text
     assert created.status_code == 303
@@ -249,6 +255,7 @@ def test_admin_products_page_renders_product_and_category_forms(client, sample_d
 
     assert response.status_code == 200
     assert "Создать товар" in response.text
+    assert "номенклатуру" in response.text
     assert "Создать группу" in response.text
     assert ">Товары<" in response.text
     assert ">Группы<" in response.text
@@ -322,6 +329,7 @@ def test_admin_cells_page_renders_cell_forms(client, sample_data):
 
     assert response.status_code == 200
     assert "Создать ячейку" in response.text
+    assert "контроллер, канал реле" in response.text
     assert "Блокировать" in response.text
     assert "Сохранить" in response.text
     assert "Редактировать" in response.text

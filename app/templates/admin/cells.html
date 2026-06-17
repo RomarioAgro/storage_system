@@ -2,11 +2,13 @@
 {% block content %}
 <section class="panel">
   <h1>Ячейки</h1>
+  <p class="muted">Здесь настраивают ячейки шкафа, их статус, контроллер, канал реле и датчик закрытия.</p>
   <a class="button secondary" href="/admin">Назад в админку</a>
 </section>
 
 <section class="panel" id="cells">
   <h2>Создать ячейку</h2>
+  <p class="muted">Создайте ячейку перед тем, как размещать в ней товар или открывать ее из терминала.</p>
   <form method="post" action="/admin/cells" class="grid">
     <label><span>Номер</span><input name="number" required></label>
     <label><span>Статус</span><select name="status">{% for status in cell_statuses %}<option value="{{ status }}">{{ status }}</option>{% endfor %}</select></label>

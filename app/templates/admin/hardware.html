@@ -2,12 +2,13 @@
 {% block content %}
 <section class="panel">
   <h1>Оборудование</h1>
-  <p class="muted">Просмотр контроллеров оборудования.</p>
+  <p class="muted">Раздел показывает контроллеры замков и их параметры подключения для настройки шкафа.</p>
   <a class="button" href="/admin">Вернуться в админ-панель</a>
 </section>
 
 <section class="panel" id="hardware">
   <h2>Оборудование</h2>
+  <p class="muted">Проверьте тип, адрес, порт и активность контроллера перед привязкой ячеек.</p>
   <table>
     <thead><tr><th>ID</th><th>Имя</th><th>Тип</th><th>Адрес</th><th>Порт</th><th>Активен</th></tr></thead>
     <tbody>{% for controller in controllers %}<tr><td>{{ controller.id }}</td><td>{{ controller.name }}</td><td>{{ controller.controller_type }}</td><td>{{ controller.address or "" }}</td><td>{{ controller.port or "" }}</td><td>{{ controller.is_active | yes_no }}</td></tr>{% endfor %}</tbody>
