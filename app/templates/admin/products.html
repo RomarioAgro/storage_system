@@ -51,6 +51,10 @@
     <button type="submit">Фильтровать</button>
   </form>
   <p class="muted">Страница {{ product_pagination.page }} из {{ product_pagination.total_pages }}, всего товаров: {{ product_pagination.total }}</p>
+  <div class="actions">
+    {% if product_pagination.page > 1 %}<a class="button secondary" href="{{ product_prev_url }}">Назад</a>{% endif %}
+    {% if product_pagination.page < product_pagination.total_pages %}<a class="button secondary" href="{{ product_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th><a href="{{ product_sort_urls.id }}">ID</a></th><th><a href="{{ product_sort_urls.name }}">Название</a></th><th><a href="{{ product_sort_urls.category }}">Группа</a></th><th><a href="{{ product_sort_urls.sku }}">SKU</a></th><th><a href="{{ product_sort_urls.barcode }}">Barcode</a></th><th><a href="{{ product_sort_urls.unit }}">Ед.</a></th><th><a href="{{ product_sort_urls.is_active }}">Активен</a></th><th>Действие</th></tr></thead>
     <tbody>
@@ -112,6 +116,10 @@
     <button type="submit">Фильтровать</button>
   </form>
   <p class="muted">Страница {{ category_pagination.page }} из {{ category_pagination.total_pages }}, всего групп: {{ category_pagination.total }}</p>
+  <div class="actions">
+    {% if category_pagination.page > 1 %}<a class="button secondary" href="{{ category_prev_url }}">Назад</a>{% endif %}
+    {% if category_pagination.page < category_pagination.total_pages %}<a class="button secondary" href="{{ category_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th><a href="{{ category_sort_urls.id }}">ID</a></th><th><a href="{{ category_sort_urls.name }}">Название</a></th><th><a href="{{ category_sort_urls.parent }}">Родитель</a></th><th><a href="{{ category_sort_urls.sort_order }}">Порядок</a></th><th><a href="{{ category_sort_urls.is_active }}">Активна</a></th><th>Действие</th></tr></thead>
     <tbody>

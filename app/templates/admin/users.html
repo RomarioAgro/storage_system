@@ -32,6 +32,10 @@
     <button type="submit">Показать</button>
   </form>
   <p class="muted">Страница {{ pagination.page }} из {{ pagination.total_pages }}, всего пользователей: {{ pagination.total }}</p>
+  <div class="actions">
+    {% if pagination.page > 1 %}<a class="button secondary" href="{{ user_prev_url }}">Назад</a>{% endif %}
+    {% if pagination.page < pagination.total_pages %}<a class="button secondary" href="{{ user_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th>ID</th><th>ФИО</th><th>Отдел</th><th>Действие</th></tr></thead>
     <tbody>

@@ -29,6 +29,10 @@
     <button type="submit">Показать</button>
   </form>
   <p class="muted">Страница {{ pagination.page }} из {{ pagination.total_pages }}, всего ячеек: {{ pagination.total }}</p>
+  <div class="actions">
+    {% if pagination.page > 1 %}<a class="button secondary" href="{{ cell_prev_url }}">Назад</a>{% endif %}
+    {% if pagination.page < pagination.total_pages %}<a class="button secondary" href="{{ cell_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th>Номер</th><th>Статус</th><th>Контроллер</th><th>Адрес</th><th>Канал</th><th>Комментарий</th><th>Датчик закрытия</th><th>Действие</th></tr></thead>
     <tbody>

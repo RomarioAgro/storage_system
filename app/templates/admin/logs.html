@@ -31,9 +31,13 @@
     <button type="submit">Показать</button>
   </form>
   <p class="muted">Страница {{ movement_pagination.page }} из {{ movement_pagination.total_pages }}, всего записей: {{ movement_pagination.total }}</p>
+  <div class="actions">
+    {% if movement_pagination.page > 1 %}<a class="button secondary" href="{{ movement_prev_url }}">Назад</a>{% endif %}
+    {% if movement_pagination.page < movement_pagination.total_pages %}<a class="button secondary" href="{{ movement_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th>Время</th><th>Тип</th><th>Товар</th><th>Ячейка</th><th>До</th><th>После</th><th>Сессия</th></tr></thead>
-    <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at | local_datetime }}</td><td>{{ movement.movement_type }}</td><td>{{ movement.product.name if movement.product else movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
+    <tbody>{% for movement in movements %}<tr><td>{{ movement.created_at | local_datetime }}</td><td>{{ movement.movement_type | operation_type }}</td><td>{{ movement.product.name if movement.product else movement.product_id }}</td><td>{{ movement.cell_id }}</td><td>{{ movement.quantity_before }}</td><td>{{ movement.quantity_after }}</td><td>{{ movement.session_id or "" }}</td></tr>{% endfor %}</tbody>
   </table>
   <div class="actions">
     {% if movement_pagination.page > 1 %}<a class="button secondary" href="{{ movement_prev_url }}">Назад</a>{% endif %}
@@ -50,6 +54,10 @@
     <button type="submit">Показать</button>
   </form>
   <p class="muted">Страница {{ event_pagination.page }} из {{ event_pagination.total_pages }}, всего записей: {{ event_pagination.total }}</p>
+  <div class="actions">
+    {% if event_pagination.page > 1 %}<a class="button secondary" href="{{ event_prev_url }}">Назад</a>{% endif %}
+    {% if event_pagination.page < event_pagination.total_pages %}<a class="button secondary" href="{{ event_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th>Время</th><th>Событие</th><th>Результат</th><th>Пользователь</th><th>IP</th><th>Ячейка</th><th>Детали</th></tr></thead>
     <tbody>{% for event in events %}<tr><td>{{ event.created_at | local_datetime }}</td><td>{{ event.event_type }}</td><td>{{ event.result }}</td><td>{{ event.user.short_name if event.user else "" }}</td><td>{{ event.client_ip or "" }}</td><td>{{ event.cell_id or "" }}</td><td>{{ event.details or "" }}</td></tr>{% endfor %}</tbody>
@@ -69,6 +77,10 @@
     <button type="submit">Показать</button>
   </form>
   <p class="muted">Страница {{ session_pagination.page }} из {{ session_pagination.total_pages }}, всего записей: {{ session_pagination.total }}</p>
+  <div class="actions">
+    {% if session_pagination.page > 1 %}<a class="button secondary" href="{{ session_prev_url }}">Назад</a>{% endif %}
+    {% if session_pagination.page < session_pagination.total_pages %}<a class="button secondary" href="{{ session_next_url }}">Вперед</a>{% endif %}
+  </div>
   <table>
     <thead><tr><th>ID</th><th>Создана</th><th>Операция</th><th>Статус</th><th>Ячейка</th><th>Пользователь</th><th>Действие</th></tr></thead>
     <tbody>

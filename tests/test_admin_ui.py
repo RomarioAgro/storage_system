@@ -11,6 +11,7 @@ from app.core.enums import (
 )
 from app.models.access_event import AccessEvent
 from app.models.cell import Cell
+from app.models.product import Product
 from app.models.cell_session import CellSession
 from app.models.product_category import ProductCategory
 from app.models.role import Role
@@ -166,7 +167,7 @@ def test_admin_users_page_paginates_users(client, db, sample_data):
 
     assert response.status_code == 200
     assert "Страница 1 из 2" in response.text
-    assert "Вперед" in response.text
+    assert response.text.count(">Вперед</a>") == 2
     assert "page-user-14" not in response.text
 
 
@@ -351,7 +352,25 @@ def test_admin_cells_page_paginates_cells(client, db, sample_data):
 
     assert response.status_code == 200
     assert "Страница 1 из 2" in response.text
-    assert "Вперед" in response.text
+    assert response.text.count(">Вперед</a>") == 2
+
+
+def test_admin_product_and_category_pages_show_top_and_bottom_pagination(client, db, sample_data):
+    sample_data()
+    for number in range(12):
+        db.add(Product(name=f"Page Product {number:02d}", sku=f"PAGE-{number:02d}", unit="pcs"))
+        db.add(ProductCategory(name=f"Page Category {number:02d}", sort_order=number))
+    db.commit()
+
+    products = client.get("/admin/products?view=products&page_size=10")
+    categories = client.get("/admin/products?view=categories&category_page_size=10")
+
+    assert products.status_code == 200
+    assert "Страница 1 из 2" in products.text
+    assert products.text.count(">Вперед</a>") == 2
+    assert categories.status_code == 200
+    assert "Страница 1 из 2" in categories.text
+    assert categories.text.count(">Вперед</a>") == 2
 
 
 def test_admin_access_log_displays_local_time(client, db, sample_data):
@@ -406,6 +425,7 @@ def test_admin_movements_and_sessions_display_local_time(client, db, sample_data
 
     assert response.status_code == 200
     assert "2026-06-10 13:00:00 +03:00" in response.text
+    assert "пополнение" in response.text
     assert "Cable" in response.text
 
     sessions_response = client.get("/admin/logs?view=sessions")
@@ -464,7 +484,7 @@ def test_admin_logs_views_paginate_rows(client, db, sample_data):
         assert 'value="10" selected' in response.text
         assert 'value="20"' in response.text
         assert 'value="50"' in response.text
-        assert "Вперед" in response.text
+        assert response.text.count(">Вперед</a>") == 2
 
 
 def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):

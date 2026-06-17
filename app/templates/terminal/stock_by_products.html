@@ -19,6 +19,14 @@
 
 <section class="panel">
   <p class="muted">Страница {{ pagination.page }} из {{ pagination.total_pages }}, всего строк: {{ pagination.total }}</p>
+  <div class="actions">
+    {% if pagination.page > 1 %}
+    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page - 1 }}&page_size={{ pagination.page_size }}{% if show_zero %}&show_zero=1{% endif %}{% if show_without_cells %}&show_without_cells=1{% endif %}">Назад</a>
+    {% endif %}
+    {% if pagination.page < pagination.total_pages %}
+    <a class="button secondary" href="/terminal/stock/products?page={{ pagination.page + 1 }}&page_size={{ pagination.page_size }}{% if show_zero %}&show_zero=1{% endif %}{% if show_without_cells %}&show_without_cells=1{% endif %}">Вперед</a>
+    {% endif %}
+  </div>
   <table>
     <thead><tr><th>Товар</th><th>SKU</th><th>Ячейка</th><th>Количество</th></tr></thead>
     <tbody>

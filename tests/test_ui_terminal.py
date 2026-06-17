@@ -1,7 +1,11 @@
+from decimal import Decimal
+
 from app.core.enums import AccessEventType, CellStatus, SessionOperationType
 from app.models.access_event import AccessEvent
+from app.models.cell import Cell
 from app.models.cell_session import CellSession
 from app.models.product import Product
+from app.models.stock_item import StockItem
 from app.services.session_service import SessionService
 
 
@@ -69,6 +73,28 @@ def test_terminal_menu_links_to_paginated_stock_overviews(client, sample_data):
     assert "Cable" in cells.text
     assert "5.000" in cells.text
     assert 'value="100" selected' in cells.text
+
+
+def test_terminal_stock_overviews_show_top_and_bottom_pagination(client, db, sample_data):
+    sample_data()
+    for number in range(20):
+        product = Product(name=f"Paged product {number:02d}", sku=f"PAGED-{number:02d}", unit="pcs")
+        cell = Cell(number=100 + number, status=CellStatus.ACTIVE)
+        db.add_all([product, cell])
+        db.flush()
+        db.add(StockItem(product_id=product.id, cell_id=cell.id, quantity=Decimal("1.000")))
+    db.commit()
+
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+    products = client.get("/terminal/stock/products?page_size=20")
+    cells = client.get("/terminal/stock/cells?page_size=20")
+
+    assert products.status_code == 200
+    assert "Страница 1 из 2" in products.text
+    assert products.text.count(">Вперед</a>") == 2
+    assert cells.status_code == 200
+    assert "Страница 1 из 2" in cells.text
+    assert cells.text.count(">Вперед</a>") == 2
 
 
 def test_terminal_product_stock_overview_can_show_products_without_cells(client, sample_data):
