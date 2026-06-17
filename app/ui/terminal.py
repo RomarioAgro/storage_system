@@ -452,13 +452,14 @@ def search_products(
     products: list[Product] = []
     q = query.strip()
     if q:
+        q_lower = q.lower()
         statement = select(Product).where(Product.is_active.is_(True))
-        products = list(db.scalars(statement.where(Product.barcode == q)).all())
+        products = list(db.scalars(statement.where(func.lower(Product.barcode) == q_lower)).all())
         if not products:
-            products = list(db.scalars(statement.where(Product.sku == q)).all())
+            products = list(db.scalars(statement.where(func.lower(Product.sku) == q_lower)).all())
         if not products:
             products = list(
-                db.scalars(statement.where(Product.name.ilike(f"%{q}%")).order_by(Product.name.asc())).all()
+                db.scalars(statement.where(func.lower(Product.name).like(f"%{q_lower}%")).order_by(Product.name.asc())).all()
             )
     return templates.TemplateResponse(
         request,

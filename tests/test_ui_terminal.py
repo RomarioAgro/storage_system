@@ -269,6 +269,22 @@ def test_terminal_search_shows_empty_result_message(client, sample_data):
     assert "<table>" not in response.text
 
 
+def test_terminal_search_is_case_insensitive(client, sample_data):
+    sample_data()
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+
+    by_sku = client.get("/terminal/search?query=sku-1")
+    by_barcode = client.get("/terminal/search?query=bar-1")
+    by_name = client.get("/terminal/search?query=cab")
+
+    assert by_sku.status_code == 200
+    assert "Cable" in by_sku.text
+    assert by_barcode.status_code == 200
+    assert "Cable" in by_barcode.text
+    assert by_name.status_code == 200
+    assert "Cable" in by_name.text
+
+
 def test_terminal_take_rejects_non_positive_quantity_before_opening(
     client,
     db,
