@@ -14,7 +14,7 @@
 {% if active_session %}
 <section class="panel" id="active-session">
   <h2>Активная сессия</h2>
-  <p>ID {{ active_session.id }}: {{ active_session.operation_type }} / {{ active_session.status }}, ячейка {{ active_session.cell_id }}</p>
+  <p>ID {{ active_session.id }}: {{ active_session.operation_type | operation_type }} / {{ active_session.status | session_status }}, ячейка {{ active_session.cell_id }}</p>
   <form method="post" action="/admin/sessions/{{ active_session.id }}/emergency-cancel">
     <input name="reason" value="Emergency admin cancellation">
     <button class="danger" type="submit">Аварийно завершить</button>
@@ -50,8 +50,8 @@
       <tr>
         <td>{{ session.id }}</td>
         <td>{{ session.created_at | local_datetime }}</td>
-        <td>{{ session.operation_type }}</td>
-        <td>{{ session.status }}</td>
+        <td>{{ session.operation_type | operation_type }}</td>
+        <td>{{ session.status | session_status }}</td>
         <td>{{ session.cell_id }}</td>
         <td>{{ session.user_id }}</td>
         <td>

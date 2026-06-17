@@ -12,7 +12,7 @@
     <label><span>Товар</span><select name="product_id">{% for product in products %}<option value="{{ product.id }}">{{ product.name }}</option>{% endfor %}</select></label>
     <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
     <label><span>Количество</span><input name="quantity" value="0.000"></label>
-    <button type="submit">Добавить строку остатка</button>
+    <button type="submit">Сохранить остаток</button>
   </form>
   <table>
     <thead><tr><th>Ячейка</th><th>Товар</th><th>Количество</th></tr></thead>

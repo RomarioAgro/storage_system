@@ -3,7 +3,7 @@
 <section class="panel">
   <h1>Операция завершена</h1>
   <p><strong>Сессия:</strong> {{ session.id }}</p>
-  <p><strong>Статус:</strong> {{ session.status }}</p>
+  <p><strong>Статус:</strong> {{ session.status | session_status }}</p>
   <a class="button" href="/terminal">К RFID</a>
 </section>
 {% endblock %}

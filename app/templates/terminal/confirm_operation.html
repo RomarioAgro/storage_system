@@ -2,7 +2,7 @@
 {% block content %}
 <section class="panel">
   <h1>Подтвердите операцию</h1>
-  <p><strong>Операция:</strong> {{ session.operation_type }}</p>
+  <p><strong>Операция:</strong> {{ session.operation_type | operation_type }}</p>
   <p><strong>Ячейка:</strong> {{ session.cell_id }}</p>
   <p><strong>Количество:</strong> {{ session.planned_quantity or "" }}</p>
   {% if next_action == "fill" %}

@@ -106,7 +106,8 @@ def test_admin_stock_page_renders_stock_form_and_rows(client, sample_data):
 
     assert response.status_code == 200
     assert "Остатки" in response.text
-    assert "Добавить строку остатка" in response.text
+    assert "Сохранить остаток" in response.text
+    assert "Добавить строку остатка" not in response.text
     assert "Special Battery" in response.text
 
 
@@ -300,6 +301,8 @@ def test_admin_movements_and_sessions_display_local_time(client, db, sample_data
 
     assert sessions_response.status_code == 200
     assert "2026-06-10 13:00:00 +03:00" in sessions_response.text
+    assert "открытие без изменения остатка" in sessions_response.text
+    assert "завершена" in sessions_response.text
 
 
 def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
@@ -342,7 +345,8 @@ def test_admin_logs_page_shows_active_session_controls(client, db, sample_data):
     assert "Аварийно завершить" in response.text
     assert "Рђ" not in response.text
     assert f'action="/admin/sessions/{session.id}/emergency-cancel"' in response.text
-    assert "open_only" in response.text
+    assert "открытие без изменения остатка" in response.text
+    assert "открыта" in response.text
 
 
 def test_admin_can_create_stock_item_from_stock_page(client, db, sample_data):

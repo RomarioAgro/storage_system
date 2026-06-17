@@ -2,7 +2,7 @@
 {% block content %}
 <section class="panel">
   <h1>Ячейка {{ session.cell.number if session.cell else session.cell_id }} открыта</h1>
-  <p><strong>Операция:</strong> {{ session.operation_type }}</p>
+  <p><strong>Операция:</strong> {{ session.operation_type | operation_type }}</p>
   <p><strong>Товар:</strong> {{ session.product.name if session.product else "" }}</p>
   <p><strong>Количество:</strong> {{ session.planned_quantity or "" }}</p>
   <p>Выполните операцию, закройте ячейку и нажмите кнопку.</p>

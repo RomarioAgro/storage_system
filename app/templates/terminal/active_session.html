@@ -4,8 +4,8 @@
   <h1>Есть незавершенная операция</h1>
   <p><strong>Ячейка:</strong> {{ active_session.cell.number if active_session.cell else active_session.cell_id }}</p>
   <p><strong>Пользователь:</strong> {{ active_session.user.full_name if active_session.user else active_session.user_id }}</p>
-  <p><strong>Операция:</strong> {{ active_session.operation_type }}</p>
-  <p><strong>Статус:</strong> {{ active_session.status }}</p>
+  <p><strong>Операция:</strong> {{ active_session.operation_type | operation_type }}</p>
+  <p><strong>Статус:</strong> {{ active_session.status | session_status }}</p>
   <p><strong>Открыта:</strong> {{ active_session.opened_at or active_session.created_at }}</p>
   <p>Новая ячейка не может быть открыта, пока эта операция не завершена.</p>
   <div class="actions">

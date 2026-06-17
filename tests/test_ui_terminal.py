@@ -125,6 +125,9 @@ def test_terminal_operation_events_reuse_session_client_ip(client, db, sample_da
     assert opened.status_code == 200
     assert close.status_code == 200
     assert done.status_code == 200
+    assert "открытие без изменения остатка" in opened.text
+    assert "открытие без изменения остатка" in close.text
+    assert "завершена" in done.text
     events = db.query(AccessEvent).order_by(AccessEvent.id.asc()).all()
     event_ips = {
         event.event_type: event.client_ip
@@ -224,7 +227,8 @@ def test_terminal_direct_product_url_is_blocked_by_active_session(client, db, sa
     response = client.get(f"/terminal/products/{data['product'].id}")
 
     assert response.status_code == 200
-    assert "open_only" in response.text
+    assert "открытие без изменения остатка" in response.text
+    assert "создана" in response.text
     assert "Cable" not in response.text
 
 
@@ -319,5 +323,7 @@ def test_terminal_product_forms_exclude_blocked_cells(client, db, sample_data):
     response = client.get(f"/terminal/products/{data['product'].id}")
 
     assert response.status_code == 200
+    assert "Открыть для пополнения" in response.text
+    assert "Открыть для выдачи" in response.text
     assert f'<option value="{data["cell1"].id}">{data["cell1"].number}</option>' in response.text
     assert f'<option value="{data["cell2"].id}">{data["cell2"].number}</option>' not in response.text

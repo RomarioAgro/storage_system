@@ -22,7 +22,7 @@
     <input type="hidden" name="product_id" value="{{ product.id }}">
     <label><span>Ячейка</span><select name="cell_id">{% for cell in cells %}<option value="{{ cell.id }}">{{ cell.number }}</option>{% endfor %}</select></label>
     <label><span>Количество</span><input name="quantity" value="1.000"></label>
-    <button type="submit">Открыть ячейку</button>
+    <button type="submit">Открыть для пополнения</button>
   </form>
   {% endif %}
   {% if can_take %}
@@ -31,7 +31,7 @@
     <input type="hidden" name="product_id" value="{{ product.id }}">
     <label><span>Ячейка</span><select name="cell_id">{% for row in active_stock_rows %}<option value="{{ row.cell_id }}">{{ row.cell.number }}</option>{% endfor %}</select></label>
     <label><span>Количество</span><input name="quantity" value="1.000"></label>
-    <button type="submit">Открыть ячейку</button>
+    <button type="submit">Открыть для выдачи</button>
   </form>
   {% endif %}
   {% if can_inventory %}
