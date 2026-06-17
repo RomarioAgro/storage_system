@@ -147,10 +147,10 @@ def _product_admin_context(request: Request, db: Session) -> dict[str, object]:
     ).all()
     view = str(request.query_params.get("view") or "create_product")
 
-    category_sort = str(request.query_params.get("category_sort") or "name")
+    category_sort = str(request.query_params.get("category_sort") or "sort_order")
     category_direction = str(request.query_params.get("category_direction") or "asc")
     if category_sort not in CATEGORY_SORTS:
-        category_sort = "name"
+        category_sort = "sort_order"
     if category_direction not in {"asc", "desc"}:
         category_direction = "asc"
     category_page = int(request.query_params.get("category_page") or 1)

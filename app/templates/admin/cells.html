@@ -34,16 +34,27 @@
     <tbody>
       {% for cell in cells %}
       <tr>
-        <td><input class="number-field" form="cell-form-{{ cell.id }}" name="number" value="{{ cell.number }}" required></td>
-        <td><select form="cell-form-{{ cell.id }}" name="status">{% for status in cell_statuses %}<option value="{{ status }}" {% if status == cell.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></td>
-        <td><select form="cell-form-{{ cell.id }}" name="controller_id"><option value="">Нет</option>{% for controller in controllers %}<option value="{{ controller.id }}" {% if controller.id == cell.controller_id %}selected{% endif %}>{{ controller.name }}</option>{% endfor %}</select></td>
-        <td><input class="number-field" form="cell-form-{{ cell.id }}" name="controller_address" value="{{ cell.controller_address or '' }}"></td>
-        <td><input class="number-field" form="cell-form-{{ cell.id }}" name="relay_channel" value="{{ cell.relay_channel or '' }}"></td>
-        <td><input form="cell-form-{{ cell.id }}" name="comment" value="{{ cell.comment or '' }}"></td>
-        <td><input form="cell-form-{{ cell.id }}" type="checkbox" name="has_close_sensor" {% if cell.has_close_sensor %}checked{% endif %}></td>
+        <td class="cell-number">{{ cell.number }}</td>
+        <td><span class="status-badge status-{{ cell.status }}">{{ cell.status }}</span></td>
+        <td>{{ cell.controller.name if cell.controller else "Нет" }}</td>
+        <td>{{ cell.controller_address or "" }}</td>
+        <td>{{ cell.relay_channel or "" }}</td>
+        <td>{{ cell.comment or "" }}</td>
+        <td>{% if cell.has_close_sensor %}Да{% else %}Нет{% endif %}</td>
         <td class="actions">
-          <form id="cell-form-{{ cell.id }}" method="post" action="/admin/cells/{{ cell.id }}"></form>
-          <button form="cell-form-{{ cell.id }}" type="submit">Сохранить</button>
+          <details class="inline-editor">
+            <summary>Редактировать</summary>
+            <form id="cell-form-{{ cell.id }}" method="post" action="/admin/cells/{{ cell.id }}" class="grid">
+              <label><span>Номер</span><input class="number-field" name="number" value="{{ cell.number }}" required></label>
+              <label><span>Статус</span><select name="status">{% for status in cell_statuses %}<option value="{{ status }}" {% if status == cell.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></label>
+              <label><span>Контроллер</span><select name="controller_id"><option value="">Нет</option>{% for controller in controllers %}<option value="{{ controller.id }}" {% if controller.id == cell.controller_id %}selected{% endif %}>{{ controller.name }}</option>{% endfor %}</select></label>
+              <label><span>Адрес</span><input class="number-field" name="controller_address" value="{{ cell.controller_address or '' }}"></label>
+              <label><span>Канал</span><input class="number-field" name="relay_channel" value="{{ cell.relay_channel or '' }}"></label>
+              <label><span>Комментарий</span><input name="comment" value="{{ cell.comment or '' }}"></label>
+              <label><span>Датчик закрытия</span><input type="checkbox" name="has_close_sensor" {% if cell.has_close_sensor %}checked{% endif %}></label>
+              <button type="submit">Сохранить</button>
+            </form>
+          </details>
           <form method="post" action="/admin/cells/{{ cell.id }}/toggle-block">
             <button class="{% if cell.status == "blocked" %}secondary{% else %}danger{% endif %}" type="submit">{% if cell.status == "blocked" %}Разблокировать{% else %}Блокировать{% endif %}</button>
           </form>

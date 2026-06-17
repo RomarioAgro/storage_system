@@ -79,6 +79,35 @@ select {
   width: 72px;
 }
 
+.cell-number {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.status-badge {
+  display: inline-block;
+  min-width: 88px;
+  padding: 4px 8px;
+  border: 1px solid #b8c0cc;
+  border-radius: 6px;
+  background: #eef2f6;
+  text-align: center;
+}
+
+.inline-editor {
+  width: 100%;
+}
+
+.inline-editor summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.inline-editor .grid {
+  margin-top: 10px;
+  min-width: 320px;
+}
+
 button,
 .button {
   display: inline-flex;

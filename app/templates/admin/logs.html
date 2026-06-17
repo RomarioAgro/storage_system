@@ -13,11 +13,11 @@
 
 {% if active_session %}
 <section class="panel" id="active-session">
-  <h2>РђРєС‚РёРІРЅР°СЏ СЃРµСЃСЃРёСЏ</h2>
-  <p>ID {{ active_session.id }}: {{ active_session.operation_type }} / {{ active_session.status }}, РЇС‡РµР№РєР° {{ active_session.cell_id }}</p>
+  <h2>Активная сессия</h2>
+  <p>ID {{ active_session.id }}: {{ active_session.operation_type }} / {{ active_session.status }}, ячейка {{ active_session.cell_id }}</p>
   <form method="post" action="/admin/sessions/{{ active_session.id }}/emergency-cancel">
     <input name="reason" value="Emergency admin cancellation">
-    <button class="danger" type="submit">РђРІР°СЂРёР№РЅРѕ Р·Р°РІРµСЂС€РёС‚СЊ</button>
+    <button class="danger" type="submit">Аварийно завершить</button>
   </form>
 </section>
 {% endif %}

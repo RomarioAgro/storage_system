@@ -185,6 +185,17 @@ def test_terminal_regular_user_cannot_create_product(client, sample_data):
     assert created.status_code == 403
 
 
+def test_terminal_regular_user_direct_open_only_error_is_localized(client, sample_data):
+    sample_data()
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+
+    response = client.get("/terminal/open-only")
+
+    assert response.status_code == 403
+    assert "Недостаточно прав для открытия ячейки" in response.text
+    assert "Role user cannot perform action open_only" not in response.text
+
+
 def test_terminal_user_menu_hides_forbidden_operation_links(client, sample_data):
     sample_data()
 
@@ -215,9 +226,17 @@ def test_terminal_direct_product_url_is_blocked_by_active_session(client, db, sa
     assert response.status_code == 200
     assert "open_only" in response.text
     assert "Cable" not in response.text
-    return
-    assert "Р•СЃС‚СЊ РЅРµР·Р°РІРµСЂС€РµРЅРЅР°СЏ РѕРїРµСЂР°С†РёСЏ" in response.text
-    assert "Cable" not in response.text
+
+
+def test_terminal_search_shows_empty_result_message(client, sample_data):
+    sample_data()
+    client.post("/terminal/rfid", data={"rfid_uid": "user-card"})
+
+    response = client.get("/terminal/search?query=zz-no-results")
+
+    assert response.status_code == 200
+    assert "Ничего не найдено" in response.text
+    assert "<table>" not in response.text
 
 
 def test_terminal_take_rejects_non_positive_quantity_before_opening(
@@ -248,8 +267,10 @@ def test_terminal_take_rejects_non_positive_quantity_before_opening(
 
     assert zero.status_code == 400
     assert negative.status_code == 400
-    assert "Quantity must be greater than zero" in zero.text
-    assert "Quantity must be greater than zero" in negative.text
+    assert "Количество должно быть больше нуля" in zero.text
+    assert "Количество должно быть больше нуля" in negative.text
+    assert "Quantity must be greater than zero" not in zero.text
+    assert "Quantity must be greater than zero" not in negative.text
     assert mock_lock_controller.calls == []
     assert db.query(CellSession).count() == 0
 
@@ -269,7 +290,8 @@ def test_terminal_operation_errors_are_rendered_as_html(client, sample_data):
 
     assert response.status_code == 409
     assert "text/html" in response.headers["content-type"]
-    assert "Not enough stock in selected cell" in response.text
+    assert "Недостаточно товара в выбранной ячейке" in response.text
+    assert "Not enough stock in selected cell" not in response.text
     assert '{"detail"' not in response.text
 
 
@@ -283,7 +305,8 @@ def test_terminal_duplicate_sku_returns_form_error(client, sample_data):
     )
 
     assert response.status_code == 409
-    assert "Product with the same SKU, barcode, or external ID already exists" in response.text
+    assert "Товар с таким SKU, штрихкодом или внешним ID уже существует" in response.text
+    assert "Product with the same SKU, barcode, or external ID already exists" not in response.text
     assert "Internal Server Error" not in response.text
 
 

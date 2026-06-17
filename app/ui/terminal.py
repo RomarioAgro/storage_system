@@ -26,6 +26,15 @@ from app.ui.templates import templates
 router = APIRouter(prefix="/terminal", tags=["terminal-ui"], include_in_schema=False)
 
 PAGE_SIZE_OPTIONS = (20, 50, 100)
+TERMINAL_ERROR_MESSAGES = {
+    "Quantity must be greater than zero": "Количество должно быть больше нуля",
+    "Quantity must not be negative": "Количество не может быть отрицательным",
+    "Not enough stock in selected cell": "Недостаточно товара в выбранной ячейке",
+    "Role user cannot perform action open_only": "Недостаточно прав для открытия ячейки",
+    "Product with the same SKU, barcode, or external ID already exists": (
+        "Товар с таким SKU, штрихкодом или внешним ID уже существует"
+    ),
+}
 
 
 def _active_context(db: Session) -> dict[str, object] | None:
@@ -172,7 +181,7 @@ def _terminal_error(request: Request, message: str, status_code: int = 400) -> H
     return templates.TemplateResponse(
         request,
         "terminal/error.html",
-        {"error": message},
+        {"error": TERMINAL_ERROR_MESSAGES.get(message, message)},
         status_code=status_code,
     )
 
@@ -419,7 +428,7 @@ async def create_product(request: Request, db: Session = Depends(get_db)) -> Res
             {
                 "user": user,
                 "categories": categories,
-                "error": "Product with the same SKU, barcode, or external ID already exists",
+                "error": TERMINAL_ERROR_MESSAGES["Product with the same SKU, barcode, or external ID already exists"],
             },
             status_code=409,
         )

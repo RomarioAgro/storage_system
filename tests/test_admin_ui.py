@@ -176,6 +176,19 @@ def test_admin_product_and_category_views_filter_lists(client, db, sample_data):
     assert '<option value="20" selected>20</option>' in category_response.text
 
 
+def test_admin_categories_default_sort_uses_sort_order_ascending(client, db, sample_data):
+    sample_data()
+    higher = ProductCategory(name="Порядок -5", sort_order=-5)
+    lower = ProductCategory(name="Порядок -9", sort_order=-9)
+    db.add_all([higher, lower])
+    db.commit()
+
+    response = client.get("/admin/products?view=categories&category_page_size=20")
+
+    assert response.status_code == 200
+    assert response.text.index("Порядок -9") < response.text.index("Порядок -5")
+
+
 def test_admin_product_page_opens_create_forms_by_button_view(client, sample_data):
     sample_data()
 
@@ -199,7 +212,10 @@ def test_admin_cells_page_renders_cell_forms(client, sample_data):
     assert "Создать ячейку" in response.text
     assert "Блокировать" in response.text
     assert "Сохранить" in response.text
+    assert "Редактировать" in response.text
     assert "<th>Редактирование</th>" not in response.text
+    assert 'class="cell-number"' in response.text
+    assert 'class="status-badge status-active"' in response.text
     assert 'class="number-field"' in response.text
     assert '<option value="10" selected>10</option>' in response.text
     assert "relay_channel" in response.text
@@ -322,6 +338,9 @@ def test_admin_logs_page_shows_active_session_controls(client, db, sample_data):
 
     assert response.status_code == 200
     assert 'id="active-session"' in response.text
+    assert "Активная сессия" in response.text
+    assert "Аварийно завершить" in response.text
+    assert "Рђ" not in response.text
     assert f'action="/admin/sessions/{session.id}/emergency-cancel"' in response.text
     assert "open_only" in response.text
 
