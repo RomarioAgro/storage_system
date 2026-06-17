@@ -279,24 +279,36 @@ def _logs_admin_context(request: Request, db: Session) -> dict[str, object]:
     view = str(request.query_params.get("view") or "movements")
     if view not in {"movements", "access", "sessions"}:
         view = "movements"
-    movements = db.scalars(
+    page = int(request.query_params.get("page") or 1)
+    page_size = int(request.query_params.get("page_size") or ADMIN_PAGE_SIZE_OPTIONS[0])
+    all_movements = db.scalars(
         select(StockMovement)
         .options(joinedload(StockMovement.product))
         .order_by(StockMovement.created_at.desc())
-        .limit(50)
     ).all()
-    events = db.scalars(
+    all_events = db.scalars(
         select(AccessEvent)
         .options(joinedload(AccessEvent.user))
         .order_by(AccessEvent.created_at.desc())
-        .limit(50)
     ).all()
-    sessions = db.scalars(select(CellSession).order_by(CellSession.created_at.desc()).limit(50)).all()
+    all_sessions = db.scalars(select(CellSession).order_by(CellSession.created_at.desc())).all()
+    movements, movement_pagination = _admin_pagination(all_movements, page, page_size)
+    events, event_pagination = _admin_pagination(all_events, page, page_size)
+    sessions, session_pagination = _admin_pagination(all_sessions, page, page_size)
     return {
         "view": view,
         "movements": movements,
+        "movement_pagination": movement_pagination,
+        "movement_prev_url": _admin_path_url(request, "/admin/logs", page=movement_pagination["page"] - 1),
+        "movement_next_url": _admin_path_url(request, "/admin/logs", page=movement_pagination["page"] + 1),
         "events": events,
+        "event_pagination": event_pagination,
+        "event_prev_url": _admin_path_url(request, "/admin/logs", page=event_pagination["page"] - 1),
+        "event_next_url": _admin_path_url(request, "/admin/logs", page=event_pagination["page"] + 1),
         "sessions": sessions,
+        "session_pagination": session_pagination,
+        "session_prev_url": _admin_path_url(request, "/admin/logs", page=session_pagination["page"] - 1),
+        "session_next_url": _admin_path_url(request, "/admin/logs", page=session_pagination["page"] + 1),
         "active_session": SessionService.get_active_session(db),
         "local_timezone": settings.local_timezone,
     }

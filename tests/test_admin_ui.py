@@ -416,6 +416,57 @@ def test_admin_movements_and_sessions_display_local_time(client, db, sample_data
     assert "завершена" in sessions_response.text
 
 
+def test_admin_logs_views_paginate_rows(client, db, sample_data):
+    data = sample_data()
+    for number in range(12):
+        created_at = datetime(2026, 6, 10, 10, number, 0, tzinfo=UTC)
+        db.add(
+            StockMovement(
+                created_at=created_at,
+                user_id=data["users"]["user"].id,
+                product_id=data["product"].id,
+                cell_id=data["cell1"].id,
+                movement_type=MovementType.FILL,
+                quantity="1.000",
+                quantity_before="0.000",
+                quantity_after="1.000",
+                comment=f"movement-{number}",
+            )
+        )
+        db.add(
+            AccessEvent(
+                created_at=created_at,
+                user_id=data["users"]["user"].id,
+                event_type=AccessEventType.LOGIN_SUCCESS,
+                result=EventResult.OK,
+                client_ip="testclient",
+                details=f"event-{number}",
+            )
+        )
+        db.add(
+            CellSession(
+                user_id=data["users"]["user"].id,
+                cell_id=data["cell1"].id,
+                operation_type=SessionOperationType.OPEN_ONLY,
+                status=SessionStatus.COMPLETED,
+                created_at=created_at,
+            )
+        )
+    db.commit()
+
+    movements = client.get("/admin/logs?view=movements&page_size=10")
+    access = client.get("/admin/logs?view=access&page_size=10")
+    sessions = client.get("/admin/logs?view=sessions&page_size=10")
+
+    for response in (movements, access, sessions):
+        assert response.status_code == 200
+        assert "Страница 1 из 2" in response.text
+        assert 'value="10" selected' in response.text
+        assert 'value="20"' in response.text
+        assert 'value="50"' in response.text
+        assert "Вперед" in response.text
+
+
 def test_admin_emergency_cancel_redirects_to_logs_page(client, db, sample_data):
     data = sample_data()
     session = CellSession(
