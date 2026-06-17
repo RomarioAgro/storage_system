@@ -209,10 +209,19 @@ def _product_admin_context(request: Request, db: Session) -> dict[str, object]:
     return context
 
 
-def _user_admin_context(db: Session) -> dict[str, object]:
+def _user_admin_context(request: Request, db: Session) -> dict[str, object]:
     users = db.scalars(select(User).options(joinedload(User.role)).order_by(User.id.asc())).all()
     roles = db.scalars(select(Role).order_by(Role.id.asc())).all()
-    return {"users": users, "roles": roles}
+    page = int(request.query_params.get("page") or 1)
+    page_size = int(request.query_params.get("page_size") or ADMIN_PAGE_SIZE_OPTIONS[0])
+    user_rows, pagination = _admin_pagination(users, page, page_size)
+    return {
+        "users": user_rows,
+        "roles": roles,
+        "pagination": pagination,
+        "user_prev_url": _admin_path_url(request, "/admin/users", page=pagination["page"] - 1),
+        "user_next_url": _admin_path_url(request, "/admin/users", page=pagination["page"] + 1),
+    }
 
 
 def _cell_admin_context(request: Request, db: Session) -> dict[str, object]:
@@ -299,7 +308,7 @@ def admin_users(request: Request, db: Session = Depends(get_db)) -> HTMLResponse
     return templates.TemplateResponse(
         request,
         "admin/users.html",
-        _user_admin_context(db),
+        _user_admin_context(request, db),
     )
 
 

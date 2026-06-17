@@ -15,6 +15,7 @@ from app.models.cell_session import CellSession
 from app.models.product_category import ProductCategory
 from app.models.stock_item import StockItem
 from app.models.stock_movement import StockMovement
+from app.models.user import User
 
 
 def test_admin_can_update_and_block_user(client, db, sample_data):
@@ -133,8 +134,38 @@ def test_admin_users_page_renders_user_forms(client, sample_data):
     assert "Создать пользователя" in response.text
     assert "Фамилия" in response.text
     assert "Отдел" in response.text
+    assert "<th>Редактирование</th>" not in response.text
+    assert 'href="#edit-user-' in response.text
+    assert "Редактирование" in response.text
+    assert "Редактировать пользователя" in response.text
     assert "Блокировать" in response.text
     assert "user-card" in response.text
+    assert 'value="10" selected' in response.text
+    assert 'value="20"' in response.text
+    assert 'value="50"' in response.text
+
+
+def test_admin_users_page_paginates_users(client, db, sample_data):
+    data = sample_data()
+    user_role = data["roles"][RoleCode.USER]
+    for number in range(3, 15):
+        db.add(
+            User(
+                last_name=f"User{number}",
+                first_name="Page",
+                rfid_uid=f"page-user-{number}",
+                role_id=user_role.id,
+                is_active=True,
+            )
+        )
+    db.commit()
+
+    response = client.get("/admin/users?page_size=10")
+
+    assert response.status_code == 200
+    assert "Страница 1 из 2" in response.text
+    assert "Вперед" in response.text
+    assert "page-user-14" not in response.text
 
 
 def test_admin_products_page_renders_product_and_category_forms(client, sample_data):
